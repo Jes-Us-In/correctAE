@@ -741,6 +741,10 @@ public class Procesador {
         return false;
     }
 
+    /**
+     *
+     * @return Cantidad de preguntas anuladas
+     */
     static public int numPreguntasNulas() {
         int canceladas = 0;
 
@@ -754,6 +758,10 @@ public class Procesador {
         return canceladas;
     }
 
+    /**
+     *
+     * @return Mensajes de error, si los hay
+     */
     static public String[] CorregiryPuntuar() {
         String respuestaDelTest;
         int tipo, equiv, aciertos, fallos, blancos, dobles, indice;
@@ -909,6 +917,13 @@ public class Procesador {
         return null;
     }
 
+    /**
+     *
+     * @param img
+     * @param esquinasZona
+     * @return
+     * @throws RasterFormatException
+     */
     static public Casilla[] buscaEsquinas(BufferedImage img, Casilla[][] esquinasZona) throws RasterFormatException {
         // Busco las esquinas, enderezo y aplico algo de contraste, y recorto
         Casilla[] esquinas = new Casilla[4]; // Coordenadas de las esquinas de la imagen
@@ -932,6 +947,16 @@ public class Procesador {
         return esquinas;
     }
 
+    /**
+     *
+     * @param img
+     * @param esquinaDesde
+     * @param esquinaHasta
+     * @param anchoBusqueda
+     * @param limite
+     * @return
+     * @throws RasterFormatException
+     */
     static public Casilla buscaUnaEsquina(BufferedImage img, Casilla esquinaDesde, Casilla esquinaHasta, int anchoBusqueda, int limite) throws RasterFormatException {
         Casilla aqui;
         int brilloZona;
@@ -956,24 +981,11 @@ public class Procesador {
         return null;
     }
 
-//    static public BufferedImage ennegreceEsquinas(BufferedImage img, Casilla[][] esquinasZona, int limite) throws RasterFormatException {
-//        int brillo;
-//        Color queColor;
-//        BufferedImage im = img;
-//
-//        for (int fila = 0; fila < 4; fila++) {
-//            for (int x = esquinasZona[fila][0].getCoordX(); x <= esquinasZona[fila][1].getCoordX(); x++) {
-//                for (int y = esquinasZona[fila][0].getCoordY(); y <= esquinasZona[fila][1].getCoordY(); y++) {
-//                    queColor = new Color(im.getRGB(x, y));
-//                    brillo = queColor.getBlue();
-//                    if (brillo < limite) {
-//                        im.setRGB(x, y, 0);
-//                    }
-//                }
-//            }
-//        }
-//        return im;
-//    }
+    /**
+     *
+     * @param esquinasImagen
+     * @return
+     */
     static public double anguloGriro(Casilla[] esquinasImagen) {
         // Las coordenadas vienen SI, II, SD y ID
 
@@ -987,6 +999,12 @@ public class Procesador {
         return 0;
     }
 
+    /**
+     *
+     * @param img
+     * @param esquinasImagen
+     * @return
+     */
     static public BufferedImage corregir(BufferedImage img, Casilla[] esquinasImagen) {
         double anguloDesvio;
 
@@ -1008,6 +1026,13 @@ public class Procesador {
         return img;
     }
 
+    /**
+     *
+     * @param img
+     * @param esquinasImagen
+     * @return
+     * @throws RasterFormatException
+     */
     static public BufferedImage recortar(BufferedImage img, Casilla[] esquinasImagen) throws RasterFormatException {
         // Devuelvo la imagen recortada entre los puntos de coordenada
         return img.getSubimage(esquinasImagen[0].getCoordX() + Config.getMargenIzquierdoHojaRecortar(), esquinasImagen[0].getCoordY() - Config.getMargenSuperiorHojaRecortar(),
@@ -1016,6 +1041,12 @@ public class Procesador {
     }
 
 // Métodos del programa origen, para probar...
+
+    /**
+     *
+     * @param x
+     * @param y
+     */
     static public void apuntaCoords(int x, int y) {
         String caminoCasillas = Config.getFicheroCasillasTest();
         // Si existe el fichero no lo crea
@@ -1027,6 +1058,11 @@ public class Procesador {
         }
     }
 
+    /**
+     *
+     * @param img
+     * @return
+     */
     static public BufferedImage blur(BufferedImage img) {
         float weight = 1.0f / 9.0f;
         float[] elements = new float[9];
@@ -1036,11 +1072,21 @@ public class Procesador {
         return convolve(elements, img);
     }
 
+    /**
+     *
+     * @param img
+     * @return
+     */
     static public BufferedImage sharpen(BufferedImage img) {
         float[] elements = {0.0f, -1.0f, 0.0f, -1.0f, 5.f, -1.0f, 0.0f, -1.0f, 0.0f};
         return convolve(elements, img);
     }
 
+    /**
+     *
+     * @param img
+     * @return
+     */
     static public BufferedImage brighten(BufferedImage img) {
         //float a = 1.1f; Abrillanta
         // Oscurece
@@ -1051,11 +1097,21 @@ public class Procesador {
         return filter(op, img);
     }
 
+    /**
+     *
+     * @param img
+     * @return
+     */
     static public BufferedImage edgeDetect(BufferedImage img) {
         float[] elements = {0.0f, -1.0f, 0.0f, -1.0f, 4.f, -1.0f, 0.0f, -1.0f, 0.0f};
         return convolve(elements, img);
     }
 
+    /**
+     *
+     * @param img
+     * @return
+     */
     static public BufferedImage negative(BufferedImage img) {
         short[] negative = new short[256 * 1];
         for (int i = 0; i < 256; i++) {
@@ -1066,6 +1122,11 @@ public class Procesador {
         return filter(op, img);
     }
 
+    /**
+     *
+     * @param img
+     * @return
+     */
     static public BufferedImage rotate(BufferedImage img) {
         if (img == null) {
             return null;
@@ -1100,6 +1161,11 @@ public class Procesador {
         return filter(op, img);
     }
 
+    /**
+     *
+     * @param img
+     * @return
+     */
     static public BufferedImage blanqueaMargenes(BufferedImage img) {
         BufferedImage imag = img;
         Color color;
@@ -1187,13 +1253,20 @@ public class Procesador {
     }
     //  
 
+    /**
+     *
+     * @param img
+     * @param esquinas
+     * @param anchoPunto
+     * @return Imagen con las esquinas pintadas en rojo
+     */
     static public BufferedImage pintaEsquinas(BufferedImage img, Casilla[] esquinas, int anchoPunto) {
         // Busco las esquinas, enderezo y aplico algo de contraste, y recorto
         BufferedImage imag = img;
 
         if (imag != null) {
             Graphics g = imag.getGraphics();
-            g.setColor(Color.white);
+            g.setColor(Color.RED);
             for (int fila = 0; fila < 4; fila++) {
                 g.drawRect(esquinas[fila].getCoordX(), esquinas[fila].getCoordY(), anchoPunto, anchoPunto);
             }

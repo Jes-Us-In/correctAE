@@ -70,6 +70,7 @@ public class DialogoEvaluar extends javax.swing.JDialog {
 
         // Coloco el formulario en el centro de la pantalla
         Procesador.Centrame(this);
+
         // Si no se ha corregido no muestro las estadísticas
         heCorregido = false;
         // Asigno el modelo de tests de examen
@@ -391,7 +392,7 @@ public class DialogoEvaluar extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE)

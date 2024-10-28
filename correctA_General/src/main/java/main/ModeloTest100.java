@@ -46,7 +46,7 @@ public class ModeloTest100 {
 
     // Campos del test
     private List<Campo> camposTest;// {nifNumero, nifLetra, tipo, grupo, respuestas};//new Campo[NUMERO_DE_CAMPOS];
-/*  Campos:
+    /*Campos:
         Respuestas:   0-99  (de la 1 a la 100)
         NIFNumero:    100-179
         NIFLetra:     180-202 una lentra entre 23 posibles, ABCDEFGHJKLMNPQRSTVWXYZ
