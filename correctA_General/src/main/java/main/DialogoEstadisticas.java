@@ -134,7 +134,7 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
         //
         // Formateo la cabecera
         cabecera = tablaEstadisPreg.getTableHeader();
-        cabecera.setDefaultRenderer(new main.estilos.RenderCabeceraTablas(tablaEstadisPreg));
+        cabecera.setDefaultRenderer(new main.estilos.RenderCabeceraTablas_AlineaCentro(tablaEstadisPreg));
         cabecera.setFont(tablaEstadisPreg.getTableHeader().getFont().deriveFont(Font.BOLD));
 
         TableColumnModel modelCol = tablaEstadisPreg.getColumnModel();

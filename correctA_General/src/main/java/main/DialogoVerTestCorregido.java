@@ -16,7 +16,6 @@
  *
  * SPDX-License-Identifier: GPL-3.0
  */
-
 package main;
 
 import java.awt.Font;
@@ -103,8 +102,7 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
                 i + 20, resp[1] == 'A' || resp[1] == '?', resp[1] == 'B' || resp[1] == '?', resp[1] == 'C' || resp[1] == '?', resp[1] == 'D' || resp[1] == '?', resp[1] == 'E' || resp[1] == '?',
                 i + 40, resp[2] == 'A' || resp[2] == '?', resp[2] == 'B' || resp[2] == '?', resp[2] == 'C' || resp[2] == '?', resp[2] == 'D' || resp[2] == '?', resp[2] == 'E' || resp[2] == '?',
                 i + 60, resp[3] == 'A' || resp[3] == '?', resp[3] == 'B' || resp[3] == '?', resp[3] == 'C' || resp[3] == '?', resp[3] == 'D' || resp[3] == '?', resp[3] == 'E' || resp[3] == '?',
-                i + 80, resp[4] == 'A' || resp[4] == '?', resp[4] == 'B' || resp[4] == '?', resp[4] == 'C' || resp[4] == '?', resp[4] == 'D' || resp[4] == '?', resp[4] == 'E' || resp[4] == '?',
-            };
+                i + 80, resp[4] == 'A' || resp[4] == '?', resp[4] == 'B' || resp[4] == '?', resp[4] == 'C' || resp[4] == '?', resp[4] == 'D' || resp[4] == '?', resp[4] == 'E' || resp[4] == '?',};
             modelo.addRow(fila);
             //TableColumnModel m;
         }
@@ -116,19 +114,20 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
     private void formateaColumnas() {
         // Formateo la cabecera
         cabecera = tablaRespuestas.getTableHeader();
-        cabecera.setDefaultRenderer(new main.estilos.RenderCabeceraTablas(tablaRespuestas));
+        cabecera.setDefaultRenderer(new main.estilos.RenderCabeceraTablas_AlineaCentro(tablaRespuestas));
         cabecera.setFont(tablaRespuestas.getTableHeader().getFont().deriveFont(Font.BOLD));
 
         TableColumnModel columnModel = tablaRespuestas.getColumnModel();
         TableColumn col;
         // Columna de respuesta correcta, son JComboBox. En la tabla se pone como booleano y es suficiente
         // Columna de número de respuesta, pongo estilo cabecera, el resto estilo checkbox
-        DefaultTableCellRenderer ren = new main.estilos.RenderCabeceraFilasTabla();
+        DefaultTableCellRenderer ren = new main.estilos.RenderCabeceraFilasTabla_VideoInverso();
         tablaRespuestas.setRowHeight(18);
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             col = columnModel.getColumn(i);
             if (i == 0 || i == 6 || i == 12 || i == 18 || i == 24) {
                 col.setCellRenderer(ren);
+                col.setHeaderRenderer(ren);
                 // Tamaño minimo de la columna Num.
                 col.setMinWidth(tablaRespuestas.getFont().getSize() * 3);
             }
@@ -424,7 +423,7 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
         // Tiene 20 preguntas cada grupo/columna, Config.PREGUNTAS_POR_COLUMNA 
         int[] grupos = {1, 7, 13, 19, 25};
         int pregInicioGrupo;
-        for (int grupoPreg = 0; grupoPreg < grupos.length ; grupoPreg++) {
+        for (int grupoPreg = 0; grupoPreg < grupos.length; grupoPreg++) {
             // Asigno el inicio del grupo de 20 preguntas. Hay cinco grupos, en total 100 preguntas.
             pregInicioGrupo = grupoPreg * Config.PREGUNTAS_POR_COLUMNA;
             for (int numFila = 0; numFila < Config.PREGUNTAS_POR_COLUMNA; numFila++) {

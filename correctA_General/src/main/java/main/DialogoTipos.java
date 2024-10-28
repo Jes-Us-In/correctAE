@@ -84,7 +84,7 @@ public class DialogoTipos extends javax.swing.JDialog {
         this.setIconImage(Config.getIconoAplic().getImage());
         // Formateo la cabecera
         cabecera = tablaTipos.getTableHeader();
-        cabecera.setDefaultRenderer(new main.estilos.RenderCabeceraTablas(tablaTipos));
+        cabecera.setDefaultRenderer(new main.estilos.RenderCabeceraTablas_AlineaCentro(tablaTipos));
         cabecera.setFont(tablaTipos.getTableHeader().getFont().deriveFont(Font.BOLD));
     }
 
@@ -127,7 +127,7 @@ public class DialogoTipos extends javax.swing.JDialog {
 
         // Columna de respuesta correcta, son JComboBox. Aplico un editor de ComboBox, y renderizado negrita
         col = modelCol.getColumn(1);
-        col.setCellRenderer(new main.estilos.RenderCabeceraFilasTabla());
+        col.setCellRenderer(new main.estilos.RenderCabeceraFilasTabla_VideoInverso());
         JComboBox elCombo = new JComboBox(new String[]{"A", "B", "C", "D", "E", idioma.getString("DialogoTipos.Anular.text")});
 
         // Asocio al comboBox un Listener para dectectar cambios en el valor y contar las preguntas anuladas

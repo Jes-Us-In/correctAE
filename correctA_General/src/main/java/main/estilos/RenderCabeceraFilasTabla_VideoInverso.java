@@ -31,7 +31,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author Jesus.delBuey
  */
 // Clase para negrita
-public class RenderCabeceraFilasTabla extends DefaultTableCellRenderer {
+public class RenderCabeceraFilasTabla_VideoInverso extends DefaultTableCellRenderer {
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row,

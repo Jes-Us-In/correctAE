@@ -29,11 +29,11 @@ import javax.swing.table.TableCellRenderer;
  *
  * @author Jesus.delBuey
  */
-public class RenderCabeceraTablas implements TableCellRenderer {
+public class RenderCabeceraTablas_AlineaCentro implements TableCellRenderer {
 
     DefaultTableCellRenderer renderer;
 
-    public RenderCabeceraTablas(JTable table) {
+    public RenderCabeceraTablas_AlineaCentro(JTable table) {
         renderer = (DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer();
         renderer.setHorizontalAlignment(JLabel.CENTER);
     }
