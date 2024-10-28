@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!--
+ Copyright (C) 2024 Jesus del Buey Jiménez
+ 
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+ 
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+  SPDX-License-Identifier: GPL-3.0
+-->
+
+<html>
+    <head>
+        <title>Tipos y Equivalencias</title>
+		<link rel="stylesheet" href="styles.css">
+		<link rel="icon" type="image/png" href="images/icono_aplicacion.png">
+    </head>
+    <body>
+		<menu>
+			<img class="logo" src="images/icono_aplicacion.png" alt="Logo")/>
+			<a href="pgInicio.html">Inicio</a>
+			<a href="pgConfiguracion.html">Configuración</a>
+			<a href="pgPruebas.html">Pruebas y ajustes</a>
+			<a href="pgHojaRespuestas.html">Modelo de hoja de respuestas</a>
+			<a href="pgEvaluaciones.html">Evaluaciones</a>
+			<a class="active" href="pgTiposyEquivalencias.html">Tipos y Equivalencias</a>
+			<a href="pgEstadisticas.html">Estadísticas</a>
+		</menu>
+		<div class="content">
+			<h1>Respuestas, Tipos y Equivalencias.</h1>
+			<p>
+				En esta ventana definimos la cantidad de tipos y preguntas que tiene el examen, a su lado está el total de las que son válidas, las 
+				que se tendrán en cuenta para calcular las calificaciones.
+				<img class="imagen80porcien floatingRight mTop1" src="images/pantallaTiposyEquivalencias.png" alt="Tipo y equivalencias"/>
+				<p><strong>Si hay cambios</strong> en la estructura de la tabla ya sea en los tipos o las preguntas, se añadirán los necesarios. Si embargo, 
+				si se quitan, se perderán esos datos; a no ser que se haya guardado antes la tabla, usando el botón <strong>"Guardar en archivo..."</strong>.</p>
+				<p>En la tabla vemos, en las dos primeras columnas, el número de pregunta del tipo maestro y la respuesta correcta a esta; también si  
+				está <strong>anulada.</strong> Si pulsamos en la celda de respuesta podremos cambiar su valor eligiéndolo dentro de 
+				un desplegable que contiene los valores posibles: las diferentes opciones de respuesta y el valor <strong>"Anulada."</strong></p>
+				<img class="ancho1col alCentro" src="images/pantallaTiposyEquivalencias01.png" alt="Tipo y equivalencias"/>
+				<p>A continuación vemos una columna para cada uno de los tipos definidos. Cada fila representa el número de pregunta de ese tipo, y contiene
+				el número de pregunta del tipo maestro con la que se corresponde.</p>
+			</p>
+			
+			<h2>Botones de acción adicionales:</h2>
+			<ul> 
+				<li><strong>Cargar desde archivo "csv":</strong><br/>
+					<div class="tab">Importa la tabla de tipos y equivalencias desde un archivo "csv".</div>
+				</li>
+				<li><strong>Guardar en archivo "csv":</strong><br/>
+					<div class="tab">Exporta la tabla de tipos y equivalencias a un archivo "csv".</div>
+				</li>
+			</ul>
+		</div>
+		<footer class="footer">
+			<p>
+				Copyright 2024: Jesús del Buey Jiménez<br/>
+				<a class="licenseBtn" href="LICENSE_GPL_v3.htm">Licencia: GPL-3.0</a>
+			</p>
+			<div class="logoPie">
+				<img class="logoPie" src="images/splash.png" alt="Pie")/>
+			</div>
+		</footer>
+    </body>
+</html>

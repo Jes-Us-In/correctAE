@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!--
+ Copyright (C) 2024 Jesus del Buey Jiménez
+ 
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+ 
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+  SPDX-License-Identifier: GPL-3.0
+-->
+
+<html>
+    <head>
+        <title>Evaluations</title>
+		<link rel="stylesheet" href="styles.css">
+		<link rel="icon" type="image/png" href="images/icono_aplicacion.png">
+    </head>
+    <body>
+		<menu>
+			<img class="logo" src="images/icono_aplicacion.png" alt="Logo")/>
+			<a href="pgInicio.html">Home</a>
+			<a href="pgConfiguracion.html">Settings</a>
+			<a href="pgPruebas.html">Testing and Adjustments</a>
+			<a href="pgHojaRespuestas.html">Answer sheet model</a>
+			<a class="active" href="pgEvaluaciones.html">Evaluations</a>
+			<a href="pgTiposyEquivalencias.html">Types and Equivalences</a>
+			<a href="pgEstadisticas.html">Statistics</a>
+		</menu>
+		<div class="content">
+			<h1>Read answer sheets evaluation.</h1>
+			<img class="imagen70porcien floatingRight mTop1" src="images/pantallaEvaluaciones.png" alt="Pantalla Evaluaciones"/>
+			<p>In this window appears the tests you have read and interpreted in the main window. Here you can calculate the obtained scores by the students
+			and get the complete results, you can also see the statistics elaborated from them.</p>
+			<p>
+				<strong>Fields are:</strong>
+				<ul class="listaCompacta">
+					<li><strong>Num.</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">Reading Order Number.</p>
+					<li><strong>I.d.</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">Student Identification code.</p>
+					<li><strong>Type</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">Test type. The <a href="pgTiposyEquivalencias.html"><strong>types and equivalences table</strong></a> 
+						indicates the correspondance with master type.
+						<br/><strong>Important:</strong> If it is blank or invalid, this test cannot be evaluated.</p>
+					<li><strong>Group</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">Student group (optional).</p>
+					<li><strong>Hits</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">The number of correct answers in the test questions.</p>
+					<li><strong>Failures</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">Number of incorrect answers.</p>
+					<li><strong>Blanks</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">Number of blank answers in the test.</p>
+					<li><strong>Doubles</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">Number of questions that have two or more marks. These cannot be evaluated, 
+						although they can be penalized.</p>
+					<li><strong>Score</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">Grade obtained in the last calculation performed.</p>
+					<li><strong>Answers</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">String of student responses to all questions. It will be the letter of the answer option marked. 
+						If it is blank, it is because he/she did not answer it and if it has the symbol “?” it is because there is more than one mark in that answer.</p>
+				</ul>
+			</p>
+			<br/>
+			<h3>Menu Options:</h3>
+			<p class="tab quitaEspaciadoSuperior">There are two menu entries.</p>
+			<img class="imagen70porcien alCentro" src="images/pantallaEvaluaciones01.png" alt="Menú Archivo"/>
+			<br/>
+			<strong>File</strong>
+			<p class="tab quitaEspaciadoSuperior">Several options are available. They each include a keyboard shortcut.</p>
+			<ol>
+				<li><strong>Load previously saved exam:</strong><br/>
+					<div class="tab">Loads a complete, previously saved test from the application's internal database. It includes all the tests and the table of 
+						equivalences table. In the table you can see the exams contained in the database. You can select one and load it or you can also delete it, 
+						if you no longer need it.
+						<img class="imagen50porcien alCentro mTop1" src="images/pantallaEvaluaciones02.png" alt="Cargar examen"/>
+					</div>
+				</li>
+				<li><strong>Save exam:</strong><br/>
+					<div class="tab">Saves the current exam to the database. It includes all the tests and the equivalence table. In the following form you must 
+					put the name and description to the exam you will save.
+					</div>
+					<img class="alCentro mTop1" src="images/pantallaEvaluaciones03.png" alt="Guardar examen"/>
+				</li>
+				<li><strong>Import exam, from a “csv” file:</strong><br/>
+					<div class="tab">Imports the tests from a csv file as the actual exam. Does not include equivalency table.</div>
+				</li>
+				<li><strong>Export exam, to a "csv" file:</strong><br/>
+					<div class="tab">Exports the tests of the current exam to a “csv” file. Does not include the equivalency table.</div>
+				</li>
+			</ol>
+			<strong>Options</strong>
+			<div class="tab">From here we can delete the tests currently in the table. Keyboard shortcut “Shift+B”.</div>
+			<br/>
+			<h3>Important:</h3>
+			<p><strong>By double clicking</strong> on any test in the table, a form opens where you can see the test answers sheet in detail. 
+			All the fields are present. Some of them are editable, where we can correct the data that in the reading has not been interpreted correctly, as we can see in the following image: </strong>.
+			correctly, as we see in the following image:</p>
+			<img class="imagen80porcien alCentro" src="images/pantallaEvaluaciones05.png" alt="Modificar test corregido"/>
+			<br/>
+			<h2>Additional action buttons</h2>
+			<ul>
+				<li><strong>Evaluate:</strong><br/>
+					<div class="tab">
+						Process of calculating test scores. In the following form you can set the grading parameters. You also see the total number of questions to be used, up to 100, 
+						as well as those that are valid, since you can override questions. The number of types is also shown. These values are defined in the equivalence table.</strong><br/>
+						<img class="floatingRight mTop1" src="images/pantallaEvaluaciones04.png" alt="Parámetros calificación"/>
+						<ol>
+							<li><strong>Points per hit:</strong><br/>
+								<div class="tab">Value assigned to each hit. Normally 1.</div>
+							</li>
+							<li><strong>Failure discount:</strong><br/>
+								<div class="tab">Discount on the grade that will result from each failure.</div>
+							</li>
+							<li><strong>Blank discount:</strong><br/>
+								<div class="tab">Discount in the grade that will result from each blank answer.</div>
+							</li>
+							<li><strong>Multiple mark discount:</strong><br/>
+								<div class="tab">Discount in the grade that will result from each multiple or wrong marks.</div>
+							</li>
+							<li><strong>Score Passed:</strong><br/>
+								<div class="tab">It is used to compile pass/fail statistics.</div>
+							</li>
+							<li><strong>Rating scale:</strong><br/>
+								<div class="tab">The calculated score will be extrapolated to the defined range. Normally it is 1 to 10, but you can use any range between 1 and 100. 
+								between 1 and 100.</div>
+							</li>
+						</ol>
+						<p><strong>Score: </strong>After making the calculations, the scores will be updated in the test table..</p>
+						
+						<br/><br/>
+					</div>
+				</li>
+				<li><strong><a href="pgEstadisticas.html">Statistics:</a></strong><br/>
+				<li><strong><a href="pgTiposyEquivalencias.html">Types and Equivalences</a></strong><br/>
+				</li>
+			</ul>
+		</div>
+		<footer class="footer">
+			<p>
+				Copyright 2024: Jesus del Buey Jimenez<br/>
+				<a class="licenseBtn" href="LICENSE_GPL_v3.htm">License: GPL-3.0</a>
+			</p>
+			<div class="logoPie">
+				<img class="logoPie" src="images/splash.png" alt="Pie")/>
+			</div>
+		</footer>
+    </body>
+</html>

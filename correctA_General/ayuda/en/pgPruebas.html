@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!--
+ Copyright (C) 2024 Jesus del Buey Jiménez
+ 
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+ 
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+  SPDX-License-Identifier: GPL-3.0
+-->
+
+<html>
+    <head>
+        <title>Testing and Adjustments</title>
+		<link rel="stylesheet" href="styles.css">
+		<link rel="icon" type="image/png" href="images/icono_aplicacion.png">
+    </head>
+    <body>
+		<menu>
+			<img class="logo" src="images/icono_aplicacion.png" alt="Logo")/>
+			<a href="pgInicio.html">Home</a>
+			<a href="pgConfiguracion.html">Settings</a>
+			<a class="active" href="pgPruebas.html">Testing and Adjustments</a>
+			<a href="pgHojaRespuestas.html">Answer sheet model</a>
+			<a href="pgEvaluaciones.html">Evaluations</a>
+			<a href="pgTiposyEquivalencias.html">Types and Equivalences</a>
+			<a href="pgEstadisticas.html">Statistics</a>
+		</menu>
+		<div class="content">
+			<h1>Reading Tests and Adjustments</h1>
+			<h3>Reading and interpreting answer sheets images. Testing and adjusting settings to optimize capture.</h3>
+			<img class="imagen70porcien floatingRight" src="images/pantallaPruebas.png" alt="Pantalla Pruebas y Ajustes")/>
+			<p>When image capture results are not satisfactory, you can test here to adjust the answers sheet capture settings.</p>
+			<br/>
+			<h3>Menu options:</h3>
+			<strong>Archive</strong>
+			<ul>
+				<li><strong>Open:</strong>
+					<p class="quitaEspaciadoSuperior">Select and open the graphic file that contains the answer sheet whose capture we want to test and adjust.</p>
+				</li>
+			</ul>
+			<strong>Options</strong>
+			<ul>
+				<li><strong>Settings:</strong>
+					<p class="quitaEspaciadoSuperior">Capture parameters for answers sheet images. These are the same as the ones mentioned on the main window.</p>
+				</li>
+			</ul>
+			<strong>Trials</strong>
+			<ul>
+				<li><strong>Corner location:</strong>
+					<p class="quitaEspaciadoSuperior">Find and paint the corner detection marks. All four must be located; a white square, or part of a square, appears in each them. Keyboard shortcut: "E" key.</p>
+					<img class="ancho1col" src="images/pantallaPruebas_01.png" alt="Esquinas")/>
+				</li><br/>
+				<li><strong>Paint Mark Location:</strong>
+					<p class="quitaEspaciadoSuperior">Paint on the image the position and area where the answer marks will be searched. Keyboard shortcut: "C" key.</p>
+					<img class="imagen70porcien alCentro" src="images/pantallaPruebas_02.png" alt="Marcas")/>
+				</li><br/>
+			</ul>
+			<strong>Change Template</strong>
+			<ul>
+				<li><strong>Modification active:</strong>
+					<p class="quitaEspaciadoSuperior">After the adjustments are made in the image, following current Settings, all the boxes where answer marks in 
+					the answer sheet will be searched, are placed in the image.</p>
+					<p class="quitaEspaciadoSuperior"> Then, desired checkboxes could be selected in order to change the position where these marks will be searched, using the cursor keys or 
+					by dragging them with the mouse.</p>
+					<img class="imagen70porcien alCentro" src="images/pantallaPruebas_03.png" alt="Casillas")/>
+				</li><br/>
+				<li><strong>Save Template:</strong>
+					<p class="quitaEspaciadoSuperior">Only available if the edition is active. Store the new layout of the answer sheet mark boxes, where the answer marks 
+					will be searched from now on.</p>
+				</li><br/>
+			</ul>
+			<h3>Bottom panel, action buttoms:</h3>
+			<p>
+				<strong>Analize:</strong><br/>
+					Complete image analysis, according to the current setup. All the boxes are searched according to the coordinates defined in the answers 
+					sheet template and then the resulting marks is painted.
+					<br/><br/>
+				<img class="imagen70porcien alCentro" src="images/pantallaPruebas_04.png" alt="Casillas de Respuestas")/>
+			</p>
+			<p>
+				<strong>Fix:</strong><br/>
+				Geometric and cropping changes are made to the image, according to the current settings, to check them.
+				<br/><br/>
+			</p>
+			<p>
+				<strong>Test Align:</strong><br/>
+					It has the same effect as the menu option "Paint mark location", but after Adjustments in the image, according to the previous paragraph "Fix", 
+					are made ; Now we can see if the alignment is correct, otherwise we would use the "Modify template" option described above.<br/><br/>
+				<img class="imagen70porcien alCentro" src="images/pantallaPruebas_05.png" alt="Casillas de Respuestas")/>
+			</p>
+			<br/><br/>
+			<p>
+				<strong>Image reload:</strong>
+					Reload the last working image. It cleans up the drawings and geometric changes made. The result is the same as opening the same image from the 
+					"open" menú. useful for repetitive testing.
+			</p>
+			<br/>
+			<p>
+				<strong>Save to result table:</strong>
+					Performs a full analysis of the image and save the results in the main window table, when we consider the capture results are correct. 
+					This is very useful if we have to modify the template to read a test that has a too deteriorated image and/or we want to correct the tests one by one.
+			</p>
+			<br/><br/>
+			<h3>Template edition panel:</h3>
+			<p class="quitaEspaciadoSuperior">When the test template is being edited, the bottom panel goes into edit mode.</p>
+			<img class="imagen70porcien floatingRight conBorde" src="images/pantallaPruebas_06.png" alt="Panel edición")/>
+			<p class="quitaEspaciadoSuperior">To make template marks edition easily, depending on the option checked, we can select boxes one by one, hovering the mouse 
+				over it or entire columns and/or rows. The options can be combined. The "hovering over" selection can also be turned on/off with a keyboard shortcut, the M key.<br/>
+				 The "Selection unselect" button (keyboard shortcut "Q"), de-selects all checkboxes.</p>
+			<p class="quitaEspaciadoSuperior">In the lower right panel we have useful information to work on editing and testing the template:</p>
+			<ul class="listaCompacta">
+				<li>Image size.</li>
+				<li>Brightness of the current Mouse Position Point.</li>
+				<li>Coordinates of that point.</li>
+				<li>Coordinates of the last mouse click point.</li>
+				<li><strong>Average brightness</strong> of the mark area of last mouse click point; it is the one used to locate corners and answer marks.</li>
+				<li>Image Filename.</li>
+			</ul>
+		</div>
+		<footer class="footer">
+			<p>
+				Copyright 2024: Jesus del Buey Jimenez<br/>
+				<a class="licenseBtn" href="LICENSE_GPL_v3.htm">License: GPL-3.0</a>
+			</p>
+			<div class="logoPie">
+				<img class="logoPie" src="images/splash.png" alt="Pie")/>
+			</div>
+		</footer>
+    </body>
+</html>
