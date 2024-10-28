@@ -129,6 +129,7 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
             col = columnModel.getColumn(i);
             if (i == 0 || i == 6 || i == 12 || i == 18 || i == 24) {
                 col.setCellRenderer(ren);
+                // Tamaño minimo de la columna Num.
                 col.setMinWidth(tablaRespuestas.getFont().getSize() * 3);
             }
         }
