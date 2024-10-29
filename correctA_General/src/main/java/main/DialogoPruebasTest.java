@@ -207,7 +207,8 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("propiedades/Idioma"); // NOI18N
         setTitle(bundle.getString("VENTANAPRUEBASTEST.TITULO")); // NOI18N
-        setSize(new java.awt.Dimension(1050, 1024));
+        setPreferredSize(new java.awt.Dimension(1032, 800));
+        setSize(new java.awt.Dimension(1050, 800));
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
 
         panelImagen.setMinimumSize(new java.awt.Dimension(0, 200));

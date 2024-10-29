@@ -325,16 +325,20 @@ public class DialogoModelo extends javax.swing.JDialog {
         paper.setImageableArea(margin, margin, paper.getWidth() - 2 * margin, paper.getHeight() - 2 * margin);
         pf.setPaper(paper);
 
+        // Muestro el mensaje de Imprimiendo...
+        panelImprimiendo.setVisible(true);
+        
         if (impresion.printDialog(attr)) {
             try {
                 impresion.print(attr);
-                // Oculto el mensaje de Imprimiendo...
             } catch (PrinterException ex) {
                 log.error("Error:" + ex);
                 JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaModelo.error.imprimiendo.modelo.Text") + ": " + ex.getMessage(), idioma.getString("Error.text"),
                         JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             }
         }
+        // Oculto el mensaje de Imprimiendo...
+        panelImprimiendo.setVisible(false);
     }
 
     /**

@@ -248,7 +248,6 @@ public class DialogoEvaluar extends javax.swing.JDialog {
         );
 
         jScrollPane1.setMaximumSize(new java.awt.Dimension(2400, 300));
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(300, 300));
 
         tablaTestsCorregidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -395,7 +394,7 @@ public class DialogoEvaluar extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))

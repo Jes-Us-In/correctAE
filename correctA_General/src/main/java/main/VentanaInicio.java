@@ -207,8 +207,6 @@ public class VentanaInicio extends javax.swing.JFrame {
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("propiedades/Idioma"); // NOI18N
         setTitle(bundle.getString("VENTANAINICIO.TITULO")); // NOI18N
         setBackground(new java.awt.Color(159, 180, 188));
-        setMinimumSize(new java.awt.Dimension(500, 500));
-        setPreferredSize(new java.awt.Dimension(1200, 838));
 
         etqCarpetaArchivos.setFont(Config.FUENTE_NORMAL);
         etqCarpetaArchivos.setText(bundle.getString("VENTANAINICIO.etqCarpetaArchivos.TEXT")); // NOI18N
@@ -220,8 +218,8 @@ public class VentanaInicio extends javax.swing.JFrame {
         etqInfoDobleClick.setName("etqInfoDobleClick"); // NOI18N
 
         jScrollPane1.setMaximumSize(new java.awt.Dimension(2400, 300));
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(300, 300));
         jScrollPane1.setName("jScrollPane1"); // NOI18N
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(452, 302));
 
         tablaTests.setFont(Config.FUENTE_NORMAL);
         tablaTests.setModel(new javax.swing.table.DefaultTableModel(
@@ -450,7 +448,7 @@ public class VentanaInicio extends javax.swing.JFrame {
                     .addComponent(etqCarpetaArchivos)
                     .addComponent(etqInfoDobleClick))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
