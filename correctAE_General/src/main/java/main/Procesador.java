@@ -307,16 +307,28 @@ public class Procesador {
 
     // Métodos
     // Centrar un JFrame
+
+    /**
+     *
+     * @param cualo JFrame que hay que centrar en la pantalla
+     */
     protected static void Centrame(JFrame cualo) {
         cualo.setLocation(getAnchoPantalla() / 2 - (cualo.getWidth() / 2), getAltoPantalla() / 2 - (cualo.getHeight() / 2));
     }
 
     // Centrar un JDialog
+    /**
+     *
+     * @param cualo JDialog que hay que centrar en la pantalla
+     */
     protected static void Centrame(JDialog cualo) {
         cualo.setLocation(getAnchoPantalla() / 2 - (cualo.getWidth() / 2), getAltoPantalla() / 2 - (cualo.getHeight() / 2));
     }
-
+    
     // Recargo las claves del idioma seleccionado
+    /**
+     * Recarga el ResourcedBundle para que se actualize el idioma
+     */
     protected static void ReCargarIdioma() {
         ResourceBundle.clearCache();
         idioma = ResourceBundle.getBundle("propiedades/Idioma");
@@ -326,9 +338,17 @@ public class Procesador {
     // Modelo de la tabla para los tests leídos
     // Campos del test, archivo tiene la ruta completa
     // {"DNI", "Tipo", "Grupo", "Respuestas", "Archivo"};
+
+    /**
+     *
+     */
     protected static MiModeloTabla modeloTablaTestsLeidos = new MiModeloTabla();
 
     // Cargo los test leidos en la tabla de tests
+
+    /**
+     * Inicializa un modelo nuevo para la tabla de test leídos
+     */
     static public void InicializaModeloTablaTestsLeidos() {
         for (int i = 0; i < 6; i++) {
             modeloTablaTestsLeidos.addColumn("col" + i);
@@ -336,6 +356,9 @@ public class Procesador {
         CabecerasModeloTablaTestsLeidos();
     }
 
+    /**
+     * Inicializa las cabeceras del modelo de la tabla de test leídos
+     */
     static public void CabecerasModeloTablaTestsLeidos() {
         modeloTablaTestsLeidos.setColumnIdentifiers(new String[]{
             idioma.getString("VENTANAINICIO.TABLA_TEST.COLUMNA0"),

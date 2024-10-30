@@ -23,6 +23,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
@@ -88,8 +89,13 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
     }
 
     private void InicializarFormulario() {
-        // Coloco el formulario en el centro de la pantalla
+        // Coloco el formulario en el centro de la pantalla tamaño vertical máximo
+        // que permita la pantalla
+        this.setSize(new Dimension(this.getWidth(), Procesador.getAltoPantalla() - 50));
         Procesador.Centrame(this);
+        this.setLocation(this.getLocation().x, 5);
+
+        //
         this.flechasListener = (AWTEvent event) -> {
             // Como se usa la máscara AWTEvent.KEY_EVENT_MASK nunca va a fallar
             KeyEvent keyEvent = (KeyEvent) event;
@@ -207,8 +213,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("propiedades/Idioma"); // NOI18N
         setTitle(bundle.getString("VENTANAPRUEBASTEST.TITULO")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(1032, 800));
-        setSize(new java.awt.Dimension(1050, 800));
+        setSize(new java.awt.Dimension(0, 0));
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
 
         panelImagen.setMinimumSize(new java.awt.Dimension(0, 200));
@@ -519,7 +524,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
                 .addComponent(panelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelEdicionPlantilla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 60, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addComponent(btnAyuda)
                 .addGap(18, 61, Short.MAX_VALUE)
                 .addComponent(panelDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -528,7 +533,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
         PanelControlLayout.setVerticalGroup(
             PanelControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelControlLayout.createSequentialGroup()
-                .addContainerGap(9, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(PanelControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelEdicionPlantilla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelBotones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

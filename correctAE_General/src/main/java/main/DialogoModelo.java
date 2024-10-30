@@ -18,6 +18,7 @@
  */
 package main;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
@@ -63,8 +64,13 @@ public class DialogoModelo extends javax.swing.JDialog {
     }
 
     private void InicializarFormulario() {
-        // Coloco el formulario en el centro de la pantalla
+        // Coloco el formulario en el centro de la pantalla tamaño vertical máximo
+        // que permita la pantalla
+        this.setPreferredSize(new Dimension(this.getWidth(), Procesador.getAltoPantalla() - 50));
         Procesador.Centrame(this);
+        this.setLocation(this.getLocation().x, 5);
+
+        //
         // Asocio un evento de teclado F1 para lanzar la ayuda
         Procesador.asociaAyudaF1(btnAyuda, Config.getRutaAyudaHojaRespuestas());
         // Configuro el diálogo de impresión
@@ -112,7 +118,6 @@ public class DialogoModelo extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("propiedades/Idioma"); // NOI18N
         setTitle(bundle.getString("VentanaModelo.Titulo.Text")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(1031, 976));
 
         etqNombreModelo.setFont(Config.FUENTE_NORMAL);
         etqNombreModelo.setText(bundle.getString("DialogoModelo.etqNombreModelo.text")); // NOI18N
@@ -327,7 +332,7 @@ public class DialogoModelo extends javax.swing.JDialog {
 
         // Muestro el mensaje de Imprimiendo...
         panelImprimiendo.setVisible(true);
-        
+
         if (impresion.printDialog(attr)) {
             try {
                 impresion.print(attr);
