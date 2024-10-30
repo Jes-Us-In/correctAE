@@ -324,10 +324,10 @@ public class Config {
 
 // Tamaño de 205 x 40, que es el del modelo, para reescalar
     static final int ANCHO_LOGO = 256;
-    static final int ALTO_LOGO = 50;
+    static final int ALTO_LOGO = 51;
 
 // Posicion del logo en el modelo
-    static final int LOGO_X = 653;
+    static final int LOGO_X = 663;
     static final int LOGO_Y = 23;
 
 // Estructura de la tabla que muestra un test corregido
