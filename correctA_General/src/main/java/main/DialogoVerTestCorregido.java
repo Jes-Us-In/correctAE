@@ -73,6 +73,9 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
         // Coloco el formulario en el centro de la pantalla
         Procesador.Centrame(this);
         //
+        // Pongo el tamaño del formulario
+        //this.setSize(panelRespuestas.getWidth() + PanelDatos1.getWidth() + 30, panelRespuestas.getHeight() + 125);
+        //
         etqNumExamen.setText(idioma.getString("DialogoVerTestCorregido.etqNumExamen.text").concat(test.get("num")));
         campoNIF.setText(test.get("nif"));
         comboTipo.setSelectedIndex("?123456".indexOf(test.get("tipo")));
@@ -106,8 +109,6 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
             modelo.addRow(fila);
             //TableColumnModel m;
         }
-        // Pongo el tamaño del formulario
-        this.setSize(panelRespuestas.getWidth() + PanelDatos1.getWidth() + 30, panelRespuestas.getHeight() + 125);
     }
 
     // Mequede
@@ -172,7 +173,8 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
         setTitle(bundle.getString("DialogoVerTestCorregido.Titulo.text")); // NOI18N
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setMaximumSize(new java.awt.Dimension(2147483647, 410));
-        setPreferredSize(new java.awt.Dimension(1470, 430));
+        setPreferredSize(new java.awt.Dimension(1470, 460));
+        setResizable(false);
         setSize(new java.awt.Dimension(0, 0));
 
         PanelDatos1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -375,7 +377,7 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelRespuestas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelRespuestas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(PanelDatos1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
