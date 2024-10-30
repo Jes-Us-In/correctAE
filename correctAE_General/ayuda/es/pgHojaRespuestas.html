@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!--
+ Copyright (C) 2024 Jesus del Buey Jiménez
+ 
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+ 
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+  SPDX-License-Identifier: GPL-3.0
+-->
+
+<html>
+    <head>
+        <title>Hoja de Respuestas</title>
+		<link rel="stylesheet" href="styles.css">
+		<link rel="icon" type="image/png" href="images/icono_aplicacion.png">
+    </head>
+    <body>
+		<menu>
+			<img class="logo" src="images/icono_aplicacion.png" alt="Logo")/>
+			<a href="pgInicio.html">Inicio</a>
+			<a href="pgConfiguracion.html">Configuración</a>
+			<a href="pgPruebas.html">Pruebas y ajustes</a>
+			<a class="active" href="pgHojaRespuestas.html">Modelo de hoja de respuestas</a>
+			<a href="pgEvaluaciones.html">Evaluaciones</a>
+			<a href="pgTiposyEquivalencias.html">Tipos y Equivalencias</a>
+			<a href="pgEstadisticas.html">Estadísticas</a>
+		</menu>
+		<div class="content">
+			<img class="imagen60porcien conBorde floatingRight mTop1" src="images/Modelo100_General_es.png" alt="Modelo de hoja de Respuestas"/>
+			<h1>Hoja de Respuestas</h1>
+			<h3>Modelo de hoja de respuestas.</h3/>
+			<p>El modelo se ha diseñado con una disposición de sus elementos orientada a facilitar la interpretación de las hojas
+				y mejorar la precisión de los resultados.
+			</p>
+			<p>
+				<strong>Consta de cinco campos:</strong>
+				<ol>
+					<li><strong>Respuestas:</strong>
+						<p class="quitaEspaciadoSuperior">Hay 100 marcas de respuesta reconocibles. La cantidad efectiva usada se define en
+						la tabla de <a href="pgTiposyEquivalencias.html"><strong>tipos y equivalencias.</strong></a></p>
+					</li>
+					<li><strong>N.I.F. (número):</strong>
+						<p class="quitaEspaciadoSuperior">Se utiliza para leer la parte numérica del N.I.F., los 8 dígitos.</p>
+					</li>
+					<li><strong>N.I.F. (letra):</strong>
+						<p class="quitaEspaciadoSuperior">Se utiliza para leer la letra del N.I.F.</p>
+					</li>
+					<li><strong>Test tipo:</strong>
+						<p class="quitaEspaciadoSuperior">Es un valor de 1 a 6 que identifica el tipo de test, se admiten hasta seis. 
+						<strong>Es imprescindible para corregir los test</strong>, ya que con él y la tabla de equivalencias se identifican 
+						las respuestas con relación al tipo maestro.</p>
+					</li>
+					<li><strong>Grupo:</strong>
+						<p class="quitaEspaciadoSuperior">Un campo opcional que se puede usar para identificar/clasificar los test. También es un 
+						valor de 1 a 6.</p>
+					</li>
+				</ol>
+			</p>
+			<p>
+				Además de los campos anteriores hay otros como el nombre, apellidos, etc, que no se interpretan pero son necesarios para 
+				la correcta identificación de los examinados, atender a posteriores resclamaciones y demás.
+			</p>
+			<p>
+				También se incluyen unas breves instrucciones para rellenar correctamente la hoja de respuestas y evitar los errores de lectura/interpretación 
+				en lo posible.
+			</p>
+			<br/><br/><br/><br/>
+			<p>
+				En esta pantalla de la aplicación podemos ver el modelo de test, ya detallado. Además podemos hacer dos acciones importantes
+				mediante sendos botones adicionales:
+			</p>
+			<img class="imagen60porcien floatingRight" src="images/pantallaHojaRespuestas.png" alt="Pantalla hoja de Respuestas"/>
+			<ul>
+				<li><strong>Cambiar Logo:</strong>
+					<p class="quitaEspaciadoSuperior">Cambia el logo del formulario por uno de nuestra elección.
+					Es importante que el tamaño en píxeles sea el mismo, ya que si no se reescalará, para evitar deformar el modelo.
+					El tamaño ha de ser de 256 por 50 píxeles.</p>
+				</li>
+				<li><strong>Imprimir Plantilla:</strong>
+					<p class="quitaEspaciadoSuperior">Al pulsar este botón, aparecerá el diálogo de impresión del sistema, desde donde podremos imprimir las hojas
+					de respuesta que necesitemos.</p>
+				</li>
+			</ul>
+			<p></p>
+		</div>
+		<footer class="footer">
+			<p>
+				Copyright 2024: Jesús del Buey Jiménez<br/>
+				<a class="licenseBtn" href="LICENSE_GPL_v3.htm">Licencia: GPL-3.0</a>
+			</p>
+			<div class="logoPie">
+				<img class="logoPie" src="images/splash.png" alt="Pie")/>
+			</div>
+		</footer>
+    </body>
+</html>
