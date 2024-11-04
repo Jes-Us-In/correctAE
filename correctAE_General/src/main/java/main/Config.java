@@ -109,7 +109,7 @@ public class Config {
     // en la carperta raiz de ejecución.
     //
     // Genero un path válido multiplataforma
-    private static final String FICHERO_CONFIGURACION = Paths.get("configuracion.cfg").toString();
+    private static final String FICHERO_CONFIGURACION = Paths.get("correctA.cfg").toString();
 
     public static String getFichConfiguracion() {
         return FICHERO_CONFIGURACION;
