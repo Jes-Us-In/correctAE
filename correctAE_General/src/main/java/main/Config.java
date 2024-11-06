@@ -49,7 +49,7 @@ public class Config {
         if (System.getProperty("os.name").contains("Linux")) {
             carpetaUsuario = carpetaUsuario.concat("/correctA");
         }
-        return (carpetaUsuario.concat("/ayuda/").concat(getIdiomaActual())).replace("\\", "/");
+        return (carpetaUsuario.concat("/correctAyuda/").concat(getIdiomaActual())).replace("\\", "/");
     }
 
     public static String getRutaAyudaInicio() {
