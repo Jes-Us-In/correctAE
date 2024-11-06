@@ -32,7 +32,7 @@ import java.util.logging.SimpleFormatter;
  */
 public class Loguero {
 
-    static final Logger log = Logger.getLogger("correctA");
+    static final Logger log = Logger.getLogger(Config.getNombreArchivoLog());
     private FileHandler fh;
 
     public Loguero() {

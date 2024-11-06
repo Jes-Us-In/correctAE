@@ -44,9 +44,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -67,7 +64,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
-import org.apache.commons.io.FileUtils;
 
 /**
  *
@@ -120,27 +116,6 @@ public class Procesador {
 
         // Inicializo la base de datos. Alli se comprueba si ya lo está
         BaseDatos.InicializarBaseDatos();
-
-        // Inicio la ayuda. En windows la carpeta esta en app/ayuda la muevo al raiz de ejecución
-        String strAyuda = Paths.get("").toAbsolutePath().toString() + System.getProperty("file.separator") + "ayuda";
-        Path rutaAyuda = Paths.get(strAyuda);
-        
-        if (!Files.exists(rutaAyuda) || !Files.isDirectory(rutaAyuda)) {
-            try {
-                File sourceDir = new File( Paths.get("").toAbsolutePath().toString() + System.getProperty("file.separator") + "app"
-                        + System.getProperty("file.separator") + "ayuda");
-                File destinationDir = new File(strAyuda);
-                FileUtils.moveDirectory(sourceDir, destinationDir);
-                log.info(idioma.getString("inicioAyuda.correcto.txt"));
-            } catch (IOException e) {
-                log.aviso(idioma.getString("inicioAyuda.error.txt"));
-                log.error(e.getLocalizedMessage());
-                for(StackTraceElement tal : e.getStackTrace()) {
-                    log.error(tal.toString());
-                }
-            }
-        }
-
         return true;
     }
 
@@ -1393,7 +1368,6 @@ public class Procesador {
             }
             return lasCasillasTest;
         } catch (NumberFormatException ex) {
-            Logger.getLogger(ModeloTest100.class.getName()).log(Level.SEVERE, null, ex);
             log.error(idioma.getString("Procesador.plantilla.error.leyendo.text") + " - " + ex.getMessage());
             mensajesResultado[0] = "Procesador.plantilla.error.leyendo.text";
             mensajesResultado[1] = "Error.text";
