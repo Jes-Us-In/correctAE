@@ -43,25 +43,6 @@ import javax.swing.JOptionPane;
  */
 public class Config {
 
-    // Inicio la ayuda. En windows la carpeta esta en app/ayuda la muevo al raiz de ejecución
-//        String strAyuda = Paths.get("").toAbsolutePath().toString() + System.getProperty("file.separator") + "ayuda";
-//        Path rutaAyuda = Paths.get(strAyuda);
-//        
-//        if (!Files.exists(rutaAyuda) || !Files.isDirectory(rutaAyuda)) {
-//            try {
-//                File sourceDir = new File( Paths.get("").toAbsolutePath().toString() + System.getProperty("file.separator") + "app"
-//                        + System.getProperty("file.separator") + "ayuda");
-//                File destinationDir = new File(strAyuda);
-//                FileUtils.moveDirectory(sourceDir, destinationDir);
-//                log.info(idioma.getString("inicioAyuda.correcto.txt"));
-//            } catch (IOException e) {
-//                log.aviso(idioma.getString("inicioAyuda.error.txt"));
-//                log.error(e.getLocalizedMessage());
-//                for(StackTraceElement tal : e.getStackTrace()) {
-//                    log.error(tal.toString());
-//                }
-//            }
-//        }
     // Ruta de la ayuda de la aplicación, con la barra normal, porque sera una url
     /**
      *
@@ -70,7 +51,7 @@ public class Config {
     public static String getRutaAyuda() {
         //String carpetaUsuario = "file://".concat(System.getProperty("user.dir"));
         String carpetaUsuario = System.getProperty("user.dir");
-        String rutaAyuda = "";
+        String rutaAyuda;
         String sistema = System.getProperty("os.name");
 
         // Según el sistema uso una ruta y otra, si está instalado será una si 
@@ -82,14 +63,20 @@ public class Config {
                 // Ruta en windows, desarrollo, en el IDE
                 rutaAyuda = (carpetaUsuario.concat("/correctAEyuda/").concat(getIdiomaActual())).replace("\\", "/");
             }
-            log.info("Sistema WINDOWS (" + sistema + ") Ruta ayuda: " + rutaAyuda);
+            log.info("Sistema WINDOWS (" + sistema + ")\nRuta ayuda: " + rutaAyuda);
         } else {
             if (sistema.contains("Linux")) {
+                // Ruta en Linux, instalado
                 rutaAyuda = (carpetaUsuario.concat("/correctAEyuda/").concat(getIdiomaActual())).replace("\\", "/");
-                log.info("Sistema LINUX (" + sistema + ") Ruta ayuda: " + rutaAyuda);
+                if (!Files.exists(Paths.get(rutaAyuda))) {
+                    // Ruta en Linux, desarrollo, en el IDE
+                    rutaAyuda = (carpetaUsuario.concat("/correctAEyuda/").concat(getIdiomaActual())).replace("\\", "/");
+                }
+                log.info("Sistema LINUX (" + sistema + ")\nRuta ayuda: " + rutaAyuda);
             } else {
+                // Sistema DESCONOCIDO, Ruta defecto
                 rutaAyuda = (carpetaUsuario.concat("/correctAEyuda/").concat(getIdiomaActual())).replace("\\", "/");
-                log.info("Sistema DESCONOCIDO : " + sistema + "\n" + "Ruta ayuda: " + rutaAyuda);
+                log.info("Sistema DESCONOCIDO : " + sistema + "\nRuta ayuda: " + rutaAyuda);
             }
         }
         return rutaAyuda;
@@ -135,16 +122,6 @@ public class Config {
      * Log de la aplicacion
      */
     protected static Loguero log = Procesador.getLog();
-
-    private static final String NOMBRE_ARCHIVO_LOG = "correctAE.log";
-
-    /**
-     *
-     * @return nombre del archivo log
-     */
-    public static String getNombreArchivoLog() {
-        return NOMBRE_ARCHIVO_LOG;
-    }
 
     // Base de datos de la aplicación.
     // Como debe estar fuera del archivo .jar para poderlo sobreescribirla la creo si no existe, en la carperta raiz de ejecución

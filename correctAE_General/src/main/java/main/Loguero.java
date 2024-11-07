@@ -32,12 +32,12 @@ import java.util.logging.SimpleFormatter;
  */
 public class Loguero {
 
-    static final Logger log = Logger.getLogger(Config.getNombreArchivoLog());
+    static final Logger log = Logger.getLogger("correctAE.log");
     private FileHandler fh;
 
     public Loguero() {
         try {
-            fh = new FileHandler("correctA.log", true);
+            fh = new FileHandler("correctAE.log", true);
             log.addHandler(fh);
             SimpleFormatter formato = new SimpleFormatter();
             fh.setFormatter(formato);
