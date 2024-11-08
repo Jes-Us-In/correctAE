@@ -92,8 +92,11 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
         String valorTxt, respCorrecta;
         int indiceRespCorrec;
 
+        // Establezco los máximos de ancho y alto
+        this.setMaximumSize(new Dimension(this.getWidth(), Procesador.getAltoPantalla() - 50));
         // Coloco el formulario en el centro de la pantalla
         Procesador.Centrame(this);
+        
         tablaEstadisPreg.setModel(modeloEstadisPreg);
         for (int fil = 0; fil < Config.getNumPreguntas(); fil++) {
             // Num pregunta, aciertos, fallos, blancos, dobles, A, B, C, D y E

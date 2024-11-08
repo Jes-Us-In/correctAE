@@ -21,6 +21,7 @@ package main;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -67,6 +68,8 @@ public class DialogoVerTest extends javax.swing.JDialog {
     }
 
     private void InicializarFormulario() {
+        // Establezco los máximos de ancho y alto
+        this.setMaximumSize(new Dimension(this.getWidth(), Procesador.getAltoPantalla() - 50));
         // Coloco el formulario en el centro de la pantalla
         Procesador.Centrame(this);
     }

@@ -57,6 +57,10 @@ public class DialogoConfiguracion extends javax.swing.JDialog {
     private void InicializarFormulario() {
         // Coloco el formulario en el centro de la pantalla
         Procesador.Centrame(this);
+        // Lo subo un poco sin salirme
+        int postY = this.getLocation().y - 50;
+        postY = postY < 5 ? 5 : postY;
+        this.setLocation(this.getLocation().x, postY);
         // Cargo los valores iniciales
         etqIdiomaActual.setText(idioma.getString("DialogoConfiguracion.etqIdiomaActual.text")
                 + " - " + Locale.getDefault().getDisplayCountry() + " (" + Config.getIdiomaActual() + ") ");

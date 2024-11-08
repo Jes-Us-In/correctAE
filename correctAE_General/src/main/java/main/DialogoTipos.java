@@ -144,13 +144,14 @@ public class DialogoTipos extends javax.swing.JDialog {
         int alto = 190 + (tablaTipos.getRowHeight() * tablaTipos.getRowCount());
         int ancho = Config.getNumTipos() * 130 + 370;
         // si es más de 800, pongo 800
-        alto = (alto > 800) ? 800 : alto;
-        ancho = (ancho > 1000) ? 1000 : ancho;
+        alto = (alto > Procesador.getAltoPantalla() - 50) ? Procesador.getAltoPantalla() - 50 : alto;
+        ancho = (ancho > Procesador.getAnchoPantalla()) ? Procesador.getAnchoPantalla() : ancho;
         this.setPreferredSize(new Dimension(ancho, alto));
         // Aplico las nuevas dimensiones
         pack();
         // Coloco el formulario en el centro de la pantalla
         Procesador.Centrame(this);
+        this.setLocation(this.getLocation().x, 5);
         // Asocio un evento de teclado F1 para lanzar la ayuda
         Procesador.asociaAyudaF1(btnAyuda, Config.getRutaAyudaTiposyEquivalencias());
     }

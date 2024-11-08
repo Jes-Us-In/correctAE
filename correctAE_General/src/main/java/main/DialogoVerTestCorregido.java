@@ -124,13 +124,21 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
         // Columna de número de respuesta, pongo estilo cabecera, el resto estilo checkbox
         DefaultTableCellRenderer ren = new main.estilos.RenderCabeceraFilasTabla_VideoInverso();
         tablaRespuestas.setRowHeight(18);
+        int minAnch = tablaRespuestas.getFont().getSize() * 3;
+        int maxAnch = tablaRespuestas.getFont().getSize() * 2 - 3;
+        int maxAnch2X = maxAnch * 2;
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             col = columnModel.getColumn(i);
             if (i == 0 || i == 6 || i == 12 || i == 18 || i == 24) {
                 col.setCellRenderer(ren);
                 col.setHeaderRenderer(ren);
-                // Tamaño minimo de la columna Num.
-                col.setMinWidth(tablaRespuestas.getFont().getSize() * 3);
+                // Ancho minimo de la columna Num.
+                col.setMinWidth(minAnch);
+                // Ancho maximo de la columna Num.
+                col.setMaxWidth(maxAnch2X);
+            } else {
+                // Ancho máximo de columna de letra de respuesta
+                col.setMaxWidth(maxAnch);
             }
         }
     }
@@ -172,8 +180,6 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("propiedades/Idioma"); // NOI18N
         setTitle(bundle.getString("DialogoVerTestCorregido.Titulo.text")); // NOI18N
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
-        setMaximumSize(new java.awt.Dimension(2147483647, 410));
-        setPreferredSize(new java.awt.Dimension(1470, 460));
         setResizable(false);
         setSize(new java.awt.Dimension(0, 0));
 
@@ -310,7 +316,6 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
         panelRespuestas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         panelRespuestas.setPreferredSize(new java.awt.Dimension(1256, 410));
 
-        panelScroll.setMinimumSize(new java.awt.Dimension(1200, 400));
         panelScroll.setPreferredSize(new java.awt.Dimension(1240, 402));
 
         tablaRespuestas.setFont(Config.FUENTE_NORMAL);
@@ -347,14 +352,14 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
             panelRespuestasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRespuestasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelScroll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(panelScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
         );
         panelRespuestasLayout.setVerticalGroup(
             panelRespuestasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRespuestasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 394, Short.MAX_VALUE)
+                .addComponent(panelScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -368,8 +373,8 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
                     .addComponent(btnGuardar)
                     .addComponent(PanelDatos1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelDatos2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelRespuestas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelRespuestas, javax.swing.GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -377,7 +382,7 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelRespuestas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelRespuestas, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(PanelDatos1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
