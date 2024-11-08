@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--
+ Copyright (C) 2024 Jesus del Buey Jiménez
+ 
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+ 
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+  SPDX-License-Identifier: GPL-3.0
+-->
+
+<html>
+    <head>
+        <title>Settings</title>
+		<link rel="stylesheet" href="styles.css">
+		<link rel="icon" type="image/png" href="images/icono_aplicacion.png">
+    </head>
+    <body>
+		<menu>
+			<img class="logo" src="images/icono_aplicacion.png" alt="Logo")/>
+			<a href="pgInicio.html">Home</a>
+			<a class="active" href="pgConfiguracion.html">Settings</a>
+			<a href="pgPruebas.html">Testing and Adjustments</a>
+			<a href="pgHojaRespuestas.html">Answer sheet model</a>
+			<a href="pgEvaluaciones.html">Evaluations</a>
+			<a href="pgTiposyEquivalencias.html">Types and Equivalences</a>
+			<a href="pgEstadisticas.html">Statistics</a>
+		</menu>
+		<div class="content">
+			<h1>Settings</h1>
+			<h2>Adjustable parameters to optimize answer sheets images capture.</h2>
+				<p class="quitaEspaciadoSuperior">The accuracy of the results depends fundamentally on the answer sheets scanning quality. The scanning process must be 
+					performed in <strong>grayscale image type, at a resolution 300 or 200 dpi</strong>. If you are using an automatic sheet feeder, make sure that the sheets do not 
+					become excessively off-center, otherwise the application will not be able to interpret them. It is essential that <strong>sheet corner location points are correctly distinguished</strong>. The usual image file 
+					formats are supported, but it is advisable to be <strong>"jpg" or "png",</strong> which is with the that this app has been tested.</p>
+			<img class="imagen40porcien floatingRight" src="images/pantallaConfiguracion.png" alt="Pantalla Configuracion")/>
+			<ul>
+				<li><strong>Corner detection threshold.</strong>
+					<p class="quitaEspaciadoSuperior">The bright level, in 0 to 255 range, below which we consider ourselves to have found a corner mark.<p/>
+					<p>Locating the corners of the answers sheet is essential to make the necessary transformations to it, and then the locate the rest of the marks at the exact point that corresponds.</p>
+				</li>
+				<li><strong>Marks detection threshold.</strong>
+					<p class="quitaEspaciadoSuperior">Same as above, but now applicable to the answer marks detection.<p/>
+				</li>
+				<li><strong>Corner detection area width.</strong>
+					<p class="quitaEspaciadoSuperior">Length of the side of the square shape area, in which we will seek for each of the four corners.<p/>
+				</li>
+				<li><strong>Answer marks width</strong>
+					<p class="quitaEspaciadoSuperior">Width of the answer marks area, in square shape. We can choose in a range from 5 to 10, by sliding the button.<p/>
+				</li>
+				<li><strong>Sheet margin crop</strong>
+					<p class="quitaEspaciadoSuperior">If the scanned quality of the answer sheets is not good and dark areas appear on the margins, we can apply a crop to them: top, left and right; to try to improve the result.<p/>
+					<div><strong>Note:</strong> In extreme cases, when is not possible to locate the corners, the scan should be repeated with better quality.<div/>
+				</li>
+			</ul>
+			<h3>Default values</h3>
+			<p>Retrieves the initial setup values.</p>
+			<p><strong>Note:</strong> Changes will not be saved until the "Confirm" button is pressed.</p>
+		</div>
+		<footer class="footer">
+			<p>
+				Copyright 2024: Jesus del Buey Jimenez<br/>
+				<a class="licenseBtn" href="LICENSE_GPL_v3.htm">License: GPL-3.0</a>
+			</p>
+			<div class="logoPie">
+				<img class="logoPie" src="images/splash.png" alt="Pie")/>
+			</div>
+		</footer>
+    </body>
+</html>

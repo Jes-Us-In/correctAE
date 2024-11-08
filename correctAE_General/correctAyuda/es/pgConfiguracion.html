@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+ Copyright (C) 2024 Jesus del Buey Jiménez
+ 
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+ 
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+  SPDX-License-Identifier: GPL-3.0
+-->
+
+<html>
+    <head>
+        <title>Configuración</title>
+		<link rel="stylesheet" href="styles.css">
+		<link rel="icon" type="image/png" href="images/icono_aplicacion.png">
+    </head>
+    <body>
+		<menu>
+			<img class="logo" src="images/icono_aplicacion.png" alt="Logo")/>
+			<a href="pgInicio.html">Inicio</a>
+			<a class="active" href="pgConfiguracion.html">Configuración</a>
+			<a href="pgPruebas.html">Pruebas y ajustes</a>
+			<a href="pgHojaRespuestas.html">Modelo de hoja de respuestas</a>
+			<a href="pgEvaluaciones.html">Evaluaciones</a>
+			<a href="pgTiposyEquivalencias.html">Tipos y Equivalencias</a>
+			<a href="pgEstadisticas.html">Estadísticas</a>
+		</menu>
+		<div class="content">
+			<h1>Configuración</h1>
+			<h2>Parámetros ajustables para optimizar la captura de las imágenes de los test.</h2>
+				<p class="quitaEspaciadoSuperior">Es importante tener en cuenta que la fiabilidad de los resultados depende fundamentalmente de 
+					la calidad del escaneado de las hojas de respuesta de los test. Este escaneado debe hacerse en <strong>escala de grises, a una resolución 
+					de 300 o 200 dpi</strong>. Si se usa un alimentador automático de hojas hay que asegurarse de que las hojas no se descentran en exceso, de lo contrario 
+					la aplicación no podrá interpretarlas. Es imprescindible que se distingan perfectamente los <strong>puntos de localización de las esquinas</strong> 
+					del documento. Se admiten los formatos de archivo de imagen habituales, pero conviene que sean <strong>"jpg" ó "png"</strong>, que es con los 
+					que se ha probado esta aplicación.</p>
+			<img class="imagen40porcien floatingRight" src="images/pantallaConfiguracion.png" alt="Pantalla Configuracion")/>
+			<ul>
+				<li><strong>Umbral de detección de esquinas</strong>
+					<p class="quitaEspaciadoSuperior">Es el punto de lumniosidad, en un rango de 0 a 255, por debajo del cual consideramos haber encontrado una marca de esquina.<p/>
+					<p>Localizar las esquinas del documento es imprescindible para hacer las transformaciones necesarias en el mismo,
+					de manera que luego se puedan localizar las marcas en el punto exacto que corresponda.</p>
+				</li>
+				<li><strong>Umbral de detección de marcas</strong>
+					<p class="quitaEspaciadoSuperior">Igual que en el caso anterior, pero ahora aplicable a la detección de marcas de respuesta.<p/>
+				</li>
+				<li><strong>Ancho del rango de detección de esquinas</strong>
+					<p class="quitaEspaciadoSuperior">Longitud del lado del área, en forma de cuadrado, en la que buscaremos cada una de las cuatro esquinas.<p/>
+				</li>
+				<li><strong>Ancho de las marcas de las respuestas</strong>
+					<p class="quitaEspaciadoSuperior">Longitud del lado del área, en forma de cuadrado, de las marcas de respuesta. 
+					Podemos elegir en un rango de 5 a 10, deslizando el botón.<p/>
+				</li>
+				<li><strong>Recorte de márgenes</strong>
+					<p class="quitaEspaciadoSuperior">Si la calidad del escaneado de las hojas de respuesta no es muy buena y aparecen zonas oscuras 
+							en los márgenes, podemos aplicar un recorte en ellos: superior, izquierdo y derecho; para intentar mejorar el resultado.<p/>
+					<p class="quitaEspaciadoSuperior">Para ello usaremos el botón deslizante correspondiente.<p/>
+					<div><strong>Nota:</strong> En casos extremos, si no es posible localizar las esquinas, habrá que repetir el escaneado con mejor calidad.<div/>
+				</li>
+			</ul>
+			<h3>Valores por defecto</h3>
+			<p>Recupera los valores iniciales de la aplicación.</p>
+			<p><strong>Nota:</strong> Los cambios no se guardan si no se pulsa el botón "Confirmar".</p>
+		</div>
+		<footer class="footer">
+			<p>
+				Copyright 2024: Jesús del Buey Jiménez<br/>
+				<a class="licenseBtn" href="LICENSE_GPL_v3.htm">Licencia: GPL-3.0</a>
+			</p>
+			<div class="logoPie">
+				<img class="logoPie" src="images/splash.png" alt="Pie")/>
+			</div>
+		</footer>
+    </body>
+</html>

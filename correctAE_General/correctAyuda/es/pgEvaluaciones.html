@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<!--
+ Copyright (C) 2024 Jesus del Buey Jiménez
+ 
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+ 
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+  SPDX-License-Identifier: GPL-3.0
+-->
+
+<html>
+    <head>
+        <title>Evaluaciones</title>
+		<link rel="stylesheet" href="styles.css">
+		<link rel="icon" type="image/png" href="images/icono_aplicacion.png">
+    </head>
+    <body>
+		<menu>
+			<img class="logo" src="images/icono_aplicacion.png" alt="Logo")/>
+			<a href="pgInicio.html">Inicio</a>
+			<a href="pgConfiguracion.html">Configuración</a>
+			<a href="pgPruebas.html">Pruebas y ajustes</a>
+			<a href="pgHojaRespuestas.html">Modelo de hoja de respuestas</a>
+			<a class="active" href="pgEvaluaciones.html">Evaluaciones</a>
+			<a href="pgTiposyEquivalencias.html">Tipos y Equivalencias</a>
+			<a href="pgEstadisticas.html">Estadísticas</a>
+		</menu>
+		<div class="content">
+			<h1>Evaluación de los tests leídos.</h1>
+			<img class="imagen70porcien floatingRight mTop1" src="images/pantallaEvaluaciones.png" alt="Pantalla Evaluaciones"/>
+			<p>En esta ventana vemos los test que hemos leído e interpretado en la ventana principal. Aquí podemos calcular las calificaciones obtenidas 
+			y obtener los resultados, también podemos ver las estadísticas elaboradas a partir de estos.</p>
+			<p>
+				<strong>La tabla contiene los siguientes campos:</strong>
+				<ul class="listaCompacta">
+					<li><strong>Num.</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">Número de orden de lectura.</p>
+					<li><strong>N.I.F.</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">Documento identificador del examinado.</p>
+					<li><strong>Tipo</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">El tipo de examen. La <a href="pgTiposyEquivalencias.html"><strong>tabla de tipos y equivalencias</strong></a> especifica su correspondencia 
+						con el tipo patrón.
+						<br/><strong>Importante:</strong> Si está en blanco o no es válido no se podrá corregir el test.</p>
+					<li><strong>Grupo</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">Grupo al que pertenece el alumno (opcional).</p>
+					<li><strong>Aciertos</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">El número de aciertos en las preguntas del test.</p>
+					<li><strong>Fallos</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">Número de fallos en las preguntas del test.</p>
+					<li><strong>Blancos</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">Cantidad de respuestas en blanco en el test.</p>
+					<li><strong>Dobles</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">Cantidad de preguntas que tienen dos marcas o más. Estas no se podrán evaluar,
+						aunque sí penalizar.</p>
+					<li><strong>Nota</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">Calificación obtenida en el último cálculo realizado.</p>
+					<li><strong>Respuestas</strong></li>
+						<p class="tab quitaEspaciadoSuperior altoYmedio">Cadena de respuestas del alumno a todas las preguntas. Será la letra de la opción de respuesta 
+						marcada. Si está en blanco es porque no la contestó y si tiene el símbolo "?" es porque hay más de una marca en esa respuesta.</p>
+				</ul>
+			</p>
+			<br/>
+			<h3>Opciones del menú:</h3>
+			<p class="tab quitaEspaciadoSuperior">Como vemos en la imagen, hay dos entradas de menú.</p>
+			<img class="imagen70porcien alCentro" src="images/pantallaEvaluaciones01.png" alt="Menú Archivo"/>
+			<br/>
+			<strong>Archivo</strong>
+			<p class="tab quitaEspaciadoSuperior">Disponemos de varias opciones. Incluyen cada una un atajo de teclado.</p>
+			<ol>
+				<li><strong>Cargar examen guardado:</strong><br/>
+					<div class="tab">Carga un examen completo, previamente guardado, de la Base de Datos interna de la aplicación. Incluye todos los test y la tabla de 
+						equivalencias. En la tabla podemos ver los exámenes que contiene la Base de Datos. Podemos seleccionar uno y cargarlo o también podemos borrar, 
+						si ya no lo necesitamos.
+						<img class="imagen50porcien alCentro mTop1" src="images/pantallaEvaluaciones02.png" alt="Cargar examen"/>
+					</div>
+				</li>
+				<li><strong>Guardar examen:</strong><br/>
+					<div class="tab">Guarda el examen actual en la Base de Datos. Incluye todos los test y la tabla de equivalencias. En el formulario siguiente debemos 
+					poner un nombre y una descripción al examen que guardaremos.
+					</div>
+					<img class="alCentro mTop1" src="images/pantallaEvaluaciones03.png" alt="Guardar examen"/>
+				</li>
+				<li><strong>Importar examen, desde un archivo "csv":</strong><br/>
+					<div class="tab">Importa los test desde un archivo "csv" como examen actual. No incluye tabla de equivalencias.</div>
+				</li>
+				<li><strong>Exportar examen, a un archivo "csv":</strong><br/>
+					<div class="tab">Exporta los test del examen actual a un archivo "csv". No incluye la tabla de equivalencias.</div>
+				</li>
+			</ol>
+			<strong>Opciones</strong>
+			<div class="tab">Desde aquí podemos borrar los test que hay actualemnte en la tabla. Atajo de teclado "Shift+B".</div>
+			<br/>
+			<h3>Importante:</h3>
+			<p><strong>Haciendo doble click</strong> sobre cualquier test, en la tabla, se abre un formulario donde veremos el test en detalle. 
+			Están presentes todos los campos. Algunos son editables, donde podremos corregir los dato que en la lectura que no se ha interpretado
+			correctamente, tal ly como vemos en la siguiente imagen:</p>
+			<img class="imagen80porcien alCentro" src="images/pantallaEvaluaciones05.png" alt="Modificar test corregido"/>
+			<br/>
+			<h2>Botones de acción adicionales</h2>
+			<ul>
+				<li><strong>Evaluar:</strong><br/>
+					<div class="tab">
+						Proceso de cálculo de calificaciones de los test. En el siguiente formulario introducimos los parámetros de calificación.
+						También vemos el número total de preguntas que se tendrán en cuenta, de un máximo de 100 así como las que son válidas, ya que podemos 
+						anular preguntas. Además se muestra el número de tipos. <strong>En la tabla de equivalencias se definen estos valores.</strong><br/>
+						<img class="floatingRight mTop1" src="images/pantallaEvaluaciones04.png" alt="Parámetros calificación"/>
+						<ol>
+							<li><strong>Puntos por acierto:</strong><br/>
+								<div class="tab">Valor asignado a cada acierto. Normalmente 1.</div>
+							</li>
+							<li><strong>Descuento por fallo:</strong><br/>
+								<div class="tab">Descuento en la calificación que provocará cada fallo.</div>
+							</li>
+							<li><strong>Descuento por blanco:</strong><br/>
+								<div class="tab">Descuento en la calificación que provocará cada respuesta en blanco.</div>
+							</li>
+							<li><strong>Descuento por doble marca:</strong><br/>
+								<div class="tab">Descuento en la calificación que provocará cada marca múltiple o marcaje erróneo.</div>
+							</li>
+							<li><strong>Puntuación Aprobado:</strong><br/>
+								<div class="tab">Se utiliza para elaborar la estadística de aprobados y suspensos.</div>
+							</li>
+							<li><strong>Escala de calificación:</strong><br/>
+								<div class="tab">Se extrapolará la nota calculada al rango definido. Normalmente es de 1 a 10, pero se puede usar cualquiera 
+								entre 1 y 100.</div>
+							</li>
+						</ol>
+						<p><strong>Nota: </strong>Tras hacer los cálculos, se actualizarán las notas en la tabla de test.</p>
+						
+						<br/><br/>
+					</div>
+				</li>
+				<li><strong><a href="pgEstadisticas.html">Estadísticas:</a></strong><br/>
+				<li><strong><a href="pgTiposyEquivalencias.html">Tipos y Equivalencias</a></strong><br/>
+				</li>
+			</ul>
+		</div>
+		<footer class="footer">
+			<p>
+				Copyright 2024: Jesús del Buey Jiménez<br/>
+				<a class="licenseBtn" href="LICENSE_GPL_v3.htm">Licencia: GPL-3.0</a>
+			</p>
+			<div class="logoPie">
+				<img class="logoPie" src="images/splash.png" alt="Pie")/>
+			</div>
+		</footer>
+    </body>
+</html>
