@@ -21,6 +21,7 @@ package main;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -280,7 +281,6 @@ public class Procesador {
 
     // Métodos
     // Centrar un JFrame
-
     /**
      *
      * @param cualo JFrame que hay que centrar en la pantalla
@@ -297,7 +297,7 @@ public class Procesador {
     protected static void Centrame(JDialog cualo) {
         cualo.setLocation(getAnchoPantalla() / 2 - (cualo.getWidth() / 2), getAltoPantalla() / 2 - (cualo.getHeight() / 2));
     }
-    
+
     // Recargo las claves del idioma seleccionado
     /**
      * Recarga el ResourcedBundle para que se actualize el idioma
@@ -311,14 +311,12 @@ public class Procesador {
     // Modelo de la tabla para los tests leídos
     // Campos del test, archivo tiene la ruta completa
     // {"DNI", "Tipo", "Grupo", "Respuestas", "Archivo"};
-
     /**
      *
      */
     protected static MiModeloTabla modeloTablaTestsLeidos = new MiModeloTabla();
 
     // Cargo los test leidos en la tabla de tests
-
     /**
      * Inicializa un modelo nuevo para la tabla de test leídos
      */
@@ -516,6 +514,7 @@ public class Procesador {
      */
     static public String mostrarAyuda(String ruta) {
         Desktop dt;
+        String error = "";
 
         try {
             // Compruebo que está soportado
@@ -524,16 +523,22 @@ public class Procesador {
                 // Lanzo el navegador con la ruta del fichero de ayuda
                 if (dt.isSupported(Desktop.Action.BROWSE)) {
                     URI lauri = new URI(ruta);
-                    Desktop.getDesktop().browse(lauri);
+                    EventQueue.invokeLater(() -> {
+                        try {
+                            Desktop.getDesktop().browse(lauri);
+                        } catch (IOException ex) {
+                            log.error(ex.getLocalizedMessage());
+                        }
+                    });
                 } else {
-                    return idioma.getString("VentanaInicio.errorNavegador.text");
+                    error = idioma.getString("VentanaInicio.errorNavegador.text");
                 }
             }
-        } catch (IOException | URISyntaxException ex) {
+        } catch (URISyntaxException ex) {
             log.error(ex.getLocalizedMessage());
-            return ex.getLocalizedMessage();
+            error = ex.getLocalizedMessage();
         }
-        return "";
+        return error;
     }
 
     // Inicializo la tabla al principio
@@ -1037,7 +1042,6 @@ public class Procesador {
     }
 
 // Métodos del programa origen, para probar...
-
     /**
      *
      * @param x

@@ -56,7 +56,8 @@ public class Config {
 
         // Según el sistema uso una ruta y otra, si está instalado será una si 
         // está en desarrollo otra.
-        if (sistema.contains("Windows")) {
+        if (sistema.contains(
+                "Windows")) {
             // Ruta en windows, instalado
             rutaAyuda = (carpetaUsuario.concat("/app/correctAEyuda/").concat(getIdiomaActual())).replace("\\", "/");
             if (!Files.exists(Paths.get(rutaAyuda))) {
@@ -67,10 +68,14 @@ public class Config {
         } else {
             if (sistema.contains("Linux")) {
                 // Ruta en Linux, instalado
-                rutaAyuda = (carpetaUsuario.concat("/correctAEyuda/").concat(getIdiomaActual())).replace("\\", "/");
+                rutaAyuda = "/opt/correctae-2x/lib/app/correctAEyuda/".concat(getIdiomaActual());
                 if (!Files.exists(Paths.get(rutaAyuda))) {
-                    // Ruta en Linux, desarrollo, en el IDE
-                    rutaAyuda = (carpetaUsuario.concat("/correctAEyuda/").concat(getIdiomaActual())).replace("\\", "/");
+                    // Versión sin zoom 2X
+                    rutaAyuda = "/opt/correctae/lib/app/correctAEyuda/".concat(getIdiomaActual());
+                    if (!Files.exists(Paths.get(rutaAyuda))) {
+                        // Ruta en Linux, desarrollo, en el IDE
+                    rutaAyuda = carpetaUsuario.concat("/correctAEyuda/").concat(getIdiomaActual());
+                    }
                 }
                 log.info("Sistema LINUX (" + sistema + ")\nRuta ayuda: " + rutaAyuda);
             } else {
@@ -108,10 +113,12 @@ public class Config {
 
     public static String getRutaAyudaEstadisticas() {
         return getRutaAyuda().concat("/pgEstadisticas.html");
+
     }
 
     //Logo de la Aplicación
-    protected static ImageIcon iconoAplic = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Config.class.getResource("icono_aplicacion.png")));
+    protected static ImageIcon iconoAplic = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Config.class
+            .getResource("icono_aplicacion.png")));
 
     public static ImageIcon getIconoAplic() {
         return iconoAplic;

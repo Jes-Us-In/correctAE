@@ -124,7 +124,7 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
         // Columna de número de respuesta, pongo estilo cabecera, el resto estilo checkbox
         DefaultTableCellRenderer ren = new main.estilos.RenderCabeceraFilasTabla_VideoInverso();
         tablaRespuestas.setRowHeight(18);
-        int minAnch = tablaRespuestas.getFont().getSize() * 3;
+        int minAnch = tablaRespuestas.getFont().getSize() * 3 + 10;
         int maxAnch = tablaRespuestas.getFont().getSize() * 2 - 3;
         int maxAnch2X = maxAnch * 2;
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
