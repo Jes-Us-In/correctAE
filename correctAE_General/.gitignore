@@ -1,4 +1,17 @@
-/correctAE_General/target/
+# .gitignore for NetBeans and Java projects
+
+# NetBeans-specific files
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+/target/
+
+# Compiled class files
+*.class
+
 # Log files
 *.log
 
