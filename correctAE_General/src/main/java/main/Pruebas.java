@@ -18,12 +18,19 @@
  */
 package main;
 
+import java.awt.Desktop;
+import java.awt.EventQueue;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static main.Procesador.idioma;
+import static main.Procesador.log;
 
 /**
  *
@@ -45,12 +52,42 @@ public class Pruebas {
         System.out.println("Carpeta ejecucion = " + Paths.get("").toAbsolutePath().toString());
         System.out.println("Propiedades del Sistema = " + Procesador.mostrarPropiedadesSistema());
 
-        File sourceDir = new File(Procesador.class.getResource(System.getProperty("file.separator") + "ayuda").getFile());
-        File destinationDir = new File(Paths.get("").toAbsolutePath().toString() + System.getProperty("file.separator") + "ayuda");
-        System.out.println("Origen = " + sourceDir.getAbsolutePath());
-        System.out.println("Destino = " + destinationDir.getAbsolutePath());
-        URL resourceUrl = Pruebas.class.getResource("ayuda");
-        System.out.println("Ruta de la carpeta: Loader " + resourceUrl.getPath());
+//        File sourceDir = new File(Procesador.class.getResource(System.getProperty("file.separator") + "ayuda").getFile());
+//        File destinationDir = new File(Paths.get("").toAbsolutePath().toString() + System.getProperty("file.separator") + "ayuda");
+//        System.out.println("Origen = " + sourceDir.getAbsolutePath());
+//        System.out.println("Destino = " + destinationDir.getAbsolutePath());
+//        URL resourceUrl = Pruebas.class.getResource("ayuda");
+//        System.out.println("Ruta de la carpeta: Loader " + resourceUrl.getPath());
+
+        Desktop dt = Desktop.getDesktop();
+
+        //if (dt.isSupported(Desktop.Action.BROWSE)) {
+            URI lauri;
+            try {
+                String ruta = "/home/jesus/Documentos/Programacion/Java/Correcta_General_GitHub/correctAE_General/correctAEyuda/es/pgInicio.html";
+                lauri = new URI(ruta);
+                Desktop.getDesktop().browse(lauri);
+            } catch (URISyntaxException | IOException ex) {
+                log.error(ex.getLocalizedMessage());
+            }
+//            EventQueue.invokeLater(() -> {
+//                try {
+//                    Desktop.getDesktop().browse(lauri);
+//                } catch (IOException ex) {
+//                    log.error(ex.getLocalizedMessage());
+//                }
+//            });
+            
+//            EventQueue.invokeLater(() -> {
+//                try {
+//                    Desktop.getDesktop().browse(lauri);
+//                } catch (IOException ex) {
+//                    log.error(ex.getLocalizedMessage());
+//                }
+//            });
+//        } else {
+//            log.aviso(idioma.getString("VentanaInicio.errorNavegador.text"));
+//        }
 
     }
 
