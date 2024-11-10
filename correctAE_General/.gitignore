@@ -1,0 +1,14 @@
+/correctAE_General/target/
+# Log files
+*.log
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# Others
+*.bak
+*.swp
+*~.nib
+*.tmp
