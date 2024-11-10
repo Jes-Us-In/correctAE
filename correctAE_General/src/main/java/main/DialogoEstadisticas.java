@@ -16,7 +16,6 @@
  *
  * SPDX-License-Identifier: GPL-3.0
  */
-
 package main;
 
 import java.awt.Color;
@@ -50,7 +49,7 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
 
     ResourceBundle idioma = Procesador.idioma;
     private final Loguero log = Procesador.getLog();
-    
+
     String[] columnas = {idioma.getString("DialogoEstadisticas.numPregunta.text"),
         idioma.getString("DialogoEvaluar.tabla.columna4"),
         idioma.getString("DialogoEvaluar.tabla.columna5"),
@@ -93,10 +92,18 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
         int indiceRespCorrec;
 
         // Establezco los máximos de ancho y alto
-        this.setMaximumSize(new Dimension(this.getWidth(), Procesador.getAltoPantalla() - 50));
+        log.info("Alto pantalla = " + Procesador.getAltoPantalla());
+        log.info("Alto diálogo = " + this.getHeight());
+        if (this.getWidth() > Procesador.getAnchoPantalla()) {
+            this.setSize(new Dimension(Procesador.getAnchoPantalla() - 25, this.getHeight()));
+        }
+        if (this.getHeight() > Procesador.getAltoPantalla()) {
+            this.setSize(new Dimension(this.getWidth(), Procesador.getAltoPantalla() - 50));
+        }
         // Coloco el formulario en el centro de la pantalla
         Procesador.Centrame(this);
-        
+        this.setLocation(this.getLocation().x, 5);
+
         tablaEstadisPreg.setModel(modeloEstadisPreg);
         for (int fil = 0; fil < Config.getNumPreguntas(); fil++) {
             // Num pregunta, aciertos, fallos, blancos, dobles, A, B, C, D y E
@@ -107,7 +114,7 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
             // Si está anulada no pongo nada
             if (respCorrecta.contains(idioma.getString("DialogoTipos.Anular.text"))) {
                 fila = new Object[]{fil + 1,
-                    "<html><strong>".concat(idioma.getString("DialogoTipos.Anular.text")).concat( "</strong></html>"),
+                    "<html><strong>".concat(idioma.getString("DialogoTipos.Anular.text")).concat("</strong></html>"),
                     "<html><strong>".concat(idioma.getString("DialogoTipos.Anular.text")).concat("</strong></html>"),
                     "<html><strong>".concat(idioma.getString("DialogoTipos.Anular.text")).concat("</strong></html>"),
                     "<html><strong>".concat(idioma.getString("DialogoTipos.Anular.text")).concat("</strong></html>"),
@@ -368,7 +375,7 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
         if (!"".equals(error)) {
             log.error(error);
             JOptionPane.showOptionDialog(rootPane, error, idioma.getString("Error.text"),
-                JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text")}, idioma.getString("Aceptar.text"));
+                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text")}, idioma.getString("Aceptar.text"));
         }
     }//GEN-LAST:event_btnAyudaActionPerformed
 
