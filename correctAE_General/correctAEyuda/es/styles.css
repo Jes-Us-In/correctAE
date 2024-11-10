@@ -126,9 +126,11 @@ menu a.active {
 }
 
 .logoPie {
-	max-height: 6em;
-	margin: 0 0 auto auto;
+    max-height: 3em;
+    margin: 0 0 auto auto;
+    padding: 6px 10px 0 0;
 }
+
 
 .licenseBtn {
 	text-decoration: none;
@@ -150,7 +152,8 @@ li {
 }
 
 .footer p {
-	text-indent: 0;
+    text-indent: 0;
+    padding: 0 0 0 10px;
 }
 
 .quitaEspaciadoSuperior {
