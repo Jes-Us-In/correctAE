@@ -68,10 +68,12 @@ public class DialogoVerTest extends javax.swing.JDialog {
     }
 
     private void InicializarFormulario() {
-        // Establezco los máximos de ancho y alto
-        this.setMaximumSize(new Dimension(this.getWidth(), Procesador.getAltoPantalla() - 50));
+        // Coloco el formulario en el centro de la pantalla tamaño vertical máximo
+        // que permita la pantalla
+        this.setSize(new Dimension(this.getWidth(), Procesador.getAltoPantalla() - 50));
         // Coloco el formulario en el centro de la pantalla
         Procesador.Centrame(this);
+        this.setLocation(this.getLocation().x, 5);
     }
 
     private void cargarImagen(File fichero) {
