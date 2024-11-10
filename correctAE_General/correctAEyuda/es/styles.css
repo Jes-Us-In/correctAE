@@ -114,7 +114,6 @@ menu a.active {
 .footer {
 	font-family: "Noto Sans",Helvetica,Arial,sans-serif;
 	display: flex;
-	padding: 1em;
 	background: linear-gradient(to top, white,#e6dedef0);
 	margin-top: auto;
 	border-top: 1px solid #ccc;
@@ -122,7 +121,7 @@ menu a.active {
 	position: fixed;
 	bottom: 0;
 	left: 2%;
-	width: 95%;
+	width: 96%;
 }
 
 .logoPie {
