@@ -21,13 +21,18 @@ package main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Point;
+import java.io.File;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
+import main.estilos.CeldasTablaEstad;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -86,14 +91,12 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
 
     private void InicializarFormulario(int[][] estad) {
         JTableHeader cabecera;
-        DefaultTableCellRenderer renCent = new DefaultTableCellRenderer();
         float porciento;
         String valorTxt, respCorrecta;
+        Set<Point> celdasNegritas = new HashSet<>();
         int indiceRespCorrec;
-
+        
         // Establezco los máximos de ancho y alto
-        log.info("Alto pantalla = " + Procesador.getAltoPantalla());
-        log.info("Alto diálogo = " + this.getHeight());
         if (this.getWidth() > Procesador.getAnchoPantalla()) {
             this.setSize(new Dimension(Procesador.getAnchoPantalla() - 25, this.getHeight()));
         }
@@ -103,26 +106,41 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
         // Coloco el formulario en el centro de la pantalla
         Procesador.Centrame(this);
         this.setLocation(this.getLocation().x, 5);
-
+        //
         tablaEstadisPreg.setModel(modeloEstadisPreg);
+        //
+        // Formateo la cabecera
+        cabecera = tablaEstadisPreg.getTableHeader();
+        cabecera.setDefaultRenderer(new main.estilos.RenderCabeceraTablas_AlineaCentro(tablaEstadisPreg));
+        cabecera.setFont(tablaEstadisPreg.getTableHeader().getFont().deriveFont(Font.BOLD));
+        TableColumnModel modelCol = tablaEstadisPreg.getColumnModel();
+        // Pongo los anchos preferidos y centrado el contenido
+        modelCol.getColumn(0).setPreferredWidth(80);
+        modelCol.getColumn(0).setCellRenderer(tablaEstadisPreg.getTableHeader().getDefaultRenderer());
+        for (int i = 1; i < modelCol.getColumnCount(); i++) {
+            if (i < 5) {
+                modelCol.getColumn(i).setPreferredWidth(60);
+            } else {
+                modelCol.getColumn(i).setPreferredWidth(20);
+            }
+        }
         for (int fil = 0; fil < Config.getNumPreguntas(); fil++) {
             // Num pregunta, aciertos, fallos, blancos, dobles, A, B, C, D y E
             Object[] fila;
-
             // Respuesta correcta segun la equivalencia respecto al tipo Maestro
             respCorrecta = Procesador.getModeloRespTipos().getValueAt(fil, 1).toString();
             // Si está anulada no pongo nada
             if (respCorrecta.contains(idioma.getString("DialogoTipos.Anular.text"))) {
                 fila = new Object[]{fil + 1,
-                    "<html><strong>".concat(idioma.getString("DialogoTipos.Anular.text")).concat("</strong></html>"),
-                    "<html><strong>".concat(idioma.getString("DialogoTipos.Anular.text")).concat("</strong></html>"),
-                    "<html><strong>".concat(idioma.getString("DialogoTipos.Anular.text")).concat("</strong></html>"),
-                    "<html><strong>".concat(idioma.getString("DialogoTipos.Anular.text")).concat("</strong></html>"),
-                    "<html><strong>".concat(idioma.getString("DialogoTipos.Anular.text")).concat("</strong></html>"),
-                    "<html><strong>".concat(idioma.getString("DialogoTipos.Anular.text")).concat("</strong></html>"),
-                    "<html><strong>".concat(idioma.getString("DialogoTipos.Anular.text")).concat("</strong></html>"),
-                    "<html><strong>".concat(idioma.getString("DialogoTipos.Anular.text")).concat("</strong></html>"),
-                    "<html><strong>".concat(idioma.getString("DialogoTipos.Anular.text")).concat("</strong></html>")};
+                    idioma.getString("DialogoTipos.Anular.text"), idioma.getString("DialogoTipos.Anular.text"),
+                    idioma.getString("DialogoTipos.Anular.text"), idioma.getString("DialogoTipos.Anular.text"),
+                    idioma.getString("DialogoTipos.Anular.text"), idioma.getString("DialogoTipos.Anular.text"),
+                    idioma.getString("DialogoTipos.Anular.text"), idioma.getString("DialogoTipos.Anular.text"),
+                    idioma.getString("DialogoTipos.Anular.text")};
+                // Guardo las posiciones para poner las celdas en negrita
+                for (int i = 1; i < modelCol.getColumnCount(); i++) {
+                    celdasNegritas.add(new Point(fil, i));
+                }
             } else {
                 fila = new Object[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
                 indiceRespCorrec = "ABCDE".indexOf(respCorrecta) + 5;
@@ -131,36 +149,19 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
                 // Pongo los valores absolutos y el porcentaje respecto al todal de alumnos, tests. Si es 0 no pongo 0 en lugar de 0%
                 for (int col = 1; col < fila.length; col++) {
                     porciento = ((float) estad[fil][col - 1] / Procesador.modeloTablaTestsCorregidos.getRowCount()) * 100;
-                    //valorTxt = estad[fil][col - 1] == 0 ? "0" : String.format("%d - %.1f%%", estad[fil][col - 1], porciento);
                     valorTxt = estad[fil][col - 1] == 0 ? "0" : String.format("%.1f%%", porciento);
-                    // Si es la respuesta correcta, pongo en Negrita los datos
-                    fila[col] = col == indiceRespCorrec ? "<html><strong>".concat(valorTxt).concat("</strong></html>") : valorTxt;
+                    fila[col] = valorTxt;
+                    if(col == indiceRespCorrec) {
+                        // Si es la respuesta correcta, pongo en Negrita los datos
+                        celdasNegritas.add(new Point(fil, col));
+                    }
                 }
             }
             modeloEstadisPreg.addRow(fila);
             // Asocio un evento de teclado F1 para lanzar la ayuda
             Procesador.asociaAyudaF1(btnAyuda, Config.getRutaAyudaEstadisticas());
         }
-        //
-        // Formateo la cabecera
-        cabecera = tablaEstadisPreg.getTableHeader();
-        cabecera.setDefaultRenderer(new main.estilos.RenderCabeceraTablas_AlineaCentro(tablaEstadisPreg));
-        cabecera.setFont(tablaEstadisPreg.getTableHeader().getFont().deriveFont(Font.BOLD));
-
-        TableColumnModel modelCol = tablaEstadisPreg.getColumnModel();
-        renCent.setHorizontalAlignment(SwingConstants.CENTER);
-        // Pongo los anchos preferidos y centrado el contenido
-        modelCol.getColumn(0).setPreferredWidth(80);
-        modelCol.getColumn(0).setCellRenderer(renCent);
-        modelCol.getColumn(0).setCellRenderer(tablaEstadisPreg.getTableHeader().getDefaultRenderer());
-        for (int i = 1; i < modelCol.getColumnCount(); i++) {
-            modelCol.getColumn(i).setCellRenderer(renCent);
-            if (i < 5) {
-                modelCol.getColumn(i).setPreferredWidth(60);
-            } else {
-                modelCol.getColumn(i).setPreferredWidth(20);
-            }
-        }
+        tablaEstadisPreg.setDefaultRenderer(Object.class, new CeldasTablaEstad(Config.FUENTE_NORMAL, celdasNegritas));
     }
 
     private void ponGraficos(int totalTests, int[] aprSus, int[] estadNotas) {
@@ -249,6 +250,40 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
         return chart;
     }
 
+    private void exportarTablaEstadisticas() {
+        // Guardo en un archivo csv
+        // Guardo primero los cambios en la estructura, si los hubo. Si es correcto guardo el fichero
+
+        if (tablaEstadisPreg.getRowCount() > 0) {
+            DialogoCarpertaFichero SelectorFichero = new DialogoCarpertaFichero();  // false indica que quiero seleccionar ficheros
+            SelectorFichero.setDialogType(JFileChooser.SAVE_DIALOG);
+            SelectorFichero.setFileSelectionMode(JFileChooser.FILES_ONLY); // Para que elija carpeta en lugar de ficheros individuales
+            SelectorFichero.setDialogTitle(idioma.getString("FileChooser.Fichero.title"));
+            SelectorFichero.setCurrentDirectory(new File(Config.getCarpetaArchivosTests()));
+
+            String[] extensions = {"csv", "txt"};
+            SelectorFichero.setFileFilter(new FileNameExtensionFilter("CSV FILES", extensions));
+            SelectorFichero.setSelectedFile(new File(Config.getRutaUltimaImagen()));
+            // Compruevo y ajusto la escala si es necesario
+            int resultado = SelectorFichero.showSaveDialog(this);
+            if (resultado == DialogoCarpertaFichero.APPROVE_OPTION) {
+                // Actualizo en Config la última ruta
+                Config.setCarpetaArchivosTests(SelectorFichero.getSelectedFile().getAbsolutePath());
+                String[] mensajes = Procesador.exportarCSV(SelectorFichero.getSelectedFile(), (DefaultTableModel) tablaEstadisPreg.getModel());
+                // Si hay algún mensaje, lo muestro
+                if (!"".equals(mensajes[0])) {
+                    // Hubo un error u otro mensaje
+                    JOptionPane.showOptionDialog(this.getContentPane(), idioma.getString(mensajes[0]), idioma.getString(mensajes[1]),
+                            JOptionPane.NO_OPTION, Integer.parseInt(mensajes[2]), null, Config.OPCION_ACEPTAR, null);
+                }
+            }
+        } else {
+            JOptionPane.showOptionDialog(this.getContentPane(), idioma.getString("DialogoEvaluar.tablaVacia.text"), idioma.getString("Atencion.text"),
+                    JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE, null, Config.OPCION_ACEPTAR,
+                    null);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -264,6 +299,7 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaEstadisPreg = new javax.swing.JTable();
         panelAyuda = new javax.swing.JPanel();
+        btnExportarEstadisticas = new javax.swing.JButton();
         btnAyuda = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -277,6 +313,7 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
 
         panelEstadisPreg.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        tablaEstadisPreg.setFont(Config.FUENTE_NORMAL);
         tablaEstadisPreg.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -304,7 +341,16 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        btnExportarEstadisticas.setFont(Config.FUENTE_NORMAL);
+        btnExportarEstadisticas.setText(bundle.getString("DialogoEstadisticas.btnExportarEstadisticas.text")); // NOI18N
+        btnExportarEstadisticas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarEstadisticasActionPerformed(evt);
+            }
+        });
+
         btnAyuda.setBackground(new java.awt.Color(61, 117, 105));
+        btnAyuda.setFont(Config.FUENTE_NORMAL);
         btnAyuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/Azul_ayuda_chic.png"))); // NOI18N
         btnAyuda.setToolTipText(bundle.getString("DialogoEstadisticas.btnAyuda.toolTipText")); // NOI18N
         btnAyuda.setBorder(null);
@@ -321,21 +367,21 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
         panelAyuda.setLayout(panelAyudaLayout);
         panelAyudaLayout.setHorizontalGroup(
             panelAyudaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 38, Short.MAX_VALUE)
-            .addGroup(panelAyudaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelAyudaLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(btnAyuda)
-                    .addContainerGap()))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAyudaLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnExportarEstadisticas)
+                .addGap(18, 18, 18)
+                .addComponent(btnAyuda)
+                .addContainerGap())
         );
         panelAyudaLayout.setVerticalGroup(
             panelAyudaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 38, Short.MAX_VALUE)
-            .addGroup(panelAyudaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelAyudaLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(btnAyuda)
-                    .addContainerGap()))
+            .addGroup(panelAyudaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelAyudaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnAyuda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnExportarEstadisticas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -345,7 +391,7 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(panelAyuda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
@@ -379,9 +425,15 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnAyudaActionPerformed
 
+    private void btnExportarEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarEstadisticasActionPerformed
+        // Exporto la tabla de estadística a un fichero csv
+        exportarTablaEstadisticas();
+    }//GEN-LAST:event_btnExportarEstadisticasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAyuda;
+    private javax.swing.JButton btnExportarEstadisticas;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel panelAyuda;
