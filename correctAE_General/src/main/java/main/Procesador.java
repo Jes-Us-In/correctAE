@@ -517,27 +517,34 @@ public class Procesador {
         String error = "";
 
         try {
-            // Compruebo que está soportado
-            if (Desktop.isDesktopSupported()) {
-                dt = Desktop.getDesktop();
-                // Lanzo el navegador con la ruta del fichero de ayuda
-                if (dt.isSupported(Desktop.Action.BROWSE)) {
-                    URI lauri = new URI(ruta);
-                    EventQueue.invokeLater(() -> {
-                        try {
-                            Desktop.getDesktop().browse(lauri);
-                        } catch (IOException ex) {
-                            log.error(ex.getLocalizedMessage());
-                        }
-                    });
-                } else {
-                    error = idioma.getString("VentanaInicio.errorNavegador.text");
+            if (System.getProperty("os.name").contains("Linux")) {
+                // En Linux no funciona getDesktop().browse(lauri), hay que hacerlo
+                // así, al menos en Ubuntu y familia
+                Runtime.getRuntime().exec(new String[]{"xdg-open", ruta});
+            } else {
+                // Compruebo que está soportado
+                if (Desktop.isDesktopSupported()) {
+                    dt = Desktop.getDesktop();
+                    // Lanzo el navegador con la ruta del fichero de ayuda
+                    if (dt.isSupported(Desktop.Action.BROWSE)) {
+                        URI lauri = new URI(ruta);
+                        EventQueue.invokeLater(() -> {
+                            try {
+                                Desktop.getDesktop().browse(lauri);
+                            } catch (IOException ex) {
+                                log.error(ex.getLocalizedMessage());
+                            }
+                        });
+                    } else {
+                        error = idioma.getString("VentanaInicio.errorNavegador.text");
+                    }
                 }
             }
-        } catch (URISyntaxException ex) {
+        } catch (URISyntaxException | IOException ex) {
             log.error(ex.getLocalizedMessage());
             error = ex.getLocalizedMessage();
         }
+
         return error;
     }
 
