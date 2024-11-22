@@ -506,8 +506,6 @@ public class VentanaInicio extends javax.swing.JFrame {
         @Override
         protected Boolean doInBackground() throws Exception {
             for (File fichero : fiches) {
-                //System.out.println(fichero.getName());
-                //log.info(fichero.getName());
                 // Cargo un nuevo Test Principal.TestActual
                 // Si hay un error en el proceso, lo muestro y pregunto si quiere seguir
                 if (!Procesador.leerTest(fichero)) {

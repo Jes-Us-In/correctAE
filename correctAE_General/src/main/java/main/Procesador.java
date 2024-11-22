@@ -1203,26 +1203,9 @@ public class Procesador {
                 }
             }
         }
-//        Graphics2D g2d = imag.createGraphics();
-//        g2d.setColor(Color.white);
-//        g2d.fillRect(0, 0, Config.MARGEN_HOJA_RECORTAR, img.getHeight()); // Margen Izquierdo
-//        g2d.fillRect(0, 0, img.getWidth(), Config.MARGEN_HOJA_RECORTAR); // Margen Superior
-//        g2d.fillRect(img.getWidth() - Config.MARGEN_HOJA_RECORTAR, 0, img.getWidth(), img.getHeight()); // Margen Derecho
-//        g2d.fillRect(0, img.getHeight() - Config.MARGEN_HOJA_RECORTAR, img.getWidth(), img.getHeight()); // Margen Inferior
-//        g2d.dispose();
         return imag;
     }
 
-//    static public BufferedImage cambiaTamano(BufferedImage imagen, int ancho, int alto) {
-//        // Reescalo a un tamaño de 1000 x 1415, está definido en Principal
-//        //BufferedImage unaImagen = new BufferedImage(ancho, alto, imagen.getType());
-//        BufferedImage unaImagen = new BufferedImage(ancho, alto, BufferedImage.TYPE_BYTE_GRAY);
-//        //= new BufferedImage(0, 0, BufferedImage.TYPE_BYTE_GRAY);
-//        Graphics2D g2d = unaImagen.createGraphics();
-//        g2d.drawImage(imagen, 0, 0, ancho, alto, null);
-//        g2d.dispose();
-//        return unaImagen;
-//    }
     // Hago un cambio de escala progresivo, que da más calidad
     //
     public static BufferedImage cambiaTamano(BufferedImage imagenOriginal, Integer ladoLargo) {
@@ -1291,8 +1274,6 @@ public class Procesador {
         for (int x = 0; x < img.getWidth(); x++) {
             for (int y = 0; y < img.getHeight(); y++) {
                 queColor = new Color(img.getRGB(x, y));
-                //respMedia = respMedia + ((queColor.getRed() + queColor.getGreen() + queColor.getBlue()) / 3);
-                //nivelGris = nivelGris + ((int)(0.2126*queColor.getRed() + 0.7152*queColor.getGreen() + 0.0722*queColor.getBlue()) / 3);
                 // Como es en escala de grises, los tres colores tienen el mismo valor
                 nivelGris += queColor.getRed();
             }
@@ -1309,7 +1290,9 @@ public class Procesador {
      * @return Una lista con las casillas marcadas
      */
     static public List<Casilla> analizar(BufferedImage img, ModeloTest100 elTest) {
-        // Analiza el brillo alrededor de la coordenada (ésta es el centro), en un área cuadrada del ancho definido en Principal.anchoMarcasRespuesta
+        /* Analiza el brillo alrededor de la coordenada (ésta es el centro), en 
+         * un área cuadrada del ancho definido en Principal.anchoMarcasRespuesta
+        */
         List<Casilla> marcas = new ArrayList<>();
 
         int brilloResp;
@@ -1317,7 +1300,8 @@ public class Procesador {
         if (img != null) {
             for (Casilla pun : getCasillasTest()) {
                 try {
-                    BufferedImage resp = img.getSubimage(pun.getCoordX() - mitadAncho, pun.getCoordY() - mitadAncho, Config.getAnchoMarcasRespuesta(), Config.getAnchoMarcasRespuesta());
+                    BufferedImage resp = img.getSubimage(pun.getCoordX() - mitadAncho, pun.getCoordY() -
+                            mitadAncho, Config.getAnchoMarcasRespuesta(), Config.getAnchoMarcasRespuesta());
                     brilloResp = brilloRespuesta(resp);
                     // Guardo la coordenada original, el centro del cuadrado
                     if (brilloResp < Config.getUmbralDeteccionMarca()) {
