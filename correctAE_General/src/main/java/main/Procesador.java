@@ -117,7 +117,7 @@ public class Procesador {
         BaseDatos.InicializarBaseDatos();
         return true;
     }
-
+ 
     /**
      *
      * @param boton Boton de ayuda al que asociar el evento de teclado F1

@@ -602,16 +602,16 @@ public class DialogoConfiguracion extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAyudaActionPerformed
 
     private void ValoresDefecto() {
-        valorUmbralEsquinas.setText("210");
-        Config.setUmbralDeteccionEsquina(210);
-        valorUmbralMarcas.setText("245");
-        Config.setUmbralDeteccionMarca(245);
-        anchoRangoZonaEsquinas.setText("80");
-        Config.setAnchoMarcasRespuesta(80);
-        anchoMarcasRespuestaSlider.setValue(7);
-        margenSuperiorSlider.setValue(0);
-        margenIzquierdoSlider.setValue(0);
-        margenDerechoSlider.setValue(0);
+        // Restauro los valores de configuración por defecto
+        Config.ValoresConfiguracionDefecto();
+        //
+        valorUmbralEsquinas.setText(String.valueOf(Config.getUmbralDeteccionEsquina()));
+        valorUmbralMarcas.setText(String.valueOf(Config.getUmbralDeteccionMarca()));
+        anchoRangoZonaEsquinas.setText(String.valueOf(Config.getRangoBusquedaEsquinas()));
+        anchoMarcasRespuestaSlider.setValue(Config.getAnchoMarcasRespuesta());
+        margenSuperiorSlider.setValue(Config.getMargenSuperiorHojaRecortar());
+        margenIzquierdoSlider.setValue(Config.getMargenIzquierdoHojaRecortar());
+        margenDerechoSlider.setValue(Config.getMargenDerechoHojaRecortar());
     }
 
     private int actualizaSlider(javax.swing.event.ChangeEvent evt, JLabel etiq) {

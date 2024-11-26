@@ -291,6 +291,30 @@ public class Config {
         grosorCirculoMarca = valor;
     }
 
+    // Ancho de detección de las marcas de respuestas
+    private static int anchoMarcasRespuesta = 10; // de 5 a 10
+
+    public static int getAnchoMarcasRespuesta() {
+        return anchoMarcasRespuesta;
+    }
+
+    public static void setAnchoMarcasRespuesta(int valor) {
+        anchoMarcasRespuesta = valor;
+    }
+
+    /**
+     * Restaura los valores por defecto de la configuración
+     */
+    public static void ValoresConfiguracionDefecto() {
+        setUmbralDeteccionEsquina(210);
+        setUmbralDeteccionMarca(245);
+        setAnchoMarcasRespuesta(80);
+        setMargenDerechoHojaRecortar(0);
+        setMargenIzquierdoHojaRecortar(0);
+        setMargenSuperiorHojaRecortar(0);
+    }
+    
+    
     private static final int LIMITE_NEGRO_MARGEN = 150; // Valor por defecto
 
     /**
@@ -310,17 +334,7 @@ public class Config {
     public static int MARGEN_HOJA_RECORTAR = 30;
     public static final int ANCHO_CAJA = 16;
 
-    // Ancho de detección de las marcas de respuestas
-    private static int anchoMarcasRespuesta = 10; // de 5 a 10
-
-    public static int getAnchoMarcasRespuesta() {
-        return anchoMarcasRespuesta;
-    }
-
-    public static void setAnchoMarcasRespuesta(int valor) {
-        anchoMarcasRespuesta = valor;
-    }
-
+    
     // Margen superior a recortar
     private static int margenSuperiorHojaRecortar = 0;
 
