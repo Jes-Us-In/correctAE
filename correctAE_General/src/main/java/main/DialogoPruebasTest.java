@@ -184,6 +184,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
         btnGuardaResultados = new javax.swing.JButton();
         btnRecargarImagen = new javax.swing.JButton();
         btnProbarAlineacion = new javax.swing.JButton();
+        btnRecortaImagen = new javax.swing.JButton();
         panelEdicionPlantilla = new javax.swing.JPanel();
         chkSeleccionador = new javax.swing.JCheckBox();
         chkSeleccionarColumna = new javax.swing.JCheckBox();
@@ -345,6 +346,14 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
             }
         });
 
+        btnRecortaImagen.setFont(Config.FUENTE_NORMAL);
+        btnRecortaImagen.setText(bundle.getString("DialogoPruebasTest.btnRecortaImagen.text")); // NOI18N
+        btnRecortaImagen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecortaImagenActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelBotonesLayout = new javax.swing.GroupLayout(panelBotones);
         panelBotones.setLayout(panelBotonesLayout);
         panelBotonesLayout.setHorizontalGroup(
@@ -354,13 +363,15 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
                 .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnGuardaResultados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelBotonesLayout.createSequentialGroup()
-                        .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnProbarAlineacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAnalizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnRecargarImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnCorrigeImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(btnProbarAlineacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRecargarImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelBotonesLayout.createSequentialGroup()
+                        .addComponent(btnAnalizar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCorrigeImagen)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRecortaImagen)))
                 .addGap(10, 10, 10))
         );
         panelBotonesLayout.setVerticalGroup(
@@ -369,7 +380,8 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAnalizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCorrigeImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCorrigeImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRecortaImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnRecargarImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -899,6 +911,26 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnAyudaActionPerformed
 
+    private void btnRecortaImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecortaImagenActionPerformed
+        // Recorta la imagen según los valores de la configuración
+        if (Procesador.getImagenTest() != null) {
+            try {
+                Procesador.setImagenTest(Procesador.recortarMargenes(Procesador.getImagenTest()));
+                etqLaImagen.setIcon(new ImageIcon(Procesador.getImagenTest()));
+                imagenCorredida = true;
+                repaint();
+            } catch (NullPointerException ex) {
+                JOptionPane.showOptionDialog(rootPane, idioma.getString("VENTANAPRUEBASTESTS.ERROR_EN_FICHERO.TEXT") + " - " + Procesador.getTestActual().getNombreArchivo(),
+                        idioma.getString("VENTANAPRUEBASTESTS.btnAnalizar.TITULO_ERROR.TEXT"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+            } catch (RasterFormatException ex) {
+                log.error("Error en Procesador.corrigeImagen. Fuera de límites.\n" + ex.getMessage());
+            }
+        } else {
+            JOptionPane.showOptionDialog(rootPane, idioma.getString("VENTANAPRUEBASTESTS.btnAnalizar.ERROR_SIN_IMAGEN_O_LIMITE.TEXT"),
+                    idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+        }
+    }//GEN-LAST:event_btnRecortaImagenActionPerformed
+
     // Desleccionar todas las casillas
     private void deseleccionarCasillas() {
         for (JCheckBox unaCaja : lasCajas) {
@@ -1069,6 +1101,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
     private javax.swing.JButton btnProbarAlineacion;
     private javax.swing.JButton btnQuitarSeleccion;
     private javax.swing.JButton btnRecargarImagen;
+    private javax.swing.JButton btnRecortaImagen;
     private javax.swing.JMenuItem buscarEsquinas;
     private javax.swing.JCheckBox chkSeleccionador;
     private javax.swing.JCheckBox chkSeleccionarColumna;

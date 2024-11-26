@@ -1036,6 +1036,20 @@ public class Procesador {
 
     /**
      *
+     * @param img imagen original
+     * @return imagen recortada según la configuración
+     * @throws RasterFormatException
+     */
+    static public BufferedImage recortarMargenes(BufferedImage img) throws RasterFormatException {
+        // Devuelvo la imagen recortada entre los puntos de coordenada
+        return img.getSubimage(Config.getMargenIzquierdoHojaRecortar(), Config.getMargenSuperiorHojaRecortar(), 
+                img.getWidth() - Config.getMargenDerechoHojaRecortar() - Config.getMargenIzquierdoHojaRecortar(), 
+                img.getHeight() - Config.getMargenSuperiorHojaRecortar());
+    }
+    
+    
+    /**
+     *
      * @param img
      * @param esquinasImagen
      * @return
