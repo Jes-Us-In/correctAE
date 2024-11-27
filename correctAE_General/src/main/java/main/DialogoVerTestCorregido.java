@@ -411,9 +411,18 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
     private void actualizaCambios() {
         // Actualizo los datos del test y activo la bandera de cambios.
         // El campo num, no lo cambio, ni la corrección, sólo nif, tipo, grupo y respuestas.
+        String valores1a6 = "?123456";
         test.put("nif", campoNIF.getText());
-        test.put("tipo", "?123456".substring(comboTipo.getSelectedIndex(), comboTipo.getSelectedIndex() + 1));
-        test.put("grupo", "?123456".substring(comboGrupo.getSelectedIndex(), comboGrupo.getSelectedIndex() + 1));
+        if (comboTipo.getSelectedIndex() >= 0 && comboTipo.getSelectedIndex() < valores1a6.length()) {
+            test.put("tipo", valores1a6.substring(comboTipo.getSelectedIndex(), comboTipo.getSelectedIndex() + 1));
+        } else {
+            test.put("tipo", " ");
+        }
+        if (comboGrupo.getSelectedIndex() >= 0 && comboGrupo.getSelectedIndex() < valores1a6.length()) {
+            test.put("grupo", valores1a6.substring(comboGrupo.getSelectedIndex(), comboGrupo.getSelectedIndex() + 1));
+        } else {
+            test.put("grupo", " ");
+        }
         StringBuilder respuestas = new StringBuilder();
         DefaultTableModel modelo = (DefaultTableModel) tablaRespuestas.getModel();
         int posicion, suma;
