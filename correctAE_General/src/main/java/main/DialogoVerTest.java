@@ -16,13 +16,16 @@
  *
  * SPDX-License-Identifier: GPL-3.0
  */
-
 package main;
 
+import java.awt.AWTEvent;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
+import java.awt.event.AWTEventListener;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
@@ -40,23 +43,28 @@ public class DialogoVerTest extends javax.swing.JDialog {
     protected Loguero log = Procesador.getLog();
     ResourceBundle idioma = Procesador.idioma;
     List<Casilla> casillasMarcadas;
+    int indiceActual;
+    // Para escucher los eventos de teclado
+    AWTEventListener flechasListener;
 
     /**
      * Creates new form DialogoVerTest
      *
      * @param parent Padre del diálogo
      * @param modal Si es modal o no
-     * @param fichero Fichero que contiene el archivo de imagen del test
-     * @param casillasM Lista de casillas marcadas
+     * @param indiceTablatestLeidos Indice de la tabla actual
      */
-    public DialogoVerTest(java.awt.Frame parent, boolean modal, File fichero, List<Casilla> casillasM) {
+    //public DialogoVerTest(java.awt.Frame parent, boolean modal, File fichero, List<Casilla> casillasM) {
+    public DialogoVerTest(java.awt.Frame parent, boolean modal, int indiceTablatestLeidos) {
         super(parent, modal);
         initComponents();
         InicializarFormulario();
+        indiceActual = indiceTablatestLeidos;
         // En la llamada ya se ha comprobado que existe el fichero, pero puede fallar la carga
-        this.casillasMarcadas = casillasM;
+        this.casillasMarcadas = Procesador.listaTestsLeidos.get(indiceActual).getCasillasMarcadas();
         try {
             // Obtengo el numero de fila seleccionado en la tabla de test del padre para acceder al test de la lista de Tests en la clase Principal
+            File fichero = new File(Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo());
             this.setTitle("TEST " + fichero.getName());
             cargarImagen(fichero);
         } catch (Exception ex) {
@@ -74,6 +82,28 @@ public class DialogoVerTest extends javax.swing.JDialog {
         // Coloco el formulario en el centro de la pantalla
         Procesador.Centrame(this);
         this.setLocation(this.getLocation().x, 5);
+
+        // Escucho los eventos de teclado para avanzar y retroceder en la tabla de test
+        //
+        this.flechasListener = (AWTEvent event) -> {
+            // Como se usa la máscara AWTEvent.KEY_EVENT_MASK nunca va a fallar
+            KeyEvent keyEvent = (KeyEvent) event;
+            // Al soltar la tecla, evaluo cual es
+            if (keyEvent.getID() == KeyEvent.KEY_RELEASED) {
+                // Si está activa el check, al pulsar las flechas muevo las casillas
+                switch (keyEvent.getKeyCode()) {
+                    case KeyEvent.VK_LEFT:
+                        btnAnteriorActionPerformed(new java.awt.event.ActionEvent(event, 1, "anterior"));
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        btnSiguienteActionPerformed(new java.awt.event.ActionEvent(event, 1, "siguiente"));
+                        break;
+                }
+            }
+        };
+        // Escucho los eventos globales. Con la máscara de sólo eventos de teclado
+        Toolkit.getDefaultToolkit().addAWTEventListener(flechasListener, AWTEvent.KEY_EVENT_MASK);
+
     }
 
     private void cargarImagen(File fichero) {
@@ -84,7 +114,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
         imagenTest = Procesador.imagenCorregida();
         if (imagenTest != null && fichero != null) {
             if (casillasMarcadas != null) {
-                Graphics2D g = imagenTest.createGraphics();// .getGraphics();
+                Graphics2D g = imagenTest.createGraphics();
                 g.setColor(Color.RED);
                 g.setStroke(new BasicStroke(Config.getGrosorCirculoMarca()));
                 for (Casilla unPunto : casillasMarcadas) {
@@ -130,44 +160,133 @@ public class DialogoVerTest extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        rutaArchivo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         laImagen = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        rutaArchivo = new javax.swing.JLabel();
+        btnAnterior = new javax.swing.JButton();
+        btnSiguiente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(950, 1200));
+
+        jScrollPane1.setViewportView(laImagen);
 
         rutaArchivo.setFont(Config.FUENTE_NORMAL);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("propiedades/Idioma"); // NOI18N
         rutaArchivo.setText(bundle.getString("DialogoVerTest.rutaArchivo.text")); // NOI18N
 
-        jScrollPane1.setViewportView(laImagen);
+        btnAnterior.setFont(Config.FUENTE_NORMAL);
+        btnAnterior.setText(bundle.getString("DialogoVerTest.btnAnterior.text")); // NOI18N
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnteriorActionPerformed(evt);
+            }
+        });
+
+        btnSiguiente.setFont(Config.FUENTE_NORMAL);
+        btnSiguiente.setText(bundle.getString("DialogoVerTest.btnSiguiente.text")); // NOI18N
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(rutaArchivo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 654, Short.MAX_VALUE)
+                .addComponent(btnAnterior)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSiguiente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rutaArchivo)
+                    .addComponent(btnAnterior)
+                    .addComponent(btnSiguiente))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 930, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(rutaArchivo)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addGap(12, 12, 12))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 811, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 792, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(rutaArchivo)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        // Cargo el test siguiente, compruebo que exista el fichero
+
+        if (indiceActual < Procesador.listaTestsLeidos.size() - 1) {
+            indiceActual++;
+            this.casillasMarcadas = Procesador.listaTestsLeidos.get(indiceActual).getCasillasMarcadas();
+            try {
+                String fichi = Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo();
+                File fich = new File(fichi);
+                if (fich.exists()) {
+                    // Obtengo el numero de fila seleccionado en la tabla de test del padre para acceder al test de la lista de Tests del modelo
+                    File fichero = new File(Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo());
+                    this.setTitle("TEST " + fichero.getName());
+                    cargarImagen(fichero);
+                }
+            } catch (Exception ex) {
+                log.info(idioma.getString("DialogoVerTest.noExiste.text"));
+                this.dispose();
+                JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerTest.noExiste.text"), idioma.getString("Error.text"),
+                        JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+            }
+        }
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        // Cargo el test anterior, compruebo que exista el fichero
+
+        if (indiceActual > 0) {
+            indiceActual--;
+            this.casillasMarcadas = Procesador.listaTestsLeidos.get(indiceActual).getCasillasMarcadas();
+            try {
+                String fichi = Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo();
+                File fich = new File(fichi);
+                if (fich.exists()) {
+                    // Obtengo el numero de fila seleccionado en la tabla de test del padre para acceder al test de la lista de Tests del modelo
+                    File fichero = new File(Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo());
+                    this.setTitle("TEST " + fichero.getName());
+                    cargarImagen(fichero);
+                }
+            } catch (Exception ex) {
+                log.info(idioma.getString("DialogoVerTest.noExiste.text"));
+                this.dispose();
+                JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerTest.noExiste.text"), idioma.getString("Error.text"),
+                        JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+            }
+        }
+    }//GEN-LAST:event_btnAnteriorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -197,19 +316,22 @@ public class DialogoVerTest extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(() -> {
-            DialogoVerTest dialog = new DialogoVerTest(new javax.swing.JFrame(), true, null, null);
-            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                @Override
-                public void windowClosing(java.awt.event.WindowEvent e) {
-                    System.exit(0);
-                }
-            });
-            dialog.setVisible(true);
-        });
+//        java.awt.EventQueue.invokeLater(() -> {
+//            DialogoVerTest dialog = new DialogoVerTest(new javax.swing.JFrame(), true, null, null);
+//            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                @Override
+//                public void windowClosing(java.awt.event.WindowEvent e) {
+//                    System.exit(0);
+//                }
+//            });
+//            dialog.setVisible(true);
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAnterior;
+    private javax.swing.JButton btnSiguiente;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel laImagen;
     private javax.swing.JLabel rutaArchivo;

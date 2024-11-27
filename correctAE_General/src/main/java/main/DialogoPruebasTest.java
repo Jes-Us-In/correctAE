@@ -52,7 +52,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class DialogoPruebasTest extends javax.swing.JDialog {
 
-    // Para escucher los eventos de teclado
+    // Para escucher los eventos de teclado y raton
     AWTEventListener flechasListener;
     AWTEventListener dragListener;
 

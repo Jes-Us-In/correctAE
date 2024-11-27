@@ -111,12 +111,13 @@ public class VentanaInicio extends javax.swing.JFrame {
                     // Cargo el archivo de imagen del test seleccionado
                     try {
                         // En la última columna de la tabla está el nombre del fichero con el path completo
-                        String fichi = (String) tablaTests.getValueAt(tablaTests.getSelectedRow(), tablaTests.getColumnCount() - 1);
-                        //System.out.println("El fichero a leer es : " + fichi);
+                        //String fichi = (String) tablaTests.getValueAt(tablaTests.getSelectedRow(), tablaTests.getColumnCount() - 1);
+                        String fichi = Procesador.listaTestsLeidos.get(tablaTests.getSelectedRow()).getNombreArchivo();
                         File fich = new File(fichi);
                         if (fich.exists()) {
                             // Paso al Diálogo, ademaás del padre y el boolean, NO es modal, el fichero, que ya se que existe, y las casillas marcadas de dicho test
-                            DialogoVerTest ventaTest = new DialogoVerTest(pasoPadre, false, fich, Procesador.listaTestsLeidos.get(tablaTests.getSelectedRow()).getCasillasMarcadas()); // permito abrir varios tests
+                            //DialogoVerTest ventaTest = new DialogoVerTest(pasoPadre, false, fich, Procesador.listaTestsLeidos.get(tablaTests.getSelectedRow()).getCasillasMarcadas()); // permito abrir varios tests
+                            DialogoVerTest ventaTest = new DialogoVerTest(pasoPadre, false, tablaTests.getSelectedRow()); // permito abrir varios tests
                             ventaTest.setVisible(true);
                         } else {
                             JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerTest.noExiste.text") + ": " + fich.getCanonicalPath(),
