@@ -213,14 +213,19 @@ public class Config {
         return ficheroCasillasTest;
     }
 
+    // Fichero que contiene las casillas del modelo de test, sus coordenadas
+    public static String ficheroCasillasTestInicial = "main/casillasTest100_inicial.csv";
+
     /**
-     * Set the value of ficheroCasillasTest
+     * Get the value of ficheroCasillasTestInicial
      *
-     * @param ficheroCasillasTest new value of ficheroCasillasTest
+     * @return the value of ficheroCasillasTestInicial
      */
-    public static void setFicheroCasillasTest(String ficheroCasillasTest) {
-        Config.ficheroCasillasTest = ficheroCasillasTest;
+    public static String getFicheroCasillasTestInicial() {
+        return ficheroCasillasTestInicial;
     }
+    
+    
 
     public static Casilla[][] esquinasZona = new Casilla[4][2]; // Cuadrados de búsqueda de las esquinas
 

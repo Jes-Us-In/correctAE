@@ -210,6 +210,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
         modificarPlantilla = new javax.swing.JMenu();
         menuEditandoPlantila = new javax.swing.JCheckBoxMenuItem();
         menuGuardarPlantilla = new javax.swing.JMenuItem();
+        menuRestaurarPlantilla = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("propiedades/Idioma"); // NOI18N
@@ -638,6 +639,15 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
         });
         modificarPlantilla.add(menuGuardarPlantilla);
 
+        menuRestaurarPlantilla.setFont(Config.FUENTE_NORMAL);
+        menuRestaurarPlantilla.setText(bundle.getString("DialogoPruebasTest.menuRestaurarPlantilla.text")); // NOI18N
+        menuRestaurarPlantilla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuRestaurarPlantillaActionPerformed(evt);
+            }
+        });
+        modificarPlantilla.add(menuRestaurarPlantilla);
+
         menuBar.add(modificarPlantilla);
 
         setJMenuBar(menuBar);
@@ -728,9 +738,10 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
 
     private void menuGuardarPlantillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGuardarPlantillaActionPerformed
         // Guardo las coordenadas de las cajas en el fichero csv
-        if (JOptionPane.showConfirmDialog(this, idioma.getString("VentanaPruebasTest.menuGuardandoPlantila.text"),
-                idioma.getString("VentanaPruebasTest.menuGuardandoPlantila.titulo.text"),
-                JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+        
+        int quedice = JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaPruebasTest.menuGuardandoPlantila.text"), idioma.getString("VentanaPruebasTest.menuGuardandoPlantila.titulo.text"),
+                JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text"), idioma.getString("Cancelar.text")}, idioma.getString("Cancelar.text"));
+        if (quedice == 0) {
             String[] mensajes = Procesador.guardaCasillas(lasCajas);
             if (!"".equals(mensajes[0])) {
                 // Hubo un error u otro mensaje
@@ -808,8 +819,8 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
 
     private void btnProbarAlineacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProbarAlineacionActionPerformed
         // Comprobar alineación. Recargar imagen, corregir y casillas, las tres acciones.
-        btnRecargarImagenActionPerformed(evt);
-        btnCorrigeImagenActionPerformed(evt);
+        //btnRecargarImagenActionPerformed(evt);
+        //btnCorrigeImagenActionPerformed(evt);
         pintarCasillasActionPerformed(evt);
     }//GEN-LAST:event_btnProbarAlineacionActionPerformed
 
@@ -827,7 +838,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
         // Analizo los campos y almaceno el resultado en cada uno de ellos
         Procesador.setTestActual(Procesador.extraeResultadosCampos(Procesador.getTestActual(), Procesador.getCasillasTest()));
         // Actualizo la tabla de Test leídos
-        Procesador.actualizaTablaTest(Procesador.testsLeidos, Procesador.getTestActual());
+        Procesador.actualizaTablaTest(Procesador.listaTestsLeidos, Procesador.getTestActual());
     }//GEN-LAST:event_btnGuardaResultadosActionPerformed
 
     private void btnCorrigeImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorrigeImagenActionPerformed
@@ -916,6 +927,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
         if (Procesador.getImagenTest() != null) {
             try {
                 Procesador.setImagenTest(Procesador.recortarMargenes(Procesador.getImagenTest()));
+                Procesador.setImagenTest(Procesador.cambiaTamano(Procesador.getImagenTest(), Config.ALTO_MODELO));
                 etqLaImagen.setIcon(new ImageIcon(Procesador.getImagenTest()));
                 imagenCorredida = true;
                 repaint();
@@ -930,6 +942,37 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
                     idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
     }//GEN-LAST:event_btnRecortaImagenActionPerformed
+
+    private void menuRestaurarPlantillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRestaurarPlantillaActionPerformed
+        // Restaura el archivo csv original de casillas del test
+        // Guardo las coordenadas de las cajas en el fichero csv
+        int quedice = JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoPruebasTest.menuRestaurandoPlantila.text"), idioma.getString("DialogoPruebasTest.menuRestaurandoPlantila.titulo.text"),
+                JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text"), idioma.getString("Cancelar.text")}, idioma.getString("Cancelar.text"));
+        if (quedice == 0) {
+            String[] mensajes = Procesador.restauraCasillasTestInicial();
+            if (!"".equals(mensajes[0])) {
+                // Hubo un error u otro mensaje
+                JOptionPane.showOptionDialog(this.getContentPane(), idioma.getString(mensajes[0]), idioma.getString(mensajes[1]),
+                        JOptionPane.NO_OPTION, Integer.parseInt(mensajes[2]), null, Config.OPCION_ACEPTAR, null);
+            } else {
+                // Reinicio el formulario
+                if (menuEditandoPlantila.isSelected()) {
+                    btnRecargarImagenActionPerformed(evt);
+                    btnCorrigeImagenActionPerformed(evt);
+                    quitaCajas();
+                    // Si se ha cargado la imagen correctamente
+                    if (Procesador.getImagenTest() != null) {
+                        ponCajas();
+                        menuGuardarPlantilla.setEnabled(true);
+                        panelEdicionPlantilla.setVisible(true);
+                        panelBotones.setVisible(false);
+                    } else {
+                        menuEditandoPlantila.setSelected(false);
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_menuRestaurarPlantillaActionPerformed
 
     // Desleccionar todas las casillas
     private void deseleccionarCasillas() {
@@ -1120,6 +1163,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JCheckBoxMenuItem menuEditandoPlantila;
     private javax.swing.JMenuItem menuGuardarPlantilla;
+    private javax.swing.JMenuItem menuRestaurarPlantilla;
     private javax.swing.JMenu modificarPlantilla;
     private javax.swing.JMenu opciones;
     private javax.swing.JPanel panelBotones;

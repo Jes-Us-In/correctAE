@@ -40,6 +40,7 @@ import java.awt.image.ShortLookupTable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -117,7 +118,7 @@ public class Procesador {
         BaseDatos.InicializarBaseDatos();
         return true;
     }
- 
+
     /**
      *
      * @param boton Boton de ayuda al que asociar el evento de teclado F1
@@ -157,7 +158,7 @@ public class Procesador {
     /**
      * Lista con los test leídos
      */
-    protected static List<ModeloTest100> testsLeidos = new ArrayList<>();
+    protected static List<ModeloTest100> listaTestsLeidos = new ArrayList<>();
 
     //
     private static BufferedImage imagenTest = null; // Se inicializa al cargar la imagen
@@ -506,6 +507,20 @@ public class Procesador {
         }
     }
 
+    /**
+     *
+     * @param filaBorrar Fila del modelo que hay que borrar
+     */
+    static public void BorraFilaModeloTestLeidos(int filaBorrar) {
+
+        modeloTablaTestsLeidos.removeRow(filaBorrar);
+        listaTestsLeidos.remove(filaBorrar);
+        // Renumero las filas de la tabla
+        for (int i = 1; i <= modeloTablaTestsLeidos.getRowCount(); i++) {
+            modeloTablaTestsLeidos.setValueAt(i, i - 1, 0);
+        }
+    }
+
     // Cargar la ayuda de la página suministrada
     /**
      *
@@ -742,7 +757,7 @@ public class Procesador {
                 // Analizo los campos y almaceno el resultado en cada uno de ellos
                 setTestActual(extraeResultadosCampos(getTestActual(), getCasillasTest()));
                 // Actualizo el modelo de la tabla de test leidos, usado en VentanaInicio
-                actualizaTablaTest(testsLeidos, getTestActual());
+                actualizaTablaTest(listaTestsLeidos, getTestActual());
                 return true;
             }
         }
@@ -909,6 +924,8 @@ public class Procesador {
         Casilla[] esquinasImagen;
 
         if (img != null) {
+            //img = (recortarMargenes(img));
+
             esquinasImagen = buscaEsquinas(img, Config.esquinasZona); // Busco las esquinas de la imagen por los puntos de referencia. NO pinto cuadrados
             img = (corregir(img, esquinasImagen));  // Enderezo la imagen, contrasto más.
             esquinasImagen = buscaEsquinas(img, Config.esquinasZona); // Busco las esquinas de la imagen YA enderezada
@@ -917,7 +934,6 @@ public class Procesador {
             img = recortar(img, esquinasImagen);
             // Reescalo de nuevo, tras el recorte, a un tamaño de 1000 x 1415, está definido en Principal
             // En el escalado prograsivo sólo uso el lado largo como referencia
-            //img = cambiaTamano(img, Config.ANCHO_MODELO, Config.ALTO_MODELO);
             img = cambiaTamano(img, Config.ALTO_MODELO);
             // Devuelvo la imagen corregida
             return img;
@@ -936,7 +952,6 @@ public class Procesador {
         // Busco las esquinas, enderezo y aplico algo de contraste, y recorto
         Casilla[] esquinas = new Casilla[4]; // Coordenadas de las esquinas de la imagen
         Casilla coorPunto;
-        //String[] nomEsquina = {"Superior Izquierda", "Inferior Izquierda", "Superior Derecha", "Inferior Derecha"};
 
         for (int fila = 0; fila < 4; fila++) {
             //System.out.printf("%s  %s\n", "Buscando esquina ", nomEsquina[fila]);
@@ -949,8 +964,6 @@ public class Procesador {
                 // No encontró el punto
                 esquinas[fila] = new Casilla(0, 0);
             }
-            //log.info("Esquina en x:" + esquinas[fila].getCoordX() + " y:" + esquinas[fila].getCoordY() + "\n");
-            //System.out.println("Esquina en x:" + esquinas[fila].getCoordX() + " y:" + esquinas[fila].getCoordY() + "\n");
         }
         return esquinas;
     }
@@ -969,9 +982,6 @@ public class Procesador {
         Casilla aqui;
         int brilloZona;
 
-        //try {
-        //log.info("Buscando en RANGO x:" + esquinaDesde.getCoordX() + " y:" + esquinaDesde.getCoordY() + " --- x:" + +esquinaHasta.getCoordX() + " y:" + esquinaHasta.getCoordY());
-        //System.out.println("Buscando en RANGO x:" + esquinaDesde.getCoordX() + " y:" + esquinaDesde.getCoordY() + " --- x:" + +esquinaHasta.getCoordX() + " y:" + esquinaHasta.getCoordY());
         for (int x = esquinaDesde.getCoordX(); x < esquinaHasta.getCoordX(); x++) {
             for (int y = esquinaDesde.getCoordY(); y < esquinaHasta.getCoordY(); y++) {
                 BufferedImage resp = img.getSubimage(x, y, anchoBusqueda, anchoBusqueda);
@@ -982,10 +992,6 @@ public class Procesador {
                 }
             }
         }
-        //} catch (Exception ex) {
-//            Exceptions.printStackTrace(ex);
-        //}
-
         return null;
     }
 
@@ -1021,14 +1027,11 @@ public class Procesador {
             AffineTransform transform = AffineTransform.getRotateInstance(Math.toRadians(anguloDesvio),
                     esquinasImagen[0].getCoordX(), esquinasImagen[0].getCoordY());
             // Roto desde la esquina Superior Izquierda, en lugar de desde el centro de la imagen
-            //img.getWidth() / 2, img.getHeight() / 2);
             AffineTransformOp op = new AffineTransformOp(transform,
                     AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
             // De menos a más calidad (y tiempo de CPU)
             // nearest neighbor, bilinear interpolation, bicubic interpolation
             img = filter(op, img);
-            // Aplico contraste
-            //img = sharpen(img);
             return img;
         }
         return img;
@@ -1042,12 +1045,11 @@ public class Procesador {
      */
     static public BufferedImage recortarMargenes(BufferedImage img) throws RasterFormatException {
         // Devuelvo la imagen recortada entre los puntos de coordenada
-        return img.getSubimage(Config.getMargenIzquierdoHojaRecortar(), Config.getMargenSuperiorHojaRecortar(), 
-                img.getWidth() - Config.getMargenDerechoHojaRecortar() - Config.getMargenIzquierdoHojaRecortar(), 
+        return img.getSubimage(Config.getMargenIzquierdoHojaRecortar(), Config.getMargenSuperiorHojaRecortar(),
+                img.getWidth() - Config.getMargenDerechoHojaRecortar() - Config.getMargenIzquierdoHojaRecortar(),
                 img.getHeight() - Config.getMargenSuperiorHojaRecortar());
     }
-    
-    
+
     /**
      *
      * @param img
@@ -1185,7 +1187,7 @@ public class Procesador {
     /**
      *
      * @param img
-     * @return
+     * @return Imagen con los márgenes blanqueados
      */
     static public BufferedImage blanqueaMargenes(BufferedImage img) {
         BufferedImage imag = img;
@@ -1222,23 +1224,29 @@ public class Procesador {
 
     // Hago un cambio de escala progresivo, que da más calidad
     //
+    /**
+     *
+     * @param imagenOriginal
+     * @param ladoLargo
+     * @return Imagen resultado
+     */
     public static BufferedImage cambiaTamano(BufferedImage imagenOriginal, Integer ladoLargo) {
         if (imagenOriginal != null) {
             Integer w = imagenOriginal.getWidth();
             Integer h = imagenOriginal.getHeight();
 
-            Double ratio = h > w ? ladoLargo.doubleValue() / h : ladoLargo.doubleValue() / w;
+            double ratio = h > w ? ladoLargo.doubleValue() / h : ladoLargo.doubleValue() / w;
 
             // Cambio de tamaño basado en la técnica descrita por Chris Campbell’s en blog The Perils of Image.getScaledInstance(). 
-            // Cometario original: As Chris mentions, when downscaling to something
-            //less than factor 0.5, you get the best result by doing multiple downscaling
-            //with a minimum factor of 0.5 (in other words: each scaling operation should scale to maximum half the size).
+            // Comentario original: As Chris mentions, when downscaling to something
+            // less than factor 0.5, you get the best result by doing multiple downscaling
+            // with a minimum factor of 0.5 (in other words: each scaling operation should scale to maximum half the size).
             while (ratio < 0.5) {
-                BufferedImage tmp = scaleProg(imagenOriginal, 0.5);
-                imagenOriginal = tmp;
+                imagenOriginal = scaleProg(imagenOriginal, 0.5);
+                //imagenOriginal = tmp;
                 w = imagenOriginal.getWidth();
                 h = imagenOriginal.getHeight();
-                ratio = h > w ? ladoLargo.doubleValue() / h : ladoLargo.doubleValue() / w;
+                ratio = h > w ? ladoLargo.floatValue() / h : ladoLargo.floatValue() / w;
             }
             return scaleProg(imagenOriginal, ratio);
         }
@@ -1306,7 +1314,7 @@ public class Procesador {
     static public List<Casilla> analizar(BufferedImage img, ModeloTest100 elTest) {
         /* Analiza el brillo alrededor de la coordenada (ésta es el centro), en 
          * un área cuadrada del ancho definido en Principal.anchoMarcasRespuesta
-        */
+         */
         List<Casilla> marcas = new ArrayList<>();
 
         int brilloResp;
@@ -1314,8 +1322,8 @@ public class Procesador {
         if (img != null) {
             for (Casilla pun : getCasillasTest()) {
                 try {
-                    BufferedImage resp = img.getSubimage(pun.getCoordX() - mitadAncho, pun.getCoordY() -
-                            mitadAncho, Config.getAnchoMarcasRespuesta(), Config.getAnchoMarcasRespuesta());
+                    BufferedImage resp = img.getSubimage(pun.getCoordX() - mitadAncho, pun.getCoordY()
+                            - mitadAncho, Config.getAnchoMarcasRespuesta(), Config.getAnchoMarcasRespuesta());
                     brilloResp = brilloRespuesta(resp);
                     // Guardo la coordenada original, el centro del cuadrado
                     if (brilloResp < Config.getUmbralDeteccionMarca()) {
@@ -1359,10 +1367,34 @@ public class Procesador {
         losTests.add(elTest);
     }
 
+    static public String[] restauraCasillasTestInicial() {
+        // Copia todas las líneas del archivo original sobre el que está en vigor
+        mensajesResultado = new String[]{"", "", ""};
+        
+        try (FileInputStream inputStream = new FileInputStream(Procesador.class
+                .getClassLoader().getResource(Config.getFicheroCasillasTestInicial()).getFile());
+                FileOutputStream outputStream = new FileOutputStream(Procesador.class
+                .getClassLoader().getResource(Config.getFicheroCasillasTest()).getFile())) {
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+            log.aviso(idioma.getString("Procesador.ficheroCasillasRestarurado.text"));
+        } catch (IOException e) {
+            log.aviso(idioma.getString("Procesador.ficheroCasillasError.text"));
+            mensajesResultado[0] = "Procesador.ficheroCasillasError.text";
+            mensajesResultado[1] = "Error.text";
+            mensajesResultado[2] = String.valueOf(JOptionPane.ERROR_MESSAGE);
+        }
+        return mensajesResultado;
+    }
+
     static public List<Casilla> cargaCasillas() {
         int x, y;
         List<Casilla> lasCasillasTest = new ArrayList<>();
-        InputStream casillas = Procesador.class.getClassLoader().getResourceAsStream(Config.getFicheroCasillasTest());
+        InputStream casillas = Procesador.class
+                .getClassLoader().getResourceAsStream(Config.getFicheroCasillasTest());
 
         // Cargo todas las casillas (puntos con dos coordenadas) del Test 
         try (Scanner lector = new Scanner(casillas)) {
@@ -1381,11 +1413,13 @@ public class Procesador {
             mensajesResultado[2] = String.valueOf(JOptionPane.ERROR_MESSAGE);
         }
         return null;
+
     }
 
     static String[] guardaCasillas(ArrayList<JCheckBox> lasCajas) {
         // Guardo las CAJAS del Test 
-        File fich = new File(Procesador.class.getClassLoader().getResource(Config.getFicheroCasillasTest()).getFile());
+        File fich = new File(Procesador.class
+                .getClassLoader().getResource(Config.getFicheroCasillasTest()).getFile());
         String linea;
         int ajuste = 8;
 
@@ -1503,12 +1537,31 @@ public class Procesador {
             Config.setNombreArchivoUltimaImagen(ficheroImagen.getName());
             // En el escalado prograsivo sólo uso el lado largo como referencia
             setImagenTest(cambiaTamano(imgNueva, Config.ALTO_MODELO));
+            // Si la imagen no tiene el tamaño estandarizado, la cambio
+            if (getImagenTest().getWidth() != Config.ANCHO_MODELO || getImagenTest().getHeight() != Config.ALTO_MODELO) {
+                setImagenTest(normalizaTamano(getImagenTest()));
+            }
             // Creo un nuevo test y le pongo el nombre. Guardo también la ruta completa del archivo, con nombre
             setTestActual(new ModeloTest100(ficheroImagen.getCanonicalPath()));
         } catch (IOException e) {
             log.aviso(e.getMessage());
             setImagenTest(null);
         }
+    }
+
+    /**
+     *
+     * @param imag
+     * @return imagen normalizada
+     */
+    public static BufferedImage normalizaTamano(BufferedImage imag) {
+        // Cambio el tamaño de la imagen al estándar
+        BufferedImage cambiadaImg = new BufferedImage(Config.ANCHO_MODELO, Config.ALTO_MODELO, imag.getType());
+        Graphics2D g = cambiadaImg.createGraphics();
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g.drawImage(imag, 0, 0, Config.ANCHO_MODELO, Config.ALTO_MODELO, null);
+        g.dispose();
+        return cambiadaImg;
     }
 
     // Carga el logo que se va a analizar

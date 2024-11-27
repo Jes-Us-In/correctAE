@@ -116,7 +116,7 @@ public class VentanaInicio extends javax.swing.JFrame {
                         File fich = new File(fichi);
                         if (fich.exists()) {
                             // Paso al Diálogo, ademaás del padre y el boolean, NO es modal, el fichero, que ya se que existe, y las casillas marcadas de dicho test
-                            DialogoVerTest ventaTest = new DialogoVerTest(pasoPadre, false, fich, Procesador.testsLeidos.get(tablaTests.getSelectedRow()).getCasillasMarcadas()); // permito abrir varios tests
+                            DialogoVerTest ventaTest = new DialogoVerTest(pasoPadre, false, fich, Procesador.listaTestsLeidos.get(tablaTests.getSelectedRow()).getCasillasMarcadas()); // permito abrir varios tests
                             ventaTest.setVisible(true);
                         } else {
                             JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerTest.noExiste.text") + ": " + fich.getCanonicalPath(),
@@ -586,16 +586,30 @@ public class VentanaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEvaluacionesActionPerformed
 
     private void btnBorrarTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarTestActionPerformed
+        int queDice;
         // Borro todos los test de la tabla. Uso un DialogoAceptarCancelar que tiene en cuenta la escala en lugar de JOptionpane
-        String[] botones = {idioma.getString("Aceptar.text"), idioma.getString("Cancelar.text")};
-        int queDice = JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaInicio.aviso.borrar.lista.tests.text"), idioma.getString("Atencion.text"),
-                JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, idioma.getString("Cancelar.text"));
-        // El primer botón, el 0 es aceptar
-        if (queDice == JOptionPane.OK_OPTION) {
-            // Borro los test que hay en la tabla
-            log.info("Borró los tests de la tabla");
-            Procesador.modeloTablaTestsLeidos.setRowCount(0);
+        // Pregunto si quiere borrar todos o sólo los seleccionados
+        queDice = JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaInicio.PerguntaQueBorrar.text"), idioma.getString("Atencion.text"),
+                JOptionPane.NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{idioma.getString("SoloSeleccionadas.text"), idioma.getString("Todas.text")}, idioma.getString("SoloSeleccionadas.text"));
+        if (queDice == 0) {
+            int paBorrar = tablaTests.getSelectedRow();
+            while (paBorrar > 0) {
+                Procesador.BorraFilaModeloTestLeidos(paBorrar);
+                paBorrar = tablaTests.getSelectedRow();
+            }
+        } else {
+            String[] botones = {idioma.getString("Aceptar.text"), idioma.getString("Cancelar.text")};
+            queDice = JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaInicio.aviso.borrar.lista.tests.text"), idioma.getString("Atencion.text"),
+                    JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, idioma.getString("Cancelar.text"));
+            // El primer botón, el 0 es aceptar
+            if (queDice == JOptionPane.OK_OPTION) {
+                // Borro los test que hay en la tabla
+                log.info("Borró los tests de la tabla");
+                Procesador.modeloTablaTestsLeidos.setRowCount(0);
+            }
         }
+
+
     }//GEN-LAST:event_btnBorrarTestActionPerformed
 
     private void mostrarAyudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarAyudaActionPerformed
@@ -718,7 +732,6 @@ public class VentanaInicio extends javax.swing.JFrame {
             log.error(idioma.getString("ErrorInicioApliacion.text"));
             System.exit(0);
         }
-        
 
         // Ruta de pruebas quitar en definitivo
         //Config.setRutaUltimaImagen("C:\\Users\\Jesus.delBuey\\Documents\\Programacion\\Java\\CorrectA_General Archivos de trabajo");
