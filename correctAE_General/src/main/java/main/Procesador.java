@@ -918,6 +918,7 @@ public class Procesador {
     /**
      *
      * @param img Imagen que hay que giraImagen, enderazar
+     * @param recortar
      * @return La imagen corregida
      */
     static public BufferedImage corrigeImagen(BufferedImage img, boolean recortar) throws RasterFormatException {
