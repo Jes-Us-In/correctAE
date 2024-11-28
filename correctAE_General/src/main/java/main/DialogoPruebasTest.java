@@ -828,7 +828,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
     }//GEN-LAST:event_btnQuitarSeleccionActionPerformed
 
     private void btnProbarAlineacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProbarAlineacionActionPerformed
-        // Comprobar alineación. Recargar imagen, ajustaImagen y casillas, las tres acciones.
+        // Comprobar alineación. Recargar imagen, giraImagen y casillas, las tres acciones.
         //btnRecargarImagenActionPerformed(evt);
         //btnCorrigeImagenActionPerformed(evt);
         pintarCasillasActionPerformed(evt);
@@ -861,7 +861,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
         } else {
             if (Procesador.getImagenTest() != null) {
                 try {
-                    Procesador.setImagenTest(Procesador.corrigeImagen(Procesador.getImagenTest()));
+                    Procesador.setImagenTest(Procesador.corrigeImagen(Procesador.getImagenTest(), false));
                     etqLaImagen.setIcon(new ImageIcon(Procesador.getImagenTest()));
                     imagenCorredida = true;
                     repaint();

@@ -454,7 +454,7 @@ public class DialogoEvaluar extends javax.swing.JDialog {
         // Evaluar tests
         DialogoParamCalific ventaCorregir = new DialogoParamCalific(this, true);
         ventaCorregir.setVisible(true);
-        // Si pulsó ajustaImagen, lo hago. No si cerró el formulario, paso los valores
+        // Si pulsó giraImagen, lo hago. No si cerró el formulario, paso los valores
         // leidos para el calculo de la calificadion
         if (ventaCorregir.isCorregir()) {
             String[] mensajes = Procesador.CorregiryPuntuar();

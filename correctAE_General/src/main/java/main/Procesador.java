@@ -747,7 +747,7 @@ public class Procesador {
         // Corrijo la imagen
         if (getImagenTest() != null) {
             try {
-                setImagenTest(corrigeImagen(getImagenTest()));
+                setImagenTest(corrigeImagen(getImagenTest(), true));
             } catch (RasterFormatException ex) {
                 // Error Buscando esquinas, u otro. Pegunto si continuar. El último parámetro es el botón npor defecto
                 return false;
@@ -917,17 +917,19 @@ public class Procesador {
 
     /**
      *
-     * @param img Imagen que hay que ajustaImagen, enderazar
+     * @param img Imagen que hay que giraImagen, enderazar
      * @return La imagen corregida
      */
-    static public BufferedImage corrigeImagen(BufferedImage img) throws RasterFormatException {
+    static public BufferedImage corrigeImagen(BufferedImage img, boolean recortar) throws RasterFormatException {
         Casilla[] esquinasImagen;
 
         if (img != null) {
-            //img = (recorteMargenesConfigurados(img));
-
+            // normalmente se recorta, pero en Pruebas test, NO
+            if (recortar) {
+                img = (recorteMargenesConfigurados(img));
+            }
             esquinasImagen = buscaEsquinas(img, Config.esquinasZona); // Busco las esquinas de la imagen por los puntos de referencia. NO pinto cuadrados
-            img = (ajustaImagen(img, esquinasImagen));  // Enderezo la imagen, contrasto más.
+            img = (giraImagen(img, esquinasImagen));  // Enderezo la imagen.
             esquinasImagen = buscaEsquinas(img, Config.esquinasZona); // Busco las esquinas de la imagen YA enderezada
             img = (blanqueaMargenes(img));
             // Imagen recortada. Toma desde la cordenada SI y ancho y alto hasta la cordenada ID
@@ -947,7 +949,7 @@ public class Procesador {
      * @param esquinasImagen
      * @return
      */
-    static public BufferedImage ajustaImagen(BufferedImage img, Casilla[] esquinasImagen) {
+    static public BufferedImage giraImagen(BufferedImage img, Casilla[] esquinasImagen) {
         double anguloDesvio;
 
         anguloDesvio = anguloGriro(esquinasImagen);
@@ -1507,7 +1509,7 @@ public class Procesador {
     public static BufferedImage imagenCorregida() {
         // Corrijo la imagen y actualizo el testActual
         if (imagenTest != null) {
-            imagenTest = corrigeImagen(imagenTest);
+            imagenTest = corrigeImagen(imagenTest, true);
             testActual.setCasillasMarcadas(analizar(imagenTest, testActual));
             if (testActual.getCasillasMarcadas() != null) {
                 // Analizo los campos y almaceno el resultado en cada uno de ellos
