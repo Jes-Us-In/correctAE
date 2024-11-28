@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 
 /**
  *
@@ -46,6 +47,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
     int indiceActual;
     // Para escucher los eventos de teclado
     AWTEventListener flechasListener;
+    JScrollBar barraVertical;
 
     /**
      * Creates new form DialogoVerTest
@@ -82,8 +84,10 @@ public class DialogoVerTest extends javax.swing.JDialog {
         // Coloco el formulario en el centro de la pantalla
         Procesador.Centrame(this);
         this.setLocation(this.getLocation().x, 5);
+        this.barraVertical = jScrollPane1.getVerticalScrollBar();
 
         // Escucho los eventos de teclado para avanzar y retroceder en la tabla de test
+        // Tambien para hacer scroll en la imagen
         //
         this.flechasListener = (AWTEvent event) -> {
             // Como se usa la máscara AWTEvent.KEY_EVENT_MASK nunca va a fallar
@@ -98,12 +102,24 @@ public class DialogoVerTest extends javax.swing.JDialog {
                     case KeyEvent.VK_RIGHT:
                         btnSiguienteActionPerformed(new java.awt.event.ActionEvent(event, 1, "siguiente"));
                         break;
+                    case KeyEvent.VK_DOWN:
+                        jScrollPane1.getVerticalScrollBar().setValue(barraVertical.getValue() + barraVertical.getUnitIncrement(1));
+                        break;
+                    case KeyEvent.VK_UP:
+                        jScrollPane1.getVerticalScrollBar().setValue(barraVertical.getValue() - barraVertical.getUnitIncrement(1));
+                        break;
+                    case KeyEvent.VK_PAGE_DOWN:
+                        jScrollPane1.getVerticalScrollBar().setValue(barraVertical.getMaximum());
+                        break;
+                    case KeyEvent.VK_PAGE_UP:
+                        jScrollPane1.getVerticalScrollBar().setValue(barraVertical.getMinimum());
+                        break;
                 }
             }
         };
         // Escucho los eventos globales. Con la máscara de sólo eventos de teclado
         Toolkit.getDefaultToolkit().addAWTEventListener(flechasListener, AWTEvent.KEY_EVENT_MASK);
-
+        //
     }
 
     private void cargarImagen(File fichero) {
@@ -121,7 +137,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
                     //g.drawRect(unPunto.getCoordX() - mitadAncho, unPunto.getCoordY() - mitadAncho, Config.getAnchoMarcasRespuesta(), Config.getAnchoMarcasRespuesta());
                     g.drawOval(unPunto.getCoordX() - mitadAncho, unPunto.getCoordY() - mitadAncho, Config.getAnchoMarcasRespuesta(), Config.getAnchoMarcasRespuesta());
                 }
-                laImagen.setIcon(new ImageIcon(imagenIconPorCiento(imagenTest)));
+                etqLaImagen.setIcon(new ImageIcon(imagenIconPorCiento(imagenTest)));
                 rutaArchivo.setText(idioma.getString("VentanaTest.rutaArchivo.text") + fichero.getAbsolutePath());
                 repaint();
                 g.dispose();
@@ -141,8 +157,8 @@ public class DialogoVerTest extends javax.swing.JDialog {
      * @return imagen redimensionada, según el tamaño del contenedor "laImagen"
      */
     private BufferedImage imagenIconPorCiento(BufferedImage imagen) {
-        int ancho = laImagen.getWidth();
-        int alto = (imagen.getHeight() * laImagen.getWidth() / imagen.getWidth());
+        int ancho = etqLaImagen.getWidth();
+        int alto = (imagen.getHeight() * etqLaImagen.getWidth() / imagen.getWidth());
 
         BufferedImage resultado = new BufferedImage(ancho, alto, imagen.getType());
         Graphics2D graphics2D = resultado.createGraphics();
@@ -161,7 +177,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        laImagen = new javax.swing.JLabel();
+        etqLaImagen = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         rutaArchivo = new javax.swing.JLabel();
         btnAnterior = new javax.swing.JButton();
@@ -170,7 +186,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(950, 1200));
 
-        jScrollPane1.setViewportView(laImagen);
+        jScrollPane1.setViewportView(etqLaImagen);
 
         rutaArchivo.setFont(Config.FUENTE_NORMAL);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("propiedades/Idioma"); // NOI18N
@@ -331,9 +347,9 @@ public class DialogoVerTest extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnSiguiente;
+    private javax.swing.JLabel etqLaImagen;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel laImagen;
     private javax.swing.JLabel rutaArchivo;
     // End of variables declaration//GEN-END:variables
 }

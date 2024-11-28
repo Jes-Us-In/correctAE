@@ -44,6 +44,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -55,6 +56,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
     // Para escucher los eventos de teclado y raton
     AWTEventListener flechasListener;
     AWTEventListener dragListener;
+    JScrollBar barraVertical;
 
     ResourceBundle idioma = Procesador.idioma;
     protected static Loguero log = Procesador.getLog();
@@ -94,7 +96,8 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
         this.setSize(new Dimension(this.getWidth(), Procesador.getAltoPantalla() - 50));
         Procesador.Centrame(this);
         this.setLocation(this.getLocation().x, 5);
-
+        // Para hacer scroll con pagina arriba y abajo
+        this.barraVertical = panelScroll.getVerticalScrollBar();
         //
         this.flechasListener = (AWTEvent event) -> {
             // Como se usa la máscara AWTEvent.KEY_EVENT_MASK nunca va a fallar
@@ -122,6 +125,12 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
                         case KeyEvent.VK_Q:
                             // Deselecciono todas casillas marcadas
                             deseleccionarCasillas();
+                            break;
+                        case KeyEvent.VK_PAGE_DOWN:
+                            panelScroll.getVerticalScrollBar().setValue(barraVertical.getMaximum());
+                            break;
+                        case KeyEvent.VK_PAGE_UP:
+                            panelScroll.getVerticalScrollBar().setValue(barraVertical.getMinimum());
                             break;
                     }
                 }
@@ -699,7 +708,8 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
             g.setColor(Color.RED);
             if (Procesador.getTestActual() != null) {
                 for (Casilla pun : Procesador.getCasillasTest()) {
-                    g.drawRect(pun.getCoordX() - mitadAncho, pun.getCoordY() - mitadAncho, Config.getAnchoMarcasRespuesta(), Config.getAnchoMarcasRespuesta());
+                    g.drawRect(pun.getCoordX() - mitadAncho, pun.getCoordY() - mitadAncho, 
+                            Config.getAnchoMarcasRespuesta(), Config.getAnchoMarcasRespuesta());
                 }
             }
             g.dispose();
@@ -738,7 +748,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
 
     private void menuGuardarPlantillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGuardarPlantillaActionPerformed
         // Guardo las coordenadas de las cajas en el fichero csv
-        
+
         int quedice = JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaPruebasTest.menuGuardandoPlantila.text"), idioma.getString("VentanaPruebasTest.menuGuardandoPlantila.titulo.text"),
                 JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text"), idioma.getString("Cancelar.text")}, idioma.getString("Cancelar.text"));
         if (quedice == 0) {
@@ -818,7 +828,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
     }//GEN-LAST:event_btnQuitarSeleccionActionPerformed
 
     private void btnProbarAlineacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProbarAlineacionActionPerformed
-        // Comprobar alineación. Recargar imagen, corregir y casillas, las tres acciones.
+        // Comprobar alineación. Recargar imagen, ajustaImagen y casillas, las tres acciones.
         //btnRecargarImagenActionPerformed(evt);
         //btnCorrigeImagenActionPerformed(evt);
         pintarCasillasActionPerformed(evt);
@@ -875,7 +885,6 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
 
         // Analizo el último archivo cargado
         if (Procesador.getImagenTest() != null && Procesador.getTestActual().getNombreArchivo() != null) {
-            //List<Casilla> casillas = Procesador.analizar(Procesador.getImagenTest(), Procesador.getTestActual());
             // Si no está corregida la imagen, lo hago
             if (!isImagenCorregida()) {
                 btnCorrigeImagenActionPerformed(new java.awt.event.ActionEvent(evt.getSource(), 1, "corregir"));
@@ -926,10 +935,9 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
         // Recorta la imagen según los valores de la configuración
         if (Procesador.getImagenTest() != null) {
             try {
-                Procesador.setImagenTest(Procesador.recortarMargenes(Procesador.getImagenTest()));
+                Procesador.setImagenTest(Procesador.recorteMargenesConfigurados(Procesador.getImagenTest()));
                 Procesador.setImagenTest(Procesador.cambiaTamano(Procesador.getImagenTest(), Config.ALTO_MODELO));
                 etqLaImagen.setIcon(new ImageIcon(Procesador.getImagenTest()));
-                imagenCorredida = true;
                 repaint();
             } catch (NullPointerException ex) {
                 JOptionPane.showOptionDialog(rootPane, idioma.getString("VENTANAPRUEBASTESTS.ERROR_EN_FICHERO.TEXT") + " - " + Procesador.getTestActual().getNombreArchivo(),

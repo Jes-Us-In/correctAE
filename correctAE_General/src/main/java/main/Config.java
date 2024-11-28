@@ -340,7 +340,7 @@ public class Config {
     public static final int ANCHO_CAJA = 16;
 
     
-    // Margen superior a recortar
+    // Margen superior a recortarXpunEsquinas
     private static int margenSuperiorHojaRecortar = 0;
 
     public static int getMargenSuperiorHojaRecortar() {
@@ -351,7 +351,7 @@ public class Config {
         margenSuperiorHojaRecortar = valor;
     }
 
-    // Margen izquierdo a recortar
+    // Margen izquierdo a recortarXpunEsquinas
     private static int margenIzquierdoHojaRecortar = 0;
 
     public static int getMargenIzquierdoHojaRecortar() {
@@ -362,7 +362,7 @@ public class Config {
         margenIzquierdoHojaRecortar = valor;
     }
 
-    // Margen derecho a recortar
+    // Margen derecho a recortarXpunEsquinas
     private static int margenDerechoHojaRecortar = 0;
 
     public static int getMargenDerechoHojaRecortar() {

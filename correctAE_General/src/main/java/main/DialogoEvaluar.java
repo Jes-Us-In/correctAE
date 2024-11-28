@@ -18,7 +18,10 @@
  */
 package main;
 
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.util.HashMap;
@@ -46,6 +49,11 @@ public class DialogoEvaluar extends javax.swing.JDialog {
     ResourceBundle idioma = Procesador.idioma;
     private final Loguero log = Procesador.getLog();
 
+//    Tamaño y posicion del formulario minimizado
+    Dimension tamanoPrevio;
+    Point posicionPrevia;
+    boolean isMaximizado = false;
+
     // Si no se ha corregido no muestro las estadísticas
     private boolean heCorregido = false;
     JDialog padre;
@@ -70,7 +78,11 @@ public class DialogoEvaluar extends javax.swing.JDialog {
 
         // Coloco el formulario en el centro de la pantalla
         Procesador.Centrame(this);
-
+        //
+        this.posicionPrevia = new Point(this.getLocation());
+        this.tamanoPrevio = new Dimension(this.getWidth(), this.getHeight());
+        btnMaxiMini.setText("M");
+        //
         // Si no se ha corregido no muestro las estadísticas
         heCorregido = false;
         // Asigno el modelo de tests de examen
@@ -180,6 +192,7 @@ public class DialogoEvaluar extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         etqNombreExamen = new javax.swing.JLabel();
         etqInfoDobleClick = new javax.swing.JLabel();
+        btnMaxiMini = new javax.swing.JButton();
         btnAyuda = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaTestsCorregidos = new javax.swing.JTable();
@@ -208,6 +221,18 @@ public class DialogoEvaluar extends javax.swing.JDialog {
         etqInfoDobleClick.setFont(Config.FUENTE_NORMAL.deriveFont(Font.BOLD));
         etqInfoDobleClick.setText(bundle.getString("DialogoEvaluar.etqInfoDobleClick.text")); // NOI18N
 
+        btnMaxiMini.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnMaxiMini.setText("M"); // NOI18N
+        btnMaxiMini.setToolTipText(bundle.getString("DialogoEvaluar.btnMaxiMiniTooltip.text")); // NOI18N
+        btnMaxiMini.setMaximumSize(new java.awt.Dimension(50, 30));
+        btnMaxiMini.setMinimumSize(new java.awt.Dimension(26, 26));
+        btnMaxiMini.setPreferredSize(new java.awt.Dimension(40, 26));
+        btnMaxiMini.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMaxiMiniActionPerformed(evt);
+            }
+        });
+
         btnAyuda.setBackground(new java.awt.Color(61, 117, 105));
         btnAyuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/Azul_ayuda_chic.png"))); // NOI18N
         btnAyuda.setToolTipText(bundle.getString("btnAyudaToolTip.text")); // NOI18N
@@ -228,11 +253,13 @@ public class DialogoEvaluar extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(etqNombreExamen)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(etqNombreExamen)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 841, Short.MAX_VALUE)
+                        .addComponent(btnMaxiMini, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(etqInfoDobleClick))
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(btnAyuda)
-                .addGap(0, 0, 0))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAyuda))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,11 +267,13 @@ public class DialogoEvaluar extends javax.swing.JDialog {
                 .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(etqNombreExamen)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnMaxiMini, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(etqNombreExamen))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(etqInfoDobleClick))
                     .addComponent(btnAyuda))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jScrollPane1.setMaximumSize(new java.awt.Dimension(2400, 300));
@@ -383,7 +412,7 @@ public class DialogoEvaluar extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1022, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelBotones, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -394,7 +423,7 @@ public class DialogoEvaluar extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))
@@ -425,7 +454,7 @@ public class DialogoEvaluar extends javax.swing.JDialog {
         // Evaluar tests
         DialogoParamCalific ventaCorregir = new DialogoParamCalific(this, true);
         ventaCorregir.setVisible(true);
-        // Si pulsó corregir, lo hago. No si cerró el formulario, paso los valores
+        // Si pulsó ajustaImagen, lo hago. No si cerró el formulario, paso los valores
         // leidos para el calculo de la calificadion
         if (ventaCorregir.isCorregir()) {
             String[] mensajes = Procesador.CorregiryPuntuar();
@@ -589,26 +618,38 @@ public class DialogoEvaluar extends javax.swing.JDialog {
         if (!"".equals(error)) {
             log.error(error);
             JOptionPane.showOptionDialog(rootPane, error, idioma.getString("Error.text"),
-                JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text")}, idioma.getString("Aceptar.text"));
+                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text")}, idioma.getString("Aceptar.text"));
         }
-        
-        
+
+
     }//GEN-LAST:event_btnAyudaActionPerformed
 
-//    private void mostrarAyuda() {
-//        String error = Procesador.mostrarAyuda(Config.getRutaAyudaEvaluaciones());
-//        if (!"".equals(error)) {
-//            log.error(error);
-//            JOptionPane.showOptionDialog(rootPane, error, idioma.getString("Error.text"),
-//                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text")}, idioma.getString("Aceptar.text"));
-//        }
-//    }
+    private void btnMaxiMiniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaxiMiniActionPerformed
+        // Maximizo o minimizo el diálogo, según esté
+        if (this.isMaximizado) {
+            this.setLocation(this.posicionPrevia);
+            this.setSize(tamanoPrevio);
+            btnMaxiMini.setText("M");
+            this.isMaximizado = false;
+        } else {
+            this.posicionPrevia = this.getLocation();
+            this.tamanoPrevio.setSize(this.getWidth(), this.getHeight());
+            btnMaxiMini.setText("m");
+            // Redimensiono al máximo disponible
+            GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            this.setLocation(0, 0);
+            this.setSize(env.getMaximumWindowBounds().width, env.getMaximumWindowBounds().height);
+            this.isMaximizado = true;
+        }
+    }//GEN-LAST:event_btnMaxiMiniActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem borrarTests;
     private javax.swing.JButton btnAyuda;
     private javax.swing.JButton btnEstadisticas;
     private javax.swing.JButton btnEvaluar;
+    private javax.swing.JButton btnMaxiMini;
     private javax.swing.JButton btnTiposEquiv;
     private javax.swing.JMenuItem cargarExamen;
     private javax.swing.JLabel etqInfoDobleClick;

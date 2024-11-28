@@ -44,9 +44,9 @@ public class DialogoParamCalific extends javax.swing.JDialog {
     private boolean corregir = false;
 
     /**
-     * Get the value of corregir
+     * Get the value of ajustaImagen
      *
-     * @return the value of corregir
+     * @return the value of ajustaImagen
      */
     public boolean isCorregir() {
         return corregir;
@@ -343,7 +343,7 @@ public class DialogoParamCalific extends javax.swing.JDialog {
                 JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoParamCalific.errorValor.text"), idioma.getString("Error.text"),
                         JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             } else {
-                // Está todo bien y puedo corregir
+                // Está todo bien y puedo ajustaImagen
                 // Guardo los valores en la configuracion
                 Config.setPuntosAcierto(valsCalculo[0]);
                 Config.setPuntosFallo(valsCalculo[1]);

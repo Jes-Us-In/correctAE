@@ -917,21 +917,21 @@ public class Procesador {
 
     /**
      *
-     * @param img Imagen que hay que corregir, enderazar
+     * @param img Imagen que hay que ajustaImagen, enderazar
      * @return La imagen corregida
      */
     static public BufferedImage corrigeImagen(BufferedImage img) throws RasterFormatException {
         Casilla[] esquinasImagen;
 
         if (img != null) {
-            //img = (recortarMargenes(img));
+            //img = (recorteMargenesConfigurados(img));
 
             esquinasImagen = buscaEsquinas(img, Config.esquinasZona); // Busco las esquinas de la imagen por los puntos de referencia. NO pinto cuadrados
-            img = (corregir(img, esquinasImagen));  // Enderezo la imagen, contrasto más.
+            img = (ajustaImagen(img, esquinasImagen));  // Enderezo la imagen, contrasto más.
             esquinasImagen = buscaEsquinas(img, Config.esquinasZona); // Busco las esquinas de la imagen YA enderezada
             img = (blanqueaMargenes(img));
             // Imagen recortada. Toma desde la cordenada SI y ancho y alto hasta la cordenada ID
-            img = recortar(img, esquinasImagen);
+            img = recortarXpunEsquinas(img, esquinasImagen);
             // Reescalo de nuevo, tras el recorte, a un tamaño de 1000 x 1415, está definido en Principal
             // En el escalado prograsivo sólo uso el lado largo como referencia
             img = cambiaTamano(img, Config.ALTO_MODELO);
@@ -941,6 +941,30 @@ public class Procesador {
         return null;
     }
 
+    /**
+     *
+     * @param img
+     * @param esquinasImagen
+     * @return
+     */
+    static public BufferedImage ajustaImagen(BufferedImage img, Casilla[] esquinasImagen) {
+        double anguloDesvio;
+
+        anguloDesvio = anguloGriro(esquinasImagen);
+        if (img != null && anguloDesvio != 0) {
+            AffineTransform transform = AffineTransform.getRotateInstance(Math.toRadians(anguloDesvio),
+                    esquinasImagen[0].getCoordX(), esquinasImagen[0].getCoordY());
+            // Roto desde la esquina Superior Izquierda, en lugar de desde el centro de la imagen
+            AffineTransformOp op = new AffineTransformOp(transform,
+                    AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+            // De menos a más calidad (y tiempo de CPU)
+            // nearest neighbor, bilinear interpolation, bicubic interpolation
+            img = filter(op, img);
+            return img;
+        }
+        return img;
+    }
+        
     /**
      *
      * @param img
@@ -1015,35 +1039,11 @@ public class Procesador {
 
     /**
      *
-     * @param img
-     * @param esquinasImagen
-     * @return
-     */
-    static public BufferedImage corregir(BufferedImage img, Casilla[] esquinasImagen) {
-        double anguloDesvio;
-
-        anguloDesvio = anguloGriro(esquinasImagen);
-        if (img != null && anguloDesvio != 0) {
-            AffineTransform transform = AffineTransform.getRotateInstance(Math.toRadians(anguloDesvio),
-                    esquinasImagen[0].getCoordX(), esquinasImagen[0].getCoordY());
-            // Roto desde la esquina Superior Izquierda, en lugar de desde el centro de la imagen
-            AffineTransformOp op = new AffineTransformOp(transform,
-                    AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-            // De menos a más calidad (y tiempo de CPU)
-            // nearest neighbor, bilinear interpolation, bicubic interpolation
-            img = filter(op, img);
-            return img;
-        }
-        return img;
-    }
-
-    /**
-     *
      * @param img imagen original
      * @return imagen recortada según la configuración
      * @throws RasterFormatException
      */
-    static public BufferedImage recortarMargenes(BufferedImage img) throws RasterFormatException {
+    static public BufferedImage recorteMargenesConfigurados(BufferedImage img) throws RasterFormatException {
         // Devuelvo la imagen recortada entre los puntos de coordenada
         return img.getSubimage(Config.getMargenIzquierdoHojaRecortar(), Config.getMargenSuperiorHojaRecortar(),
                 img.getWidth() - Config.getMargenDerechoHojaRecortar() - Config.getMargenIzquierdoHojaRecortar(),
@@ -1057,7 +1057,7 @@ public class Procesador {
      * @return
      * @throws RasterFormatException
      */
-    static public BufferedImage recortar(BufferedImage img, Casilla[] esquinasImagen) throws RasterFormatException {
+    static public BufferedImage recortarXpunEsquinas(BufferedImage img, Casilla[] esquinasImagen) throws RasterFormatException {
         // Devuelvo la imagen recortada entre los puntos de coordenada
         return img.getSubimage(esquinasImagen[0].getCoordX() + Config.getMargenIzquierdoHojaRecortar(), esquinasImagen[0].getCoordY() - Config.getMargenSuperiorHojaRecortar(),
                 esquinasImagen[2].getCoordX() - esquinasImagen[0].getCoordX() + Config.ANCHO_PUNTO_ESQUINA + Config.MARGEN_HOJA_NO_BUSCAR - Config.getMargenDerechoHojaRecortar(),

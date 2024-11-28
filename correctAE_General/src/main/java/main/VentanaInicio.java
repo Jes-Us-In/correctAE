@@ -483,7 +483,8 @@ public class VentanaInicio extends javax.swing.JFrame {
         if (SelectorCarpeta.showDialog(this, idioma.getString("FileChooser.Carpeta.title")) == DialogoCarpertaFichero.APPROVE_OPTION) {
             Config.setCarpetaArchivosTests(SelectorCarpeta.getSelectedFile().getPath());
             File carpeta = new File(SelectorCarpeta.getSelectedFile().getPath());
-            FilenameFilter imgFiltro = (dir, name) -> (name.toLowerCase().endsWith(".jpg") | name.toLowerCase().endsWith(".jpeg") | name.toLowerCase().endsWith(".png"));
+            FilenameFilter imgFiltro = (dir, name) -> (name.toLowerCase().endsWith(".jpg") | name.toLowerCase().endsWith(".jpeg") | 
+                    name.toLowerCase().endsWith(".png") | name.toLowerCase().endsWith(".tif"));
             File[] fiches = carpeta.listFiles(imgFiltro);
             //
             // Utilizo Swingworker para que se haga la lectura en background, una vez terminada se avisa con un JOptionPane
