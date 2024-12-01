@@ -316,51 +316,34 @@ public class DialogoModelo extends javax.swing.JDialog {
 
     private void dialogoImpresion() {
 
-        PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
-        for (PrintService printer : printServices) {
-            System.out.println("Impresora encontrada: " + printer.getName());
-            
-            // Obtiene los atributos de la impresora
-            PrintServiceAttributeSet attributes = printer.getAttributes();
-            
-            // Verifica si la impresora está aceptando trabajos
-            Attribute acceptingJobs = attributes.get(PrinterIsAcceptingJobs.class);
-            if (acceptingJobs != null) {
-                System.out.println("Aceptando trabajos: " + acceptingJobs.toString());
-            }
-            
-            // Verifica el estado de la impresora
-            Attribute printerState = attributes.get(PrinterState.class);
-            if (printerState != null) {
-                System.out.println("Estado de la impresora: " + printerState.toString());
-            }
-            
-        }
-        
-        // Filtra las impresoras disponibles
+        // Averiguo que impresoras están disponibles y las Filtro
         PrintService[] availablePrintServices = PrintServiceLookup.lookupPrintServices(null, null);
         PrintService[] acceptingPrintServices = java.util.Arrays.stream(availablePrintServices)
-            .filter(printer -> {
-                PrintServiceAttributeSet attributes = printer.getAttributes();
-                Attribute acceptingJobs = attributes.get(PrinterIsAcceptingJobs.class);
-                Attribute printerState = attributes.get(PrinterState.class);
-                return acceptingJobs != null && acceptingJobs.toString().equals("ACCEPTING_JOBS") &&
-                       printerState != null && printerState.toString().equals("IDLE");
-            })
-            .toArray(PrintService[]::new);
-        
-        
+                .filter(printer -> {
+                    PrintServiceAttributeSet attributes = printer.getAttributes();
+                    Attribute acceptingJobs = attributes.get(PrinterIsAcceptingJobs.class);
+                    //Attribute printerState = attributes.get(PrinterState.class);
+                    return acceptingJobs != null && acceptingJobs.toString().toLowerCase().equals("accepting-jobs");
+                })
+                .toArray(PrintService[]::new);
 
-        //Crea y devuelve un printerjob que se asocia con la impresora predeterminada
-        //del sistema, si no hay, retorna NULL
+        // Crea y devuelve un printerjob que se asocia con la primera impresora disponible
+        // del sistema, si no hay produce un error y salgo del método.
         PrinterJob impresion = PrinterJob.getPrinterJob();
         if (acceptingPrintServices.length > 0) {
             try {
                 impresion.setPrintService(acceptingPrintServices[0]); // Selecciona la primera impresora disponible
             } catch (PrinterException ex) {
                 log.error(ex.getLocalizedMessage());
+                JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaModelo.error.imprimiendo.modelo.Text") + ": " + ex.getMessage(), idioma.getString("Error.text"),
+                        JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
                 return;
             }
+        } else {
+            log.error(idioma.getString("VentanaModelo.error.noHayImpresoras.Text"));
+            JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaModelo.error.noHayImpresoras.Text"), idioma.getString("Error.text"),
+                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+            return;
         }
         //
         impresion.setPrintable(modelo);
