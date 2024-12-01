@@ -29,10 +29,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.attribute.Attribute;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.PrintServiceAttributeSet;
 import javax.print.attribute.standard.Chromaticity;
 import javax.print.attribute.standard.DialogTypeSelection;
+import javax.print.attribute.standard.PrinterIsAcceptingJobs;
+import javax.print.attribute.standard.PrinterState;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLayeredPane;
@@ -307,6 +313,28 @@ public class DialogoModelo extends javax.swing.JDialog {
     }
 
     private void dialogoImpresion() {
+
+        PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
+        for (PrintService printer : printServices) {
+            System.out.println("Impresora encontrada: " + printer.getName());
+            
+            // Obtiene los atributos de la impresora
+            PrintServiceAttributeSet attributes = printer.getAttributes();
+            
+            // Verifica si la impresora está aceptando trabajos
+            Attribute acceptingJobs = attributes.get(PrinterIsAcceptingJobs.class);
+            if (acceptingJobs != null) {
+                System.out.println("Aceptando trabajos: " + acceptingJobs.toString());
+            }
+            
+            // Verifica el estado de la impresora
+            Attribute printerState = attributes.get(PrinterState.class);
+            if (printerState != null) {
+                System.out.println("Estado de la impresora: " + printerState.toString());
+            }
+            
+        }
+
         //Crea y devuelve un printerjob que se asocia con la impresora predeterminada
         //del sistema, si no hay, retorna NULL
         PrinterJob impresion = PrinterJob.getPrinterJob();
