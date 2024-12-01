@@ -28,6 +28,8 @@ import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
@@ -334,10 +336,32 @@ public class DialogoModelo extends javax.swing.JDialog {
             }
             
         }
+        
+        // Filtra las impresoras disponibles
+        PrintService[] availablePrintServices = PrintServiceLookup.lookupPrintServices(null, null);
+        PrintService[] acceptingPrintServices = java.util.Arrays.stream(availablePrintServices)
+            .filter(printer -> {
+                PrintServiceAttributeSet attributes = printer.getAttributes();
+                Attribute acceptingJobs = attributes.get(PrinterIsAcceptingJobs.class);
+                Attribute printerState = attributes.get(PrinterState.class);
+                return acceptingJobs != null && acceptingJobs.toString().equals("ACCEPTING_JOBS") &&
+                       printerState != null && printerState.toString().equals("IDLE");
+            })
+            .toArray(PrintService[]::new);
+        
+        
 
         //Crea y devuelve un printerjob que se asocia con la impresora predeterminada
         //del sistema, si no hay, retorna NULL
         PrinterJob impresion = PrinterJob.getPrinterJob();
+        if (acceptingPrintServices.length > 0) {
+            try {
+                impresion.setPrintService(acceptingPrintServices[0]); // Selecciona la primera impresora disponible
+            } catch (PrinterException ex) {
+                log.error(ex.getLocalizedMessage());
+                return;
+            }
+        }
         //
         impresion.setPrintable(modelo);
         impresion.setJobName(idioma.getString("Impresion.NombreTrabajo.text"));
