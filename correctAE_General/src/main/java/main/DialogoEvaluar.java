@@ -221,12 +221,12 @@ public class DialogoEvaluar extends javax.swing.JDialog {
         etqInfoDobleClick.setFont(Config.FUENTE_NORMAL.deriveFont(Font.BOLD));
         etqInfoDobleClick.setText(bundle.getString("DialogoEvaluar.etqInfoDobleClick.text")); // NOI18N
 
-        btnMaxiMini.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnMaxiMini.setFont(Config.FUENTE_NORMAL);
         btnMaxiMini.setText("M"); // NOI18N
         btnMaxiMini.setToolTipText(bundle.getString("DialogoEvaluar.btnMaxiMiniTooltip.text")); // NOI18N
         btnMaxiMini.setMaximumSize(new java.awt.Dimension(50, 30));
         btnMaxiMini.setMinimumSize(new java.awt.Dimension(26, 26));
-        btnMaxiMini.setPreferredSize(new java.awt.Dimension(40, 26));
+        btnMaxiMini.setPreferredSize(new java.awt.Dimension(45, 26));
         btnMaxiMini.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMaxiMiniActionPerformed(evt);
@@ -255,7 +255,7 @@ public class DialogoEvaluar extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(etqNombreExamen)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 841, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 836, Short.MAX_VALUE)
                         .addComponent(btnMaxiMini, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(etqInfoDobleClick))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

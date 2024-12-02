@@ -348,8 +348,6 @@ public class DialogoModelo extends javax.swing.JDialog {
 
         //muestra ventana de dialogo para imprimir
         // Muestro el mensaje de Imprimiendo...
-        // Mequede. Sale el iconoAplic de Java, en el diálogo, a ver cómo se cambia
-        // he usadao el atributo con dueño, pero tampoco va, provar con un wrapper
         //
         PrintRequestAttributeSet attr = new HashPrintRequestAttributeSet();
         attr.add(Chromaticity.MONOCHROME); // Blanco y negro
