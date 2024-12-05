@@ -658,8 +658,8 @@ public class Procesador {
                             return mensajesResultado;
                         }
                     } else {
-                        log.error(idioma.getString("DialogoTipos.error.leer_csv.text") + (lineaNum + 1));
-                        mensajesResultado[0] = "DialogoTipos.error.error.leer_csv.text";
+                        log.error(idioma.getString("DialogoTipos.error.leer_csv_linea.text") + (lineaNum + 1));
+                        mensajesResultado[0] = "DialogoTipos.error.leer_csv.text";
                         mensajesResultado[1] = "Atencion.text";
                         mensajesResultado[2] = String.valueOf(JOptionPane.WARNING_MESSAGE);
                         return mensajesResultado;
