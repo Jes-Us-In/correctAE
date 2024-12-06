@@ -747,14 +747,14 @@ public class Procesador {
         // Corrijo la imagen
         if (getImagenTest() != null) {
             try {
-                setImagenTest(corrigeImagen(getImagenTest(), true));
+                setImagenTest(corrigeImagen(getImagenTest(), true)); // True hace el recorte de márgenes fijado en la configuración
             } catch (RasterFormatException ex) {
                 // Error Buscando esquinas, u otro. Pegunto si continuar. El último parámetro es el botón npor defecto
                 return false;
             }
             getTestActual().setCasillasMarcadas(analizar(getImagenTest(), getTestActual()));
             if (getTestActual().getCasillasMarcadas() != null) {
-                // Analizo los campos y almaceno el resultado en cada uno de ellos
+                // Analizo los campos y almaceno el resultado en cada uno de ellos, Paso el test actual y todas las casillas del modelo
                 setTestActual(extraeResultadosCampos(getTestActual(), getCasillasTest()));
                 // Actualizo el modelo de la tabla de test leidos, usado en VentanaInicio
                 actualizaTablaTest(listaTestsLeidos, getTestActual());
@@ -1317,6 +1317,10 @@ public class Procesador {
     static public List<Casilla> analizar(BufferedImage img, ModeloTest100 elTest) {
         /* Analiza el brillo alrededor de la coordenada (ésta es el centro), en 
          * un área cuadrada del ancho definido en Principal.anchoMarcasRespuesta
+         * Se analizan todas las casillas del test, se pone si propiedad si está 
+         * maracada o NO.
+         * Se devuelve una lista con las que están marcadas, SOLO, Para guardarla
+         * en las propiedad correspondiente del test.
          */
         List<Casilla> marcas = new ArrayList<>();
 
@@ -1457,16 +1461,17 @@ public class Procesador {
 
     /**
      * @param elTest Test del modelo en vigor
-     * @param marcas Lista de casillas marcadas
+     * @param casillasDelTest Lista de todas las casillas del test que tiene el modelo
+     *          las macardas y no marcadas
      * @return elTest Test ya corregido del modelo en vigor
      */
-    static public ModeloTest100 extraeResultadosCampos(ModeloTest100 elTest, List<Casilla> marcas) {
+    static public ModeloTest100 extraeResultadosCampos(ModeloTest100 elTest, List<Casilla> casillasDelTest) {
         String resultado;
         Casilla unaCasilla;
         boolean yaHayMarca;
 
         try {
-            if (marcas != null) {
+            if (casillasDelTest != null) {
                 for (Campo campoVoy : elTest.getCamposTest()) {
                     char[] campo = new char[campoVoy.getDigitos()];
                     resultado = "";
@@ -1475,7 +1480,7 @@ public class Procesador {
                         yaHayMarca = false;
                         // Para cada Casilla del dígito del campo
                         for (int casillaDigito = 0; casillaDigito < campoVoy.getLargoDigitos(); casillaDigito++) {
-                            unaCasilla = marcas.get(campoVoy.getPosIncicioPlantilla() + (digito * campoVoy.getLargoDigitos()) + casillaDigito);
+                            unaCasilla = casillasDelTest.get(campoVoy.getPosIncicioPlantilla() + (digito * campoVoy.getLargoDigitos()) + casillaDigito);
                             // Guardo la coordenada original, el centro del cuadrado
                             if (unaCasilla.isMarcada()) {
                                 if (!yaHayMarca) {

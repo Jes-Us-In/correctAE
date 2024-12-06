@@ -698,7 +698,7 @@ public class Config {
             esquinasZona[3][0] = new Casilla(ANCHO_MODELO - MARGEN_HOJA_NO_BUSCAR - getRangoBusquedaEsquinas(), ALTO_MODELO - MARGEN_HOJA_NO_BUSCAR - getRangoBusquedaEsquinas()); // Rango de búsqueda Inferior Derecho, esquinasImagen superior Izquierda del rango
             esquinasZona[3][1] = new Casilla(ANCHO_MODELO - MARGEN_HOJA_NO_BUSCAR - ANCHO_PUNTO_ESQUINA, ALTO_MODELO - MARGEN_HOJA_NO_BUSCAR - ANCHO_PUNTO_ESQUINA); // esquinasImagen inferior derecha del rango
 
-            // Cargo las casillas del test en activo
+            // Cargo todas las casillas del test del modelo100, que está activo. Se cargan del CSV 
             Procesador.setCasillasTest(Procesador.cargaCasillas());
 
         } catch (FileNotFoundException ex) {
