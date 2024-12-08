@@ -27,6 +27,7 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 import javax.print.PrintService;
@@ -324,12 +325,25 @@ public class DialogoModelo extends javax.swing.JDialog {
                 })
                 .toArray(PrintService[]::new);
 
+        // Busco la impresora por defecto
+        PrintService service = PrintServiceLookup.lookupDefaultPrintService();
+
         // Crea y devuelve un printerjob que se asocia con la primera impresora disponible
         // del sistema, si no hay produce un error y salgo del método.
         PrinterJob impresion = PrinterJob.getPrinterJob();
         if (acceptingPrintServices.length > 0) {
             try {
-                impresion.setPrintService(acceptingPrintServices[0]); // Selecciona la primera impresora disponible
+                if (service != null) {
+                    System.out.println("Impresora por defecto: " + service.getName());
+                    if (Arrays.asList(acceptingPrintServices).contains(service)) {
+                        System.out.println("La Impresora por defecto: " + service.getName() + " Está Disponible");
+                        impresion.setPrintService(service); // Selecciona la primera impresora por defecto
+                    } else {
+                        impresion.setPrintService(acceptingPrintServices[0]); // Selecciona la primera impresora disponible
+                    }
+                } else {
+                    impresion.setPrintService(acceptingPrintServices[0]); // Selecciona la primera impresora disponible Si no hay por defecto
+                }
             } catch (PrinterException ex) {
                 log.error(ex.getLocalizedMessage());
                 JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaModelo.error.imprimiendo.modelo.Text") + ": " + ex.getMessage(), idioma.getString("Error.text"),
