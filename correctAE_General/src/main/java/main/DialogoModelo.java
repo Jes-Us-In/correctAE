@@ -334,10 +334,9 @@ public class DialogoModelo extends javax.swing.JDialog {
         if (acceptingPrintServices.length > 0) {
             try {
                 if (service != null) {
-                    System.out.println("Impresora por defecto: " + service.getName());
+                    // Selecciona la primera impresora por defecto si esta entre las disponibles
                     if (Arrays.asList(acceptingPrintServices).contains(service)) {
-                        System.out.println("La Impresora por defecto: " + service.getName() + " Está Disponible");
-                        impresion.setPrintService(service); // Selecciona la primera impresora por defecto
+                        impresion.setPrintService(service);
                     } else {
                         impresion.setPrintService(acceptingPrintServices[0]); // Selecciona la primera impresora disponible
                     }
