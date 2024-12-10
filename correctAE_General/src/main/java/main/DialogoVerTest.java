@@ -40,6 +40,18 @@ import javax.swing.JScrollBar;
  */
 public class DialogoVerTest extends javax.swing.JDialog {
 
+    private boolean imagenCargada;
+
+    /**
+     *
+     * @return Si la imagen se ha cargado correctamente
+     */
+    public boolean isImagenCargada() {
+        return imagenCargada;
+    }
+
+    private File fichero;
+    
     BufferedImage imagenTest;
     protected Loguero log = Procesador.getLog();
     ResourceBundle idioma = Procesador.idioma;
@@ -48,6 +60,10 @@ public class DialogoVerTest extends javax.swing.JDialog {
     // Para escucher los eventos de teclado
     AWTEventListener flechasListener;
     JScrollBar barraVertical;
+
+    // TAmaño de la imagen que se ve en el formulario, más pequeña que la real
+    private int altoImagenPresentacion;
+    private int anchoImagenPresentacion;
 
     /**
      * Creates new form DialogoVerTest
@@ -59,112 +75,106 @@ public class DialogoVerTest extends javax.swing.JDialog {
     //public DialogoVerTest(java.awt.Frame parent, boolean modal, File fichero, List<Casilla> casillasM) {
     public DialogoVerTest(java.awt.Frame parent, boolean modal, int indiceTablatestLeidos) {
         super(parent, modal);
+        this.imagenCargada = false;
+        indiceActual = indiceTablatestLeidos;
         initComponents();
         InicializarFormulario();
-        indiceActual = indiceTablatestLeidos;
-        // En la llamada ya se ha comprobado que existe el fichero, pero puede fallar la carga
-        this.casillasMarcadas = Procesador.listaTestsLeidos.get(indiceActual).getCasillasMarcadas();
-        try {
-            // Obtengo el numero de fila seleccionado en la tabla de test del padre para acceder al test de la lista de Tests en la clase Principal
-            File fichero = new File(Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo());
-            this.setTitle("TEST " + fichero.getName());
-            cargarImagen(fichero);
-        } catch (Exception ex) {
-            log.info(idioma.getString("DialogoVerTest.noExiste.text"));
-            this.dispose();
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerTest.noExiste.text"), idioma.getString("Error.text"),
-                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
-        }
     }
 
     private void InicializarFormulario() {
-        // Coloco el formulario en el centro de la pantalla tamaño vertical máximo
-        // que permita la pantalla
-        this.setSize(new Dimension(this.getWidth(), Procesador.getAltoPantalla() - 50));
-        // Coloco el formulario en el centro de la pantalla
-        Procesador.Centrame(this);
-        this.setLocation(this.getLocation().x, 5);
-        this.barraVertical = jScrollPane1.getVerticalScrollBar();
+        // En la llamada ya se ha comprobado que existe el fichero, pero puede fallar la carga
+        this.casillasMarcadas = Procesador.listaTestsLeidos.get(indiceActual).getCasillasMarcadas();
+        try {
+            // Valores de tamaño de la imagen para mostrar
+            altoImagenPresentacion = etqLaImagen.getHeight();
+            // Ajusto el ancho proporcionalmente
+            anchoImagenPresentacion = (Config.ANCHO_MODELO * etqLaImagen.getHeight() / Config.ALTO_MODELO);
+            // Obtengo el numero de fila seleccionado en la tabla de test del padre para acceder al test de la lista de Tests en la clase Principal
+            this.fichero = new File(Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo());
+            this.setTitle("TEST " + fichero.getName());
+            imagenTest = cargaLaImagen(this.fichero);
+            imagenCargada = true;
+            // Coloco el formulario en el centro de la pantalla tamaño vertical máximo
+            // que permita la pantalla
+            this.setSize(new Dimension(anchoImagenPresentacion + 150, Procesador.getAltoPantalla() - 50));
+            // Coloco el formulario en el centro de la pantalla
+            Procesador.Centrame(this);
+            this.setLocation(this.getLocation().x, 5);
+            this.barraVertical = jScrollPane1.getVerticalScrollBar();
 
-        // Escucho los eventos de teclado para avanzar y retroceder en la tabla de test
-        // Tambien para hacer scroll en la imagen
-        //
-        this.flechasListener = (AWTEvent event) -> {
-            // Como se usa la máscara AWTEvent.KEY_EVENT_MASK nunca va a fallar
-            KeyEvent keyEvent = (KeyEvent) event;
-            // Al soltar la tecla, evaluo cual es
-            if (keyEvent.getID() == KeyEvent.KEY_RELEASED) {
-                // Si está activa el check, al pulsar las flechas muevo las casillas
-                switch (keyEvent.getKeyCode()) {
-                    case KeyEvent.VK_LEFT:
-                        btnAnteriorActionPerformed(new java.awt.event.ActionEvent(event, 1, "anterior"));
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        btnSiguienteActionPerformed(new java.awt.event.ActionEvent(event, 1, "siguiente"));
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        jScrollPane1.getVerticalScrollBar().setValue(barraVertical.getValue() + barraVertical.getUnitIncrement(1));
-                        break;
-                    case KeyEvent.VK_UP:
-                        jScrollPane1.getVerticalScrollBar().setValue(barraVertical.getValue() - barraVertical.getUnitIncrement(1));
-                        break;
-                    case KeyEvent.VK_PAGE_DOWN:
-                        jScrollPane1.getVerticalScrollBar().setValue(barraVertical.getMaximum());
-                        break;
-                    case KeyEvent.VK_PAGE_UP:
-                        jScrollPane1.getVerticalScrollBar().setValue(barraVertical.getMinimum());
-                        break;
+            // Escucho los eventos de teclado para avanzar y retroceder en la tabla de test
+            // Tambien para hacer scroll en la imagen
+            //
+            this.flechasListener = (AWTEvent event) -> {
+                // Como se usa la máscara AWTEvent.KEY_EVENT_MASK nunca va a fallar
+                KeyEvent keyEvent = (KeyEvent) event;
+                // Al soltar la tecla, evaluo cual es
+                if (keyEvent.getID() == KeyEvent.KEY_RELEASED) {
+                    // Si está activa el check, al pulsar las flechas muevo las casillas
+                    switch (keyEvent.getKeyCode()) {
+                        case KeyEvent.VK_LEFT:
+                            btnAnteriorActionPerformed(new java.awt.event.ActionEvent(event, 1, "anterior"));
+                            break;
+                        case KeyEvent.VK_RIGHT:
+                            btnSiguienteActionPerformed(new java.awt.event.ActionEvent(event, 1, "siguiente"));
+                            break;
+                        case KeyEvent.VK_DOWN:
+                            jScrollPane1.getVerticalScrollBar().setValue(barraVertical.getValue() + barraVertical.getUnitIncrement(1));
+                            break;
+                        case KeyEvent.VK_UP:
+                            jScrollPane1.getVerticalScrollBar().setValue(barraVertical.getValue() - barraVertical.getUnitIncrement(1));
+                            break;
+                        case KeyEvent.VK_PAGE_DOWN:
+                            jScrollPane1.getVerticalScrollBar().setValue(barraVertical.getMaximum());
+                            break;
+                        case KeyEvent.VK_PAGE_UP:
+                            jScrollPane1.getVerticalScrollBar().setValue(barraVertical.getMinimum());
+                            break;
+                    }
                 }
-            }
-        };
-        // Escucho los eventos globales. Con la máscara de sólo eventos de teclado
-        Toolkit.getDefaultToolkit().addAWTEventListener(flechasListener, AWTEvent.KEY_EVENT_MASK);
-        //
+            };
+            // Escucho los eventos globales. Con la máscara de sólo eventos de teclado
+            Toolkit.getDefaultToolkit().addAWTEventListener(flechasListener, AWTEvent.KEY_EVENT_MASK);
+            //
+        } catch (Exception ex) {
+            log.info(idioma.getString("DialogoVerTest.noExiste.text"));
+            JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerTest.noExiste.text") + ex.getLocalizedMessage(),
+                    idioma.getString("Error.text"),
+                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+            imagenCargada = false;
+        }
     }
 
-    private void cargarImagen(File fichero) {
+    private BufferedImage cargaLaImagen(File fichero) {
+        BufferedImage laImg;
         int mitadAncho = Config.getAnchoMarcasRespuesta() / 2;
 
         // Cargo la imagen del test enviado
         Procesador.cargarImagen(fichero);
-        imagenTest = Procesador.imagenCorregida();
-        if (imagenTest != null && fichero != null) {
+        laImg = Procesador.imagenCorregidaAnalizadaExtraida();
+        if (laImg != null && fichero != null) {
             if (casillasMarcadas != null) {
-                Graphics2D g = imagenTest.createGraphics();
+                Graphics2D g = laImg.createGraphics();
                 g.setColor(Color.RED);
                 g.setStroke(new BasicStroke(Config.getGrosorCirculoMarca()));
                 for (Casilla unPunto : casillasMarcadas) {
-                    //g.drawRect(unPunto.getCoordX() - mitadAncho, unPunto.getCoordY() - mitadAncho, Config.getAnchoMarcasRespuesta(), Config.getAnchoMarcasRespuesta());
                     g.drawOval(unPunto.getCoordX() - mitadAncho, unPunto.getCoordY() - mitadAncho, Config.getAnchoMarcasRespuesta(), Config.getAnchoMarcasRespuesta());
                 }
-                etqLaImagen.setIcon(new ImageIcon(imagenIconPorCiento(imagenTest)));
+                etqLaImagen.setIcon(new ImageIcon(Procesador.imagenIconReducida(laImg, this.anchoImagenPresentacion, this.altoImagenPresentacion )));
                 rutaArchivo.setText(idioma.getString("VentanaTest.rutaArchivo.text") + fichero.getAbsolutePath());
                 repaint();
                 g.dispose();
             } else {
                 JOptionPane.showOptionDialog(rootPane, idioma.getString("VENTANAPRUEBASTESTS.btnAnalizar.ERROR_FICHERO_PLANTILLA.TEXT"), idioma.getString("Error.text"),
                         JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+                laImg = null;
             }
         } else {
             JOptionPane.showOptionDialog(rootPane, idioma.getString("VENTANAPRUEBASTESTS.btnAnalizar.ERROR_SIN_IMAGEN_O_LIMITE.TEXT"), idioma.getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+            laImg = null;
         }
-    }
-
-    /**
-     *
-     * @param imagen Imagen original
-     * @return imagen redimensionada, según el tamaño del contenedor "laImagen"
-     */
-    private BufferedImage imagenIconPorCiento(BufferedImage imagen) {
-        int ancho = etqLaImagen.getWidth();
-        int alto = (imagen.getHeight() * etqLaImagen.getWidth() / imagen.getWidth());
-
-        BufferedImage resultado = new BufferedImage(ancho, alto, imagen.getType());
-        Graphics2D graphics2D = resultado.createGraphics();
-        graphics2D.drawImage(imagen, 0, 0, ancho, alto, null);
-        graphics2D.dispose();
-        return resultado;
+        return laImg;
     }
 
     /**
@@ -176,9 +186,10 @@ public class DialogoVerTest extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelImagen = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         etqLaImagen = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        panelInferior = new javax.swing.JPanel();
         rutaArchivo = new javax.swing.JLabel();
         btnAnterior = new javax.swing.JButton();
         btnSiguiente = new javax.swing.JButton();
@@ -186,7 +197,25 @@ public class DialogoVerTest extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(950, 1200));
 
+        etqLaImagen.setMinimumSize(new java.awt.Dimension(792, 800));
         jScrollPane1.setViewportView(etqLaImagen);
+
+        javax.swing.GroupLayout panelImagenLayout = new javax.swing.GroupLayout(panelImagen);
+        panelImagen.setLayout(panelImagenLayout);
+        panelImagenLayout.setHorizontalGroup(
+            panelImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelImagenLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelImagenLayout.setVerticalGroup(
+            panelImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelImagenLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         rutaArchivo.setFont(Config.FUENTE_NORMAL);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("propiedades/Idioma"); // NOI18N
@@ -208,24 +237,24 @@ public class DialogoVerTest extends javax.swing.JDialog {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelInferiorLayout = new javax.swing.GroupLayout(panelInferior);
+        panelInferior.setLayout(panelInferiorLayout);
+        panelInferiorLayout.setHorizontalGroup(
+            panelInferiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInferiorLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(rutaArchivo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 654, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 656, Short.MAX_VALUE)
                 .addComponent(btnAnterior)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSiguiente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        panelInferiorLayout.setVerticalGroup(
+            panelInferiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInferiorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelInferiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rutaArchivo)
                     .addComponent(btnAnterior)
                     .addComponent(btnSiguiente))
@@ -237,19 +266,22 @@ public class DialogoVerTest extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addGap(12, 12, 12))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(panelImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(panelInferior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(12, 12, 12))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 792, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
+                .addComponent(panelInferior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -269,7 +301,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
                     // Obtengo el numero de fila seleccionado en la tabla de test del padre para acceder al test de la lista de Tests del modelo
                     File fichero = new File(Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo());
                     this.setTitle("TEST " + fichero.getName());
-                    cargarImagen(fichero);
+                    imagenTest = cargaLaImagen(fichero);
                 }
             } catch (Exception ex) {
                 log.info(idioma.getString("DialogoVerTest.noExiste.text"));
@@ -293,7 +325,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
                     // Obtengo el numero de fila seleccionado en la tabla de test del padre para acceder al test de la lista de Tests del modelo
                     File fichero = new File(Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo());
                     this.setTitle("TEST " + fichero.getName());
-                    cargarImagen(fichero);
+                    imagenTest = cargaLaImagen(fichero);
                 }
             } catch (Exception ex) {
                 log.info(idioma.getString("DialogoVerTest.noExiste.text"));
@@ -348,8 +380,9 @@ public class DialogoVerTest extends javax.swing.JDialog {
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JLabel etqLaImagen;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel panelImagen;
+    private javax.swing.JPanel panelInferior;
     private javax.swing.JLabel rutaArchivo;
     // End of variables declaration//GEN-END:variables
 }

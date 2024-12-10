@@ -1512,7 +1512,7 @@ public class Procesador {
      *
      * @return Imagen del test corregida
      */
-    public static BufferedImage imagenCorregida() {
+    public static BufferedImage imagenCorregidaAnalizadaExtraida() {
         // Corrijo la imagen y actualizo el testActual
         if (imagenTest != null) {
             imagenTest = corrigeImagen(imagenTest, true);
@@ -1557,6 +1557,20 @@ public class Procesador {
         }
     }
 
+    /**
+     *
+     * @param imagenOriginal Imagen original
+     * @return imagen redimensionada, según el tamaño del contenedor "laImagen"
+     */
+    public static BufferedImage imagenIconReducida(BufferedImage imagenOriginal, int anchoImagenPresentacion, int altoImagenPresentacion) {
+        BufferedImage imagenResultado = new BufferedImage(anchoImagenPresentacion, altoImagenPresentacion, imagenOriginal.getType());
+        Graphics2D graphics2D = imagenResultado.createGraphics();
+        graphics2D.drawImage(imagenOriginal, 0, 0, anchoImagenPresentacion, altoImagenPresentacion, null);
+        graphics2D.dispose();
+        return imagenResultado;
+    }
+    
+    
     /**
      *
      * @param imag

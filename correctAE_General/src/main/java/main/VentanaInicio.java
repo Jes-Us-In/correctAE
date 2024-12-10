@@ -118,7 +118,11 @@ public class VentanaInicio extends javax.swing.JFrame {
                             // Paso al Diálogo, ademaás del padre y el boolean, NO es modal, el fichero, que ya se que existe, y las casillas marcadas de dicho test
                             //DialogoVerTest ventaTest = new DialogoVerTest(pasoPadre, false, fich, Procesador.listaTestsLeidos.get(tablaTests.getSelectedRow()).getCasillasMarcadas()); // permito abrir varios tests
                             DialogoVerTest ventaTest = new DialogoVerTest(pasoPadre, false, tablaTests.getSelectedRow()); // permito abrir varios tests
-                            ventaTest.setVisible(true);
+                            if (ventaTest.isImagenCargada()) {
+                                ventaTest.setVisible(true);
+                            } else {
+                                ventaTest.dispose();
+                            }
                         } else {
                             JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerTest.noExiste.text") + ": " + fich.getCanonicalPath(),
                                     idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
@@ -483,8 +487,8 @@ public class VentanaInicio extends javax.swing.JFrame {
         if (SelectorCarpeta.showDialog(this, idioma.getString("FileChooser.Carpeta.title")) == DialogoCarpertaFichero.APPROVE_OPTION) {
             Config.setCarpetaArchivosTests(SelectorCarpeta.getSelectedFile().getPath());
             File carpeta = new File(SelectorCarpeta.getSelectedFile().getPath());
-            FilenameFilter imgFiltro = (dir, name) -> (name.toLowerCase().endsWith(".jpg") | name.toLowerCase().endsWith(".jpeg") | 
-                    name.toLowerCase().endsWith(".png") | name.toLowerCase().endsWith(".tif"));
+            FilenameFilter imgFiltro = (dir, name) -> (name.toLowerCase().endsWith(".jpg") | name.toLowerCase().endsWith(".jpeg")
+                    | name.toLowerCase().endsWith(".png") | name.toLowerCase().endsWith(".tif"));
             File[] fiches = carpeta.listFiles(imgFiltro);
             //
             // Utilizo Swingworker para que se haga la lectura en background, una vez terminada se avisa con un JOptionPane
