@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>OMRJesusdb</groupId>
     <artifactId>correctAE</artifactId>
-    <version>General.1.7.6</version>
+    <version>General.1.7.7</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
