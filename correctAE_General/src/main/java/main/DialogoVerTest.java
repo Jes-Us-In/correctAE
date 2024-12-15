@@ -238,7 +238,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
                 .addContainerGap(645, Short.MAX_VALUE))
         );
 
-        panelImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelImagen.setBorder(javax.swing.BorderFactory.createLineBorder(null));
 
         etqLaImagen.setMinimumSize(new java.awt.Dimension(792, 800));
         jScrollPane1.setViewportView(etqLaImagen);
@@ -260,7 +260,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        panelRutaArchivo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelRutaArchivo.setBorder(javax.swing.BorderFactory.createLineBorder(null));
 
         rutaArchivo.setFont(Config.FUENTE_NORMAL);
         rutaArchivo.setText(bundle.getString("DialogoVerTest.rutaArchivo.text")); // NOI18N
