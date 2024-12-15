@@ -189,8 +189,8 @@ public class DialogoVerTest extends javax.swing.JDialog {
         panelPrincipal = new javax.swing.JPanel();
         panelBotonesImagen = new javax.swing.JPanel();
         panelBotones = new javax.swing.JPanel();
-        btnSiguiente = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
+        btnSiguiente = new javax.swing.JButton();
         panelImagen = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         etqLaImagen = new javax.swing.JLabel();
@@ -200,20 +200,10 @@ public class DialogoVerTest extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(950, 1200));
 
-        panelBotones.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         panelBotones.setLayout(new java.awt.BorderLayout(5, 5));
 
-        btnSiguiente.setFont(Config.FUENTE_NORMAL);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("propiedades/Idioma"); // NOI18N
-        btnSiguiente.setText(bundle.getString("DialogoVerTest.btnSiguiente.text")); // NOI18N
-        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSiguienteActionPerformed(evt);
-            }
-        });
-        panelBotones.add(btnSiguiente, java.awt.BorderLayout.PAGE_START);
-
         btnAnterior.setFont(Config.FUENTE_NORMAL);
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("propiedades/Idioma"); // NOI18N
         btnAnterior.setText(bundle.getString("DialogoVerTest.btnAnterior.text")); // NOI18N
         btnAnterior.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -221,6 +211,15 @@ public class DialogoVerTest extends javax.swing.JDialog {
             }
         });
         panelBotones.add(btnAnterior, java.awt.BorderLayout.CENTER);
+
+        btnSiguiente.setFont(Config.FUENTE_NORMAL);
+        btnSiguiente.setText(bundle.getString("DialogoVerTest.btnSiguiente.text")); // NOI18N
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
+        panelBotones.add(btnSiguiente, java.awt.BorderLayout.PAGE_START);
 
         javax.swing.GroupLayout panelBotonesImagenLayout = new javax.swing.GroupLayout(panelBotonesImagen);
         panelBotonesImagen.setLayout(panelBotonesImagenLayout);
@@ -236,7 +235,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
             .addGroup(panelBotonesImagenLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(641, Short.MAX_VALUE))
+                .addContainerGap(645, Short.MAX_VALUE))
         );
 
         panelImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
