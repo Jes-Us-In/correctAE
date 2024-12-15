@@ -627,13 +627,13 @@ public class DialogoEvaluar extends javax.swing.JDialog {
     private void btnMaxiMiniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaxiMiniActionPerformed
         // Maximizo o minimizo el diálogo, según esté
         if (this.isMaximizado) {
-            this.setLocation(this.posicionPrevia);
             this.setSize(tamanoPrevio);
+            this.setLocation(this.posicionPrevia);
             btnMaxiMini.setText("M");
             this.isMaximizado = false;
         } else {
-            this.posicionPrevia = this.getLocation();
             this.tamanoPrevio.setSize(this.getWidth(), this.getHeight());
+            this.posicionPrevia = this.getLocation();
             btnMaxiMini.setText("m");
             // Redimensiono al máximo disponible
             GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
