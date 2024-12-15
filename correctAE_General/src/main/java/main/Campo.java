@@ -33,7 +33,7 @@ public class Campo {
      * @param digitos Cantidad de dígitos del campo
      * @param largoDigitos Logitud de los dígitos
      * @param valoresDigito Valores que puede tomar el dígito
-     * @param posInicPlant Posición incial en la plantilla de coordenadas del test
+     * @param posInicPlant Posición inicial en la plantilla de coordenadas del test
      * @param posFinPlant Posición final en la plantilla de coordenadas del test
      */
     public Campo(String nombreCampo, int digitos, int largoDigitos, String valoresDigito, int posInicPlant, int posFinPlant) {

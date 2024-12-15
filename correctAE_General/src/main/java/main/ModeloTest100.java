@@ -45,7 +45,7 @@ public class ModeloTest100 {
     private String nombreArchivo;
 
     // Campos del test
-    private List<Campo> camposTest;// {nifNumero, nifLetra, tipo, grupo, respuestas};//new Campo[NUMERO_DE_CAMPOS];
+    private List<Campo> camposTest;
     /*Campos:
         Respuestas:   0-99  (de la 1 a la 100)
         NIFNumero:    100-179
