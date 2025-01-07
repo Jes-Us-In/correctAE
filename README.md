@@ -4,14 +4,9 @@ It belongs to the OMR (Optical Mark Recognition) family of tools. Its main chara
 reading machines and specific answer sheets, as this type of application does, its operation is based on the use of ordinary paper sheets 
 for answers, A4 size. The image on this sheets can be captured through an ordinary commercial image scanner. With the graphic files obtained,
 __CorrectAE__ is fed for data capture and evaluation.
-
-
-![splashAE](https://github.com/user-attachments/assets/9c43a8e9-d2e9-4448-98d1-3d3d5aa0161f)
-
 <p align="center">
-  <img width="30%" src="https://github.com/user-attachments/assets/9c43a8e9-d2e9-4448-98d1-3d3d5aa0161f">  
+  <img width="50%" src="https://github.com/user-attachments/assets/9c43a8e9-d2e9-4448-98d1-3d3d5aa0161f">  
 </p>
-
 Windows Installer: 
 1. CorrectAE-1.7.7.exe: 
   -	MD5  	   A28EA810D880B7F613EB2FA0F3F9CD47
