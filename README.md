@@ -8,8 +8,9 @@ __CorrectAE__ is fed for data capture and evaluation.
 
 ![splashAE](https://github.com/user-attachments/assets/9c43a8e9-d2e9-4448-98d1-3d3d5aa0161f)
 
-<img align="center" width="100%" src="https://github.com/user-attachments/assets/9c43a8e9-d2e9-4448-98d1-3d3d5aa0161f">
-
+<p align="center">
+  <img width="30%" src="https://github.com/user-attachments/assets/9c43a8e9-d2e9-4448-98d1-3d3d5aa0161f">  
+</p>
 
 Windows Installer: 
 1. CorrectAE-1.7.7.exe: 
