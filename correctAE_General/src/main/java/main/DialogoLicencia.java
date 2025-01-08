@@ -16,9 +16,9 @@
  *
  * SPDX-License-Identifier: GPL-3.0
  */
-
 package main;
 
+import java.awt.GraphicsEnvironment;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +26,7 @@ import java.io.InputStreamReader;
 import java.util.ResourceBundle;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -60,22 +61,65 @@ public class DialogoLicencia extends javax.swing.JDialog {
         this.setIconImage(Config.getIconoAplic().getImage());
         // Coloco el formulario en el centro de la pantalla
         Procesador.Centrame(this);
-        // Cargo el texto de la licencia
+        // Redimensiono al máximo alto disponible
+        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        this.setLocation(this.getLocation().x, 0);
+        this.setSize(this.getWidth(), env.getMaximumWindowBounds().height);
+
+        pestanasPanel.setTitleAt(1, idioma.getString("DialogoLicencia.Sqlite"));
+        pestanasPanel.setTitleAt(3, idioma.getString("DialogoLicencia.AbsoluteLayout"));
+        for (int i = 0; i < pestanasPanel.getTabCount(); i++) {
+            switch (i) {
+                case 0 -> {
+                    //CorrectAE
+                    textoLicencia1.setText(cargaLicencia("LICENSE_GNU_v3").getText());
+                    textoLicencia1.setContentType("text/html");
+                    textoLicencia1.setText(cargaLicenciaHTML("LICENSE_GNU_v3"));
+                    textoLicencia1.setCaretPosition(0);
+                }
+                case 1 -> {
+                    //Sqlite
+                    textoLicencia2.setText(cargaLicencia("LICENSE_Apache_v2").getText());
+                    textoLicencia2.setContentType("text/html");
+                    textoLicencia2.setText(cargaLicenciaHTML("LICENSE_Apache_v2"));
+                    textoLicencia2.setCaretPosition(0);
+                }
+                case 2 -> {
+                    //jfreeChart
+                    textoLicencia3.setText(cargaLicencia("LICENSE_GNU_LGPL_v3").getText());
+                    textoLicencia3.setContentType("text/html");
+                    textoLicencia3.setText(cargaLicenciaHTML("LICENSE_GNU_LGPL_v3"));
+                    textoLicencia3.setCaretPosition(0);
+                }
+                case 3 -> {
+                    //AbsoluteLayout
+                    textoLicencia4.setText(cargaLicencia("LICENSE_Apache_v2").getText());
+                    textoLicencia4.setContentType("text/html");
+                    textoLicencia4.setText(cargaLicenciaHTML("LICENSE_Apache_v2"));
+                    textoLicencia4.setCaretPosition(0);
+                }
+            }
+        }
+    }
+
+    private String cargaLicenciaHTML(String nombreArchivo) {
+        // Cargo el texto de la licencia de CorrectAE
+        StringBuilder textoLicencia = new StringBuilder();
+
         try {
-            InputStream textoPlano = this.getClass().getResourceAsStream("LICENSE");
+            InputStream textoPlano = this.getClass().getResourceAsStream(nombreArchivo);
+
             if (textoPlano != null) {
                 try (BufferedReader lector = new BufferedReader(new InputStreamReader(textoPlano))) {
                     String linea;
                     while ((linea = lector.readLine()) != null) {
-                        textoLicencia.append("          ".concat(linea.concat(System.lineSeparator())));
+                        //textoLicencia.append("          ".concat(linea.concat(System.lineSeparator())));
+                        textoLicencia.append(linea.concat(System.lineSeparator()));
                     }
                 }
-                textoLicencia.setCaretPosition(0);
-                this.pack();
-                this.repaint();
             } else {
-                log.error(idioma.getString("DialogoVerLicencia.noExiste.text"));
-                JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerLicencia.noExiste.text"),
+                log.error(idioma.getString("DialogoVerLicencia.noExiste.text") + ": " + nombreArchivo);
+                JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerLicencia.noExiste.text") + ": " + nombreArchivo,
                         idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             }
         } catch (IOException ex) {
@@ -83,6 +127,35 @@ public class DialogoLicencia extends javax.swing.JDialog {
             JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerLicencia.noExiste.text") + ": " + ex.getLocalizedMessage(),
                     idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
+        return textoLicencia.toString();
+    }
+
+    private JTextArea cargaLicencia(String nombreArchivo) {
+        // Cargo el texto de la licencia de CorrectAE
+        JTextArea textoLicencia = new JTextArea("");
+
+        try {
+            InputStream textoPlano = this.getClass().getResourceAsStream(nombreArchivo);
+
+            if (textoPlano != null) {
+                try (BufferedReader lector = new BufferedReader(new InputStreamReader(textoPlano))) {
+                    String linea;
+                    while ((linea = lector.readLine()) != null) {
+                        //textoLicencia.append("          ".concat(linea.concat(System.lineSeparator())));
+                        textoLicencia.append(linea.concat(System.lineSeparator()));
+                    }
+                }
+            } else {
+                log.error(idioma.getString("DialogoVerLicencia.noExiste.text") + ": " + nombreArchivo);
+                JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerLicencia.noExiste.text") + ": " + nombreArchivo,
+                        idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+            }
+        } catch (IOException ex) {
+            log.error(ex.getLocalizedMessage());
+            JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerLicencia.noExiste.text") + ": " + ex.getLocalizedMessage(),
+                    idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+        }
+        return textoLicencia;
     }
 
     /**
@@ -94,35 +167,61 @@ public class DialogoLicencia extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pestanasPanel = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        textoLicencia = new javax.swing.JTextArea();
+        textoLicencia1 = new javax.swing.JTextPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        textoLicencia2 = new javax.swing.JTextPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        textoLicencia3 = new javax.swing.JTextPane();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        textoLicencia4 = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("propiedades/Idioma"); // NOI18N
         setTitle(bundle.getString("DialogoLicencia.titulo.text")); // NOI18N
 
-        textoLicencia.setEditable(false);
-        textoLicencia.setColumns(20);
-        textoLicencia.setFont(Config.FUENTE_NORMAL);
-        textoLicencia.setRows(5);
-        jScrollPane1.setViewportView(textoLicencia);
+        pestanasPanel.setFont(Config.FUENTE_NORMAL);
+
+        jScrollPane1.setFont(Config.FUENTE_NORMAL);
+        jScrollPane1.setViewportView(textoLicencia1);
+
+        pestanasPanel.addTab(bundle.getString("DialogoLicencia.CorrectAE"), jScrollPane1); // NOI18N
+
+        jScrollPane2.setFont(Config.FUENTE_NORMAL);
+        jScrollPane2.setViewportView(textoLicencia2);
+
+        pestanasPanel.addTab(bundle.getString("DialogoLicencia.Sqlite"), jScrollPane2); // NOI18N
+
+        jScrollPane3.setFont(Config.FUENTE_NORMAL);
+        jScrollPane3.setViewportView(textoLicencia3);
+
+        pestanasPanel.addTab(bundle.getString("DialogoLicencia.jfreeChart"), jScrollPane3); // NOI18N
+
+        jScrollPane4.setFont(Config.FUENTE_NORMAL);
+        jScrollPane4.setViewportView(textoLicencia4);
+
+        pestanasPanel.addTab(bundle.getString("DialogoLicencia.AbsoluteLayout"), jScrollPane4); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
+                .addComponent(pestanasPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
+                .addComponent(pestanasPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        pestanasPanel.getAccessibleContext().setAccessibleName(bundle.getString("DialogoLicencia.Sqlite")); // NOI18N
+        pestanasPanel.getAccessibleContext().setAccessibleDescription(bundle.getString("DialogoLicencia.titulo.text")); // NOI18N
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -169,6 +268,13 @@ public class DialogoLicencia extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea textoLicencia;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTabbedPane pestanasPanel;
+    private javax.swing.JTextPane textoLicencia1;
+    private javax.swing.JTextPane textoLicencia2;
+    private javax.swing.JTextPane textoLicencia3;
+    private javax.swing.JTextPane textoLicencia4;
     // End of variables declaration//GEN-END:variables
 }
