@@ -1,11 +1,11 @@
-<div style="margin: 3em 10%; font-family:serif;text-align:justify; border: 1px solid black; padding: 2em;   box-shadow: 4px 8px #888888;">
+<div id="license-text" dir="ltr">
 <p style="text-align:center">
 <strong>Apache License<br>Version 2.0, January 2004<br></strong>
 <strong><a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a></strong>
 </p>
 <p>TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION</p>
 <p><strong><a name="definitions">1. Definitions</a></strong>.</p>
-<div style="margin-left: 1em;">
+<div id="contenido" style="padding:20px;">
 <p>"<strong>License</strong>" shall mean the terms and conditions for use, reproduction, and
 distribution as defined by Sections 1 through 9 of this document.</p>
 <p>"<strong>Licensor</strong>" shall mean the copyright owner or entity authorized by the

@@ -26,7 +26,6 @@ import java.io.InputStreamReader;
 import java.util.ResourceBundle;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 
 /**
  *
@@ -63,8 +62,10 @@ public class DialogoLicencia extends javax.swing.JDialog {
         Procesador.Centrame(this);
         // Redimensiono al máximo alto disponible
         GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        this.setLocation(this.getLocation().x, 0);
-        this.setSize(this.getWidth(), env.getMaximumWindowBounds().height);
+        //this.setLocation(this.getLocation().x, 0);
+        this.setLocation(env.getMaximumWindowBounds().width / 4, 0);
+        //this.setSize(this.getWidth(), env.getMaximumWindowBounds().height);
+        this.setSize(env.getMaximumWindowBounds().width / 2, env.getMaximumWindowBounds().height);
 
         pestanasPanel.setTitleAt(1, idioma.getString("DialogoLicencia.Sqlite"));
         pestanasPanel.setTitleAt(3, idioma.getString("DialogoLicencia.AbsoluteLayout"));
@@ -72,29 +73,29 @@ public class DialogoLicencia extends javax.swing.JDialog {
             switch (i) {
                 case 0 -> {
                     //CorrectAE
-                    textoLicencia1.setText(cargaLicencia("LICENSE_GNU_v3").getText());
                     textoLicencia1.setContentType("text/html");
+                    textoLicencia1.setFont(Config.FUENTE_NORMAL);
                     textoLicencia1.setText(cargaLicenciaHTML("LICENSE_GNU_v3"));
                     textoLicencia1.setCaretPosition(0);
                 }
                 case 1 -> {
                     //Sqlite
-                    textoLicencia2.setText(cargaLicencia("LICENSE_Apache_v2").getText());
                     textoLicencia2.setContentType("text/html");
+                    textoLicencia2.setFont(Config.FUENTE_NORMAL);
                     textoLicencia2.setText(cargaLicenciaHTML("LICENSE_Apache_v2"));
                     textoLicencia2.setCaretPosition(0);
                 }
                 case 2 -> {
                     //jfreeChart
-                    textoLicencia3.setText(cargaLicencia("LICENSE_GNU_LGPL_v3").getText());
                     textoLicencia3.setContentType("text/html");
+                    textoLicencia3.setFont(Config.FUENTE_NORMAL);
                     textoLicencia3.setText(cargaLicenciaHTML("LICENSE_GNU_LGPL_v3"));
                     textoLicencia3.setCaretPosition(0);
                 }
                 case 3 -> {
                     //AbsoluteLayout
-                    textoLicencia4.setText(cargaLicencia("LICENSE_Apache_v2").getText());
                     textoLicencia4.setContentType("text/html");
+                    textoLicencia4.setFont(Config.FUENTE_NORMAL);
                     textoLicencia4.setText(cargaLicenciaHTML("LICENSE_Apache_v2"));
                     textoLicencia4.setCaretPosition(0);
                 }
@@ -128,34 +129,6 @@ public class DialogoLicencia extends javax.swing.JDialog {
                     idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
         return textoLicencia.toString();
-    }
-
-    private JTextArea cargaLicencia(String nombreArchivo) {
-        // Cargo el texto de la licencia de CorrectAE
-        JTextArea textoLicencia = new JTextArea("");
-
-        try {
-            InputStream textoPlano = this.getClass().getResourceAsStream(nombreArchivo);
-
-            if (textoPlano != null) {
-                try (BufferedReader lector = new BufferedReader(new InputStreamReader(textoPlano))) {
-                    String linea;
-                    while ((linea = lector.readLine()) != null) {
-                        //textoLicencia.append("          ".concat(linea.concat(System.lineSeparator())));
-                        textoLicencia.append(linea.concat(System.lineSeparator()));
-                    }
-                }
-            } else {
-                log.error(idioma.getString("DialogoVerLicencia.noExiste.text") + ": " + nombreArchivo);
-                JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerLicencia.noExiste.text") + ": " + nombreArchivo,
-                        idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
-            }
-        } catch (IOException ex) {
-            log.error(ex.getLocalizedMessage());
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerLicencia.noExiste.text") + ": " + ex.getLocalizedMessage(),
-                    idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
-        }
-        return textoLicencia;
     }
 
     /**
