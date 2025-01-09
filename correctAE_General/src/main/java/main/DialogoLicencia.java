@@ -60,15 +60,11 @@ public class DialogoLicencia extends javax.swing.JDialog {
         this.setIconImage(Config.getIconoAplic().getImage());
         // Coloco el formulario en el centro de la pantalla
         Procesador.Centrame(this);
-        // Redimensiono al máximo alto disponible
+        // Redimensiono al máximo alto disponible y a la mitad del ancho de pantalla
         GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        //this.setLocation(this.getLocation().x, 0);
         this.setLocation(env.getMaximumWindowBounds().width / 4, 0);
-        //this.setSize(this.getWidth(), env.getMaximumWindowBounds().height);
         this.setSize(env.getMaximumWindowBounds().width / 2, env.getMaximumWindowBounds().height);
 
-        pestanasPanel.setTitleAt(1, idioma.getString("DialogoLicencia.Sqlite"));
-        pestanasPanel.setTitleAt(3, idioma.getString("DialogoLicencia.AbsoluteLayout"));
         for (int i = 0; i < pestanasPanel.getTabCount(); i++) {
             switch (i) {
                 case 0 -> {
