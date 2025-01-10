@@ -33,6 +33,7 @@ import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
+import javax.swing.JTable;
 
 /**
  *
@@ -41,6 +42,7 @@ import javax.swing.JScrollBar;
 public class DialogoVerTest extends javax.swing.JDialog {
 
     private boolean imagenCargada;
+    private JTable tablaOrigen;
 
     /**
      *
@@ -51,8 +53,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
     }
 
     private File fichero;
-    
-    BufferedImage imagenTest;
+
     protected Loguero log = Procesador.getLog();
     ResourceBundle idioma = Procesador.idioma;
     List<Casilla> casillasMarcadas;
@@ -70,13 +71,14 @@ public class DialogoVerTest extends javax.swing.JDialog {
      *
      * @param parent Padre del diálogo
      * @param modal Si es modal o no
-     * @param indiceTablatestLeidos Indice de la tabla actual
+     * @param unaTabla Tabla origen del elemento padre
      */
     //public DialogoVerTest(java.awt.Frame parent, boolean modal, File fichero, List<Casilla> casillasM) {
-    public DialogoVerTest(java.awt.Frame parent, boolean modal, int indiceTablatestLeidos) {
+    public DialogoVerTest(java.awt.Frame parent, boolean modal, JTable unaTabla) {
         super(parent, modal);
         this.imagenCargada = false;
-        indiceActual = indiceTablatestLeidos;
+        tablaOrigen = unaTabla;
+        indiceActual = tablaOrigen.getSelectedRow();
         initComponents();
         InicializarFormulario();
     }
@@ -92,7 +94,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
             // Obtengo el numero de fila seleccionado en la tabla de test del padre para acceder al test de la lista de Tests en la clase Principal
             this.fichero = new File(Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo());
             this.setTitle("TEST " + fichero.getName());
-            imagenTest = cargaLaImagen(this.fichero);
+            cargaLaImagen(this.fichero);
             imagenCargada = true;
             // Coloco el formulario en el centro de la pantalla tamaño vertical máximo
             // que permita la pantalla
@@ -112,24 +114,18 @@ public class DialogoVerTest extends javax.swing.JDialog {
                 if (keyEvent.getID() == KeyEvent.KEY_RELEASED) {
                     // Si está activa el check, al pulsar las flechas muevo las casillas
                     switch (keyEvent.getKeyCode()) {
-                        case KeyEvent.VK_LEFT:
+                        case KeyEvent.VK_LEFT ->
                             btnAnteriorActionPerformed(new java.awt.event.ActionEvent(event, 1, "anterior"));
-                            break;
-                        case KeyEvent.VK_RIGHT:
+                        case KeyEvent.VK_RIGHT ->
                             btnSiguienteActionPerformed(new java.awt.event.ActionEvent(event, 1, "siguiente"));
-                            break;
-                        case KeyEvent.VK_DOWN:
+                        case KeyEvent.VK_DOWN ->
                             jScrollPane1.getVerticalScrollBar().setValue(barraVertical.getValue() + barraVertical.getUnitIncrement(1));
-                            break;
-                        case KeyEvent.VK_UP:
+                        case KeyEvent.VK_UP ->
                             jScrollPane1.getVerticalScrollBar().setValue(barraVertical.getValue() - barraVertical.getUnitIncrement(1));
-                            break;
-                        case KeyEvent.VK_PAGE_DOWN:
+                        case KeyEvent.VK_PAGE_DOWN ->
                             jScrollPane1.getVerticalScrollBar().setValue(barraVertical.getMaximum());
-                            break;
-                        case KeyEvent.VK_PAGE_UP:
+                        case KeyEvent.VK_PAGE_UP ->
                             jScrollPane1.getVerticalScrollBar().setValue(barraVertical.getMinimum());
-                            break;
                     }
                 }
             };
@@ -145,7 +141,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
         }
     }
 
-    private BufferedImage cargaLaImagen(File fichero) {
+    private void cargaLaImagen(File fichero) {
         BufferedImage laImg;
         int mitadAncho = Config.getAnchoMarcasRespuesta() / 2;
 
@@ -160,21 +156,18 @@ public class DialogoVerTest extends javax.swing.JDialog {
                 for (Casilla unPunto : casillasMarcadas) {
                     g.drawOval(unPunto.getCoordX() - mitadAncho, unPunto.getCoordY() - mitadAncho, Config.getAnchoMarcasRespuesta(), Config.getAnchoMarcasRespuesta());
                 }
-                etqLaImagen.setIcon(new ImageIcon(Procesador.imagenIconReducida(laImg, this.anchoImagenPresentacion, this.altoImagenPresentacion )));
+                etqLaImagen.setIcon(new ImageIcon(Procesador.imagenIconReducida(laImg, this.anchoImagenPresentacion, this.altoImagenPresentacion)));
                 rutaArchivo.setText(idioma.getString("VentanaTest.rutaArchivo.text") + fichero.getAbsolutePath());
                 repaint();
                 g.dispose();
             } else {
                 JOptionPane.showOptionDialog(rootPane, idioma.getString("VENTANAPRUEBASTESTS.btnAnalizar.ERROR_FICHERO_PLANTILLA.TEXT"), idioma.getString("Error.text"),
                         JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
-                laImg = null;
             }
         } else {
             JOptionPane.showOptionDialog(rootPane, idioma.getString("VENTANAPRUEBASTESTS.btnAnalizar.ERROR_SIN_IMAGEN_O_LIMITE.TEXT"), idioma.getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
-            laImg = null;
         }
-        return laImg;
     }
 
     /**
@@ -334,6 +327,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
 
         if (indiceActual < Procesador.listaTestsLeidos.size() - 1) {
             indiceActual++;
+            tablaOrigen.setRowSelectionInterval(indiceActual, indiceActual);
             this.casillasMarcadas = Procesador.listaTestsLeidos.get(indiceActual).getCasillasMarcadas();
             try {
                 String fichi = Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo();
@@ -342,7 +336,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
                     // Obtengo el numero de fila seleccionado en la tabla de test del padre para acceder al test de la lista de Tests del modelo
                     File fichero = new File(Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo());
                     this.setTitle("TEST " + fichero.getName());
-                    imagenTest = cargaLaImagen(fichero);
+                    cargaLaImagen(fichero);
                 }
             } catch (Exception ex) {
                 log.info(idioma.getString("DialogoVerTest.noExiste.text"));
@@ -358,6 +352,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
 
         if (indiceActual > 0) {
             indiceActual--;
+            tablaOrigen.setRowSelectionInterval(indiceActual, indiceActual);
             this.casillasMarcadas = Procesador.listaTestsLeidos.get(indiceActual).getCasillasMarcadas();
             try {
                 String fichi = Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo();
@@ -366,7 +361,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
                     // Obtengo el numero de fila seleccionado en la tabla de test del padre para acceder al test de la lista de Tests del modelo
                     File fichero = new File(Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo());
                     this.setTitle("TEST " + fichero.getName());
-                    imagenTest = cargaLaImagen(fichero);
+                    cargaLaImagen(fichero);
                 }
             } catch (Exception ex) {
                 log.info(idioma.getString("DialogoVerTest.noExiste.text"));

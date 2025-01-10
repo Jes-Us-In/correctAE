@@ -4,7 +4,7 @@ CorrectAE is an application designed and developed to automate the process of co
 
 Windows Installer:
 
-    CorrectAE-1.7.7.exe - Windows:
+    CorrectAE-1.7.8.exe - Windows:
 
     MD5 A28EA810D880B7F613EB2FA0F3F9CD47
     SHA-1 6B1FDB9DF81F9CB811C4CD29916A0FCA50BC74BE

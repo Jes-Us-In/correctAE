@@ -117,7 +117,7 @@ public class VentanaInicio extends javax.swing.JFrame {
                         if (fich.exists()) {
                             // Paso al Diálogo, ademaás del padre y el boolean, NO es modal, el fichero, que ya se que existe, y las casillas marcadas de dicho test
                             //DialogoVerTest ventaTest = new DialogoVerTest(pasoPadre, false, fich, Procesador.listaTestsLeidos.get(tablaTests.getSelectedRow()).getCasillasMarcadas()); // permito abrir varios tests
-                            DialogoVerTest ventaTest = new DialogoVerTest(pasoPadre, false, tablaTests.getSelectedRow()); // permito abrir varios tests
+                            DialogoVerTest ventaTest = new DialogoVerTest(pasoPadre, false, tablaTests); // permito abrir varios tests
                             if (ventaTest.isImagenCargada()) {
                                 ventaTest.setVisible(true);
                             } else {
