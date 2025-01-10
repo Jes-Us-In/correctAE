@@ -5,6 +5,8 @@ reading machines and specific answer sheets, as this type of application does, i
 for answers, A4 size. The image on this sheets can be captured through an ordinary commercial image scanner. With the graphic files obtained,
 __CorrectAE__ is fed for data capture and evaluation.
 
+It has multilingual support. Currently Spanish and English, but it can incorporate anothers if neccesary.
+
 <p align="center">
   <img width="50%" src="https://github.com/user-attachments/assets/9c43a8e9-d2e9-4448-98d1-3d3d5aa0161f">  
 </p>
