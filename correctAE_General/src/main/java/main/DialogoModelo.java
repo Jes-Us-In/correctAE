@@ -51,7 +51,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class DialogoModelo extends javax.swing.JDialog {
 
-    ResourceBundle idioma = Procesador.idioma;
+    ResourceBundle idioma;
     BufferedImage imgCargo;
     ModeloImprimible modelo;
     Loguero log;
@@ -64,6 +64,7 @@ public class DialogoModelo extends javax.swing.JDialog {
      */
     public DialogoModelo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        this.idioma = Procesador.idioma;
         super.setIconImage(parent.getIconImage());
         initComponents();
         InicializarFormulario();
@@ -124,6 +125,11 @@ public class DialogoModelo extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("propiedades/Idioma"); // NOI18N
         setTitle(bundle.getString("VentanaModelo.Titulo.Text")); // NOI18N
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         etqNombreModelo.setFont(Config.FUENTE_NORMAL);
         etqNombreModelo.setText(bundle.getString("DialogoModelo.etqNombreModelo.text")); // NOI18N
@@ -299,6 +305,12 @@ public class DialogoModelo extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_btnCambiarLogoActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // Muestro la ventana de información.
+        DialogoModeloVinfo info = new DialogoModeloVinfo(this,true);
+        info.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_formWindowOpened
 
     private void cargarLogo(File fichero) {
         BufferedImage nuevoModelo;

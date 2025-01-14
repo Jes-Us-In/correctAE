@@ -91,15 +91,12 @@ public class VentanaInicio extends javax.swing.JFrame {
         // Formateo las columnas de la tabla de tests
         formateaColumnas(tablaTests);
 
-        // Inicializo el idioma
-        if (Config.getIdiomaActual().equals("es")) {
-            PonIdioma("es", "ES", this.Espanol);
-        } else {
-            if (Config.getIdiomaActual().equals("en")) {
-                PonIdioma("en", "US", this.English);
-            }
+        // Inicializo el idioma, por defecto, cojo el ingles
+        switch (Config.getIdiomaActual()) {
+            case "es" -> PonIdioma("es", "ES", this.Espanol);
+            default -> PonIdioma("en", "US", this.English);
         }
-
+        
         // 
         // Añado un listener a la tabla para el doble click sobre una fila
         VentanaInicio pasoPadre = this;
