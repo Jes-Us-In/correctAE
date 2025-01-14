@@ -108,7 +108,6 @@ public class VentanaInicio extends javax.swing.JFrame {
                     // Cargo el archivo de imagen del test seleccionado
                     try {
                         // En la última columna de la tabla está el nombre del fichero con el path completo
-                        //String fichi = (String) tablaTests.getValueAt(tablaTests.getSelectedRow(), tablaTests.getColumnCount() - 1);
                         String fichi = Procesador.listaTestsLeidos.get(tablaTests.getSelectedRow()).getNombreArchivo();
                         File fich = new File(fichi);
                         if (fich.exists()) {
