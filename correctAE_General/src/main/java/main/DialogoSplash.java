@@ -74,7 +74,8 @@ public class DialogoSplash extends javax.swing.JDialog {
 
         etqYo.setFont(Config.FUENTE_NORMAL.deriveFont(Font.BOLD)
         );
-        etqYo.setText("<html><p>Copyright 2024: Jesús del Buey Jiménez<br/>Licencia: GPL-3.0</p></html>");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("propiedades/Idioma"); // NOI18N
+        etqYo.setText(bundle.getString("AcercaDe.etqYo.text")); // NOI18N
         etqYo.setOpaque(true);
 
         etqSplash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/splash.png"))); // NOI18N

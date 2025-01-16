@@ -308,8 +308,8 @@ public class DialogoModelo extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // Muestro la ventana de información.
-        DialogoModeloVinfo info = new DialogoModeloVinfo(this,true);
-        info.setVisible(rootPaneCheckingEnabled);
+        new DialogoInfo(this, true, 680, 400, idioma.getString("Atencion.text"), idioma.getString("DialogoModeloVinfo.text"), 30)
+                .setVisible(true);
     }//GEN-LAST:event_formWindowOpened
 
     private void cargarLogo(File fichero) {

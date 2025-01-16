@@ -93,10 +93,12 @@ public class VentanaInicio extends javax.swing.JFrame {
 
         // Inicializo el idioma, por defecto, cojo el ingles
         switch (Config.getIdiomaActual()) {
-            case "es" -> PonIdioma("es", "ES", this.Espanol);
-            default -> PonIdioma("en", "US", this.English);
+            case "es" ->
+                PonIdioma("es", "ES", this.Espanol);
+            default ->
+                PonIdioma("en", "US", this.English);
         }
-        
+
         // 
         // Añado un listener a la tabla para el doble click sobre una fila
         VentanaInicio pasoPadre = this;
@@ -193,6 +195,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         menuArchivo = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
         menuOpciones = new javax.swing.JMenu();
+        cargarTestDemo = new javax.swing.JMenuItem();
         probarTest = new javax.swing.JMenuItem();
         configuracion = new javax.swing.JMenuItem();
         menuLookAndFeel = menuAspectos()
@@ -329,6 +332,16 @@ public class VentanaInicio extends javax.swing.JFrame {
         menuOpciones.setText(bundle.getString("VENTANAINICIO.MENU_OPCIONES.TEXT")); // NOI18N
         menuOpciones.setFont(Config.FUENTE_NORMAL);
         menuOpciones.setName("menuOpciones"); // NOI18N
+
+        cargarTestDemo.setFont(Config.FUENTE_NORMAL);
+        cargarTestDemo.setText(bundle.getString("VentanaInicio.cargarTestDemo.text")); // NOI18N
+        cargarTestDemo.setName("cargarTestDemo"); // NOI18N
+        cargarTestDemo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cargarTestDemoActionPerformed(evt);
+            }
+        });
+        menuOpciones.add(cargarTestDemo);
 
         probarTest.setFont(Config.FUENTE_NORMAL);
         probarTest.setMnemonic('p');
@@ -483,15 +496,20 @@ public class VentanaInicio extends javax.swing.JFrame {
         if (SelectorCarpeta.showDialog(this, idioma.getString("FileChooser.Carpeta.title")) == DialogoCarpertaFichero.APPROVE_OPTION) {
             Config.setCarpetaArchivosTests(SelectorCarpeta.getSelectedFile().getPath());
             File carpeta = new File(SelectorCarpeta.getSelectedFile().getPath());
-            FilenameFilter imgFiltro = (dir, name) -> (name.toLowerCase().endsWith(".jpg") | name.toLowerCase().endsWith(".jpeg")
-                    | name.toLowerCase().endsWith(".png") | name.toLowerCase().endsWith(".tif"));
-            File[] fiches = carpeta.listFiles(imgFiltro);
-            //
-            // Utilizo Swingworker para que se haga la lectura en background, una vez terminada se avisa con un JOptionPane
-            // Creo el trabajo y lo ejecuto.
-            LeerTestEnBackground trabajo = new LeerTestEnBackground(this, fiches);
-            trabajo.execute();
+            //Paso la carpeta con los test que quiero leer
+            leerTestDeCarpeta(carpeta);
         }
+    }
+
+    private void leerTestDeCarpeta(File unaCarpeta) {
+        FilenameFilter imgFiltro = (dir, name) -> (name.toLowerCase().endsWith(".jpg") | name.toLowerCase().endsWith(".jpeg")
+                | name.toLowerCase().endsWith(".png") | name.toLowerCase().endsWith(".tif"));
+        File[] fiches = unaCarpeta.listFiles(imgFiltro);
+        //
+        // Utilizo Swingworker para que se haga la lectura en background, una vez terminada se avisa con un JOptionPane
+        // Creo el trabajo y lo ejecuto.
+        LeerTestEnBackground trabajo = new LeerTestEnBackground(this, fiches);
+        trabajo.execute();
     }
 
     // Utilizo Swingworker para que se haga la lectura en background, una vez terminada se avisa con un JOptionPane
@@ -630,6 +648,22 @@ public class VentanaInicio extends javax.swing.JFrame {
         ventaAceraDe.setVisible(true);
     }//GEN-LAST:event_acercaDeMenuItemActionPerformed
 
+    private void cargarTestDemoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarTestDemoActionPerformed
+        // Cargar imágenes de prueba. Uso la misma ruta de la ayuda, cambiando
+        // correAEyuda por demoTest y quitándole el idioma.
+        String rutaArchis = Config.getRutaAyuda().replace("correctAEyuda", "demoTest");
+        rutaArchis = rutaArchis.substring(0, rutaArchis.lastIndexOf("/"));
+        File carpeta = new File(rutaArchis);
+        //Paso la carpeta con los test que quiero leer
+        if (carpeta.exists()) {
+            leerTestDeCarpeta(carpeta);
+        } else {
+            log.error(idioma.getString("VentanaInicio.cargarTestDemo.error.text"));
+            JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaInicio.cargarTestDemo.error.text"), idioma.getString("Error.text"),
+                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text")}, idioma.getString("Aceptar.text"));
+        }
+    }//GEN-LAST:event_cargarTestDemoActionPerformed
+
     private void cambiarIdioma() {
         // Recargo el idioma
         Procesador.ReCargarIdioma();
@@ -642,6 +676,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         menuArchivo.setText(idioma.getString("VENTANAINICIO.MENU_ARCHIVO.TEXT")); // NOI18N
         exitMenuItem.setText(idioma.getString("VENTANAINICIO.MENU_ARCHIVO.SALIR.TEXT")); // NOI18N
         menuOpciones.setText(idioma.getString("VENTANAINICIO.OPCIONES.TEXT")); // NOI18N
+        cargarTestDemo.setText(idioma.getString("VentanaInicio.cargarTestDemo.text")); // NOI18N
         probarTest.setText(idioma.getString("VENTANAINICIO.MENU_OPCIONES.PROBAR_TEST.TEXT")); // NOI18N
         configuracion.setText(idioma.getString("VENTANAINICIO.MENU_OPCIONES.CONFIGURACION.TEXT")); // NOI18N
         menuLookAndFeel.setText("Look and Feel");
@@ -736,8 +771,6 @@ public class VentanaInicio extends javax.swing.JFrame {
         }
 
         // Ruta de pruebas quitar en definitivo
-        //Config.setRutaUltimaImagen("C:\\Users\\Jesus.delBuey\\Documents\\Programacion\\Java\\CorrectA_General Archivos de trabajo");
-        //Config.setCarpetaArchivosTests("C:\\Users\\Jesus.delBuey\\Documents\\Programacion\\Java\\CorrectA_General Archivos de trabajo");
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(() -> {
@@ -745,8 +778,10 @@ public class VentanaInicio extends javax.swing.JFrame {
             JFrame.setDefaultLookAndFeelDecorated(true);
             VentanaInicio Principal = new VentanaInicio();
             Principal.setIconImage(Config.getIconoAplic().getImage());
-
             Principal.setVisible(true);
+            DialogoInfo info = new DialogoInfo(Principal, true, 500, 200, idioma.getString("DialogoInfo.title"), 
+                    idioma.getString("VentanaInicio.infoInicial.text"), 6);
+            info.setVisible(true);
         });
     }
 
@@ -759,6 +794,7 @@ public class VentanaInicio extends javax.swing.JFrame {
     private javax.swing.JButton btnBorrarTest;
     private javax.swing.JButton btnEvaluaciones;
     private javax.swing.JButton btnMostrarModelo;
+    private javax.swing.JMenuItem cargarTestDemo;
     private javax.swing.JMenuItem configuracion;
     private javax.swing.JLabel etqCarpetaArchivos;
     private javax.swing.JLabel etqInfoDobleClick;

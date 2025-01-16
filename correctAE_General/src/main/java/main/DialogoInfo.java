@@ -18,33 +18,57 @@
  */
 package main;
 
-import java.util.ResourceBundle;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import javax.swing.Timer;
 
 /**
  *
  * @author Jesus.delBuey
  */
-public class DialogoModeloVinfo extends javax.swing.JDialog {
-
-    ResourceBundle idioma = Procesador.idioma;
+public class DialogoInfo extends javax.swing.JDialog {
 
     /**
      * Creates new form DialogoModeloVinfo
      *
-     * @param parent
-     * @param modal
+     * @param parent Objeto padre
+     * @param modal Si es modal
+     * @param ancho Ancho del diálogo
+     * @param alto Alto del diálogo
+     * @param titulo Titulo del dialogo
+     * @param textoMensaje Texto a mostrar
+     * @param tiempoSegundos Tiempo en segundos que estará visible, 0 si es permanente
      */
-    public DialogoModeloVinfo(java.awt.Dialog parent, boolean modal) {
+    public DialogoInfo(java.awt.Frame parent, boolean modal, int ancho, int alto, String titulo, String textoMensaje, int tiempoSegundos) {
         super(parent, modal);
         initComponents();
-        InicializarFormulario();
+        InicializarFormulario(ancho, alto, titulo, textoMensaje, tiempoSegundos);
+    }
+    
+    public DialogoInfo(java.awt.Dialog parent, boolean modal, int ancho, int alto, String titulo, String textoMensaje, int tiempoSegundos) {
+        super(parent, modal);
+        initComponents();
+        InicializarFormulario(ancho, alto, titulo, textoMensaje, tiempoSegundos);
     }
 
-    private void InicializarFormulario() {
+    private void InicializarFormulario(int anchoDiag, int altoDiag, String tituloDiag, String txtMensaj, int tmpSeg) {
+        this.setSize(anchoDiag, altoDiag);
+        this.setTitle(tituloDiag);
         Procesador.Centrame(this);
         textoInfo.setContentType("text/html");
-        textoInfo.setText(idioma.getString("DialogoModeloVinfo.text"));
+        textoInfo.setText(txtMensaj);
         textoInfo.setEditable(false);
+        // Si ha especificado tiempo pongo un timer
+        if (tmpSeg > 0) {
+            Timer timer = new Timer(tmpSeg * 1000, (ActionEvent e) -> {
+                setVisible(false);
+                dispose();
+            });
+
+            // Iniciar el Timer
+            timer.setRepeats(false); // Para Asegurarse de que el Timer solo se ejecute una vez
+            timer.start();
+        }
     }
 
     /**
@@ -61,7 +85,8 @@ public class DialogoModeloVinfo extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("propiedades/Idioma"); // NOI18N
-        setTitle(bundle.getString("Atencion.text")); // NOI18N
+        setTitle(bundle.getString("DialogoInfo.title")); // NOI18N
+        setFont(Config.FUENTE_NORMAL);
 
         textoInfo.setContentType(""); // NOI18N
         textoInfo.setFont(Config.FUENTE_TITULO);

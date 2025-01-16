@@ -87,7 +87,9 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="Config.FUENTE_NORMAL.deriveFont(Font.BOLD)&#xd;&#xa;" type="code"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;p&gt;Copyright 2024: Jes&#xfa;s del Buey Jim&#xe9;nez&lt;br/&gt;Licencia: GPL-3.0&lt;/p&gt;&lt;/html&gt;"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="propiedades/Idioma.properties" key="AcercaDe.etqYo.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
           <AuxValues>

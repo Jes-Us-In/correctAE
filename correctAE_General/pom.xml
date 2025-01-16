@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>OMRJesusdb</groupId>
     <artifactId>correctAE</artifactId>
-    <version>General.1.7.8</version>
+    <version>General.1.7.9</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
@@ -83,13 +83,13 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+<!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.3.1</version>
                 <executions>
                     <execution>
-<!--                Copia la carpeta de ayuda-->
+                Copia la carpeta de ayuda
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
@@ -108,7 +108,7 @@
                         </configuration>
                     </execution>
                     <execution>
-<!--                Copia el Logo de la aplicacion-->
+                Copia el Logo de la aplicacion
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
@@ -127,7 +127,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
