@@ -42,7 +42,7 @@ import javax.swing.JTable;
 public class DialogoVerTest extends javax.swing.JDialog {
 
     private boolean imagenCargada;
-    private JTable tablaOrigen;
+    private final JTable tablaOrigen;
 
     /**
      *
@@ -247,8 +247,8 @@ public class DialogoVerTest extends javax.swing.JDialog {
             panelImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelImagenLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
+                .addContainerGap())
         );
         panelImagenLayout.setVerticalGroup(
             panelImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -339,9 +339,9 @@ public class DialogoVerTest extends javax.swing.JDialog {
                 File fich = new File(fichi);
                 if (fich.exists()) {
                     // Obtengo el numero de fila seleccionado en la tabla de test del padre para acceder al test de la lista de Tests del modelo
-                    File fichero = new File(Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo());
-                    this.setTitle("TEST " + fichero.getName());
-                    cargaLaImagen(fichero);
+                    File unFichero = new File(Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo());
+                    this.setTitle("TEST " + unFichero.getName());
+                    cargaLaImagen(unFichero);
                 }
             } catch (Exception ex) {
                 log.info(idioma.getString("DialogoVerTest.noExiste.text"));
@@ -364,9 +364,9 @@ public class DialogoVerTest extends javax.swing.JDialog {
                 File fich = new File(fichi);
                 if (fich.exists()) {
                     // Obtengo el numero de fila seleccionado en la tabla de test del padre para acceder al test de la lista de Tests del modelo
-                    File fichero = new File(Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo());
-                    this.setTitle("TEST " + fichero.getName());
-                    cargaLaImagen(fichero);
+                    File unFichero = new File(Procesador.listaTestsLeidos.get(indiceActual).getNombreArchivo());
+                    this.setTitle("TEST " + unFichero.getName());
+                    cargaLaImagen(unFichero);
                 }
             } catch (Exception ex) {
                 log.info(idioma.getString("DialogoVerTest.noExiste.text"));
@@ -379,8 +379,8 @@ public class DialogoVerTest extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // Muestro la ventana de información.
-        new DialogoInfo(this, true, 680, 170, idioma.getString("Atencion.text"), idioma.getString("DialogoVerTestInfo.text"), 5)
-                .setVisible(true);
+        new DialogoInfo(this, true, 680, 170, idioma.getString("Atencion.text"), 
+                idioma.getString("DialogoVerTestInfo.text"), 7).setVisible(true);
     }//GEN-LAST:event_formWindowOpened
 
     /**

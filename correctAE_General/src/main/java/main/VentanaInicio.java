@@ -658,7 +658,8 @@ public class VentanaInicio extends javax.swing.JFrame {
         if (carpeta.exists()) {
             leerTestDeCarpeta(carpeta);
         } else {
-            log.error(idioma.getString("VentanaInicio.cargarTestDemo.error.text"));
+            log.error(idioma.getString("VentanaInicio.cargarTestDemo.error.text")
+                    + " - ruta: " + rutaArchis);
             JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaInicio.cargarTestDemo.error.text"), idioma.getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text")}, idioma.getString("Aceptar.text"));
         }
@@ -770,8 +771,10 @@ public class VentanaInicio extends javax.swing.JFrame {
             System.exit(0);
         }
 
-        // Ruta de pruebas quitar en definitivo
-
+        // Actualizo el número de ejecuciones de la aplicación.
+        Config.misRunsMasMas();
+        Config.guardarConfiguracion();
+        //
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(() -> {
             VentanaInicio.setDefaultLookAndFeelDecorated(true);
@@ -779,7 +782,7 @@ public class VentanaInicio extends javax.swing.JFrame {
             VentanaInicio Principal = new VentanaInicio();
             Principal.setIconImage(Config.getIconoAplic().getImage());
             Principal.setVisible(true);
-            DialogoInfo info = new DialogoInfo(Principal, true, 500, 200, idioma.getString("DialogoInfo.title"), 
+            DialogoInfo info = new DialogoInfo(Principal, true, 500, 200, idioma.getString("DialogoInfo.title"),
                     idioma.getString("VentanaInicio.infoInicial.text"), 6);
             info.setVisible(true);
         });

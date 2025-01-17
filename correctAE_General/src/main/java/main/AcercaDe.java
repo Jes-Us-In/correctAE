@@ -16,7 +16,6 @@
  *
  * SPDX-License-Identifier: GPL-3.0
  */
-
 package main;
 
 import java.awt.Font;
@@ -33,6 +32,7 @@ public class AcercaDe extends javax.swing.JDialog {
 
     /**
      * Creates new form AcercaDe
+     *
      * @param parent JFrame padre, la ventana principal
      * @param modal Recibe si el diálogo será modal o no
      */
@@ -63,15 +63,17 @@ public class AcercaDe extends javax.swing.JDialog {
         texto.append("\n");
         texto.append(idioma.getString("AcercaDe.os.name").concat(pros.get("os.name").toString().concat("\n")));
         texto.append(idioma.getString("AcercaDe.os.arch").concat(pros.get("os.arch").toString().concat("\n")));
-        dato = (pros.get("native.encoding") == null) ? "N/A": pros.get("native.encoding").toString();
+        dato = (pros.get("native.encoding") == null) ? "N/A" : pros.get("native.encoding").toString();
         texto.append(idioma.getString("AcercaDe.os.juegoCaracteres").concat(dato.concat("\n")));
         texto.append(idioma.getString("AcercaDe.user.language").concat(pros.get("user.language").toString().concat("\n")));
         texto.append(idioma.getString("AcercaDe.os.timeZone").concat(pros.get("user.timezone").toString().concat("\n")));
         texto.append(idioma.getString("AcercaDe.java.version").concat(pros.get("java.version").toString().concat("\n")));
         texto.append(idioma.getString("AcercaDe.java.vm.version").concat(pros.get("java.vm.version").toString().concat("\n")));
         texto.append(idioma.getString("AcercaDe.user.dir").concat(pros.get("user.dir").toString().concat("\n")));
-
-        textPropiedadesSistema.setText(texto.toString());
+        texto.append(idioma.getString("AcercaDe.aplicacion.runs").concat(String.valueOf(Config.getMisRuns()).concat("\n")));
+        //
+        textoPropiedadesSistema.setText(texto.toString());
+        textoPropiedadesSistema.setCaretPosition(0);
     }
 
     /**
@@ -87,7 +89,8 @@ public class AcercaDe extends javax.swing.JDialog {
         etqSplash = new javax.swing.JLabel();
         etqYo = new javax.swing.JLabel();
         btnVerLicencia = new javax.swing.JButton();
-        textPropiedadesSistema = new java.awt.TextArea();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textoPropiedadesSistema = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("propiedades/Idioma"); // NOI18N
@@ -132,17 +135,17 @@ public class AcercaDe extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        textPropiedadesSistema.setEditable(false);
-        textPropiedadesSistema.setFont(Config.FUENTE_NORMAL);
+        textoPropiedadesSistema.setFont(Config.FUENTE_NORMAL);
+        jScrollPane1.setViewportView(textoPropiedadesSistema);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(textPropiedadesSistema, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -151,15 +154,15 @@ public class AcercaDe extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(456, Short.MAX_VALUE)
-                .addComponent(textPropiedadesSistema, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(216, Short.MAX_VALUE)))
+                    .addContainerGap(270, Short.MAX_VALUE)))
         );
 
         pack();
@@ -216,6 +219,7 @@ public class AcercaDe extends javax.swing.JDialog {
     private javax.swing.JLabel etqSplash;
     private javax.swing.JLabel etqYo;
     private javax.swing.JPanel jPanel1;
-    private java.awt.TextArea textPropiedadesSistema;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextPane textoPropiedadesSistema;
     // End of variables declaration//GEN-END:variables
 }

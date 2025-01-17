@@ -49,7 +49,6 @@ public class Config {
      * @return ruta de la ayuda
      */
     public static String getRutaAyuda() {
-        //String carpetaUsuario = "file://".concat(System.getProperty("user.dir"));
         String carpetaUsuario = System.getProperty("user.dir");
         String rutaAyuda;
         String sistema = System.getProperty("os.name");
@@ -74,7 +73,7 @@ public class Config {
                     rutaAyuda = "/opt/correctae/lib/app/correctAEyuda/".concat(getIdiomaActual());
                     if (!Files.exists(Paths.get(rutaAyuda))) {
                         // Ruta en Linux, desarrollo, en el IDE
-                    rutaAyuda = carpetaUsuario.concat("/correctAEyuda/").concat(getIdiomaActual());
+                        rutaAyuda = carpetaUsuario.concat("/correctAEyuda/").concat(getIdiomaActual());
                     }
                 }
                 log.info("Sistema LINUX (" + sistema + ")\nRuta ayuda: " + rutaAyuda);
@@ -224,8 +223,6 @@ public class Config {
     public static String getFicheroCasillasTestInicial() {
         return ficheroCasillasTestInicial;
     }
-    
-    
 
     public static Casilla[][] esquinasZona = new Casilla[4][2]; // Cuadrados de búsqueda de las esquinas
 
@@ -318,8 +315,7 @@ public class Config {
         setMargenIzquierdoHojaRecortar(0);
         setMargenSuperiorHojaRecortar(0);
     }
-    
-    
+
     private static final int LIMITE_NEGRO_MARGEN = 150; // Valor por defecto
 
     /**
@@ -339,7 +335,6 @@ public class Config {
     public static int MARGEN_HOJA_RECORTAR = 30;
     public static final int ANCHO_CAJA = 16;
 
-    
     // Margen superior a recortarXpunEsquinas
     private static int margenSuperiorHojaRecortar = 0;
 
@@ -600,6 +595,25 @@ public class Config {
     public static final String[] OPCIONES_ACEPTAR_CANCELAR = {Procesador.idioma.getString("Aceptar.text"), Procesador.idioma.getString("Cancelar.text")};
     //
 
+    /**
+     * Contiene en número de ejecuciones
+     */
+    private static int misRuns = 0;
+
+    public static int getMisRuns() {
+        return misRuns;
+    }
+    // Incremento el número de ejecuciones de la aplicación.
+
+    /**
+     * Incrementa el número de usos, sin pasar del límite
+     */
+    public static void misRunsMasMas() {
+        if (misRuns < Integer.MAX_VALUE) {
+            misRuns++;
+        }
+    }
+
 // Métodos para guardar y cargar la configuración en el fichero
     public static void guardarConfiguracion() {
         File f = new File(FICHERO_CONFIGURACION);
@@ -628,6 +642,7 @@ public class Config {
             conf.setProperty("PuntosDoble", Float.toString(getPuntosDoble()));
             conf.setProperty("EscalaCalificacion", Float.toString(getEscalaCalificacion()));
             conf.setProperty("PuntAprobado", Float.toString(getPuntAprobado()));
+            conf.setProperty("MisRuns", Integer.toString(getMisRuns()));
             // Guardo el archivo de configuración en directorio donde se está ejecutando la aplicación
             //conf.store(new FileOutputStream(getFichConfiguracion()), "Ultima Actualización");
             FileOutputStream fos = new FileOutputStream(f);
@@ -686,7 +701,7 @@ public class Config {
             setPuntosDoble(formato.parse(conf.getProperty("PuntosDoble")).floatValue());
             setEscalaCalificacion(formato.parse(conf.getProperty("EscalaCalificacion")).floatValue());
             setPuntAprobado(formato.parse(conf.getProperty("PuntAprobado")).floatValue());
-
+            misRuns = formato.parse(conf.getProperty("MisRuns")).intValue();
             // Inicializo cosas. Zonas de búsqueda de Esquinas
             // Las cuatro esquinas, SI, II, SD, ID.
             esquinasZona[0][0] = new Casilla(MARGEN_HOJA_NO_BUSCAR, MARGEN_HOJA_NO_BUSCAR); // Rango de búsqueda Superior Izquierdo, esquinasImagen superior Izquierda del rango

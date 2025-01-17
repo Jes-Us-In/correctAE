@@ -37,14 +37,15 @@ public class DialogoInfo extends javax.swing.JDialog {
      * @param alto Alto del diálogo
      * @param titulo Titulo del dialogo
      * @param textoMensaje Texto a mostrar
-     * @param tiempoSegundos Tiempo en segundos que estará visible, 0 si es permanente
+     * @param tiempoSegundos Tiempo en segundos que estará visible, 0 si es
+     * permanente
      */
     public DialogoInfo(java.awt.Frame parent, boolean modal, int ancho, int alto, String titulo, String textoMensaje, int tiempoSegundos) {
         super(parent, modal);
         initComponents();
         InicializarFormulario(ancho, alto, titulo, textoMensaje, tiempoSegundos);
     }
-    
+
     public DialogoInfo(java.awt.Dialog parent, boolean modal, int ancho, int alto, String titulo, String textoMensaje, int tiempoSegundos) {
         super(parent, modal);
         initComponents();
@@ -54,13 +55,20 @@ public class DialogoInfo extends javax.swing.JDialog {
     private void InicializarFormulario(int anchoDiag, int altoDiag, String tituloDiag, String txtMensaj, int tmpSeg) {
         this.setSize(anchoDiag, altoDiag);
         this.setTitle(tituloDiag);
-        Procesador.Centrame(this);
         textoInfo.setContentType("text/html");
         textoInfo.setText(txtMensaj);
         textoInfo.setEditable(false);
+        // Oculto el cursor, ya que en Linux se ve, aunque no sea editable.
+        textoInfo.setCaretColor(Color.white);
+        Procesador.Centrame(this);
+        // Calculo el tiempo segun el número de usos
+        int tiempo = tmpSeg - Config.getMisRuns();
+        tiempo = tiempo > 0 ? tiempo : 0;
+        System.out.println("tiempo " + tiempo);
+        //
         // Si ha especificado tiempo pongo un timer
-        if (tmpSeg > 0) {
-            Timer timer = new Timer(tmpSeg * 1000, (ActionEvent e) -> {
+        if (tiempo > 0) {
+            Timer timer = new Timer(tiempo * 1000, (ActionEvent e) -> {
                 setVisible(false);
                 dispose();
             });
@@ -68,6 +76,8 @@ public class DialogoInfo extends javax.swing.JDialog {
             // Iniciar el Timer
             timer.setRepeats(false); // Para Asegurarse de que el Timer solo se ejecute una vez
             timer.start();
+        } else {
+            dispose();
         }
     }
 
