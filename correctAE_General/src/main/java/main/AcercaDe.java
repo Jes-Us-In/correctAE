@@ -70,10 +70,11 @@ public class AcercaDe extends javax.swing.JDialog {
         texto.append(idioma.getString("AcercaDe.java.version").concat(pros.get("java.version").toString().concat("\n")));
         texto.append(idioma.getString("AcercaDe.java.vm.version").concat(pros.get("java.vm.version").toString().concat("\n")));
         texto.append(idioma.getString("AcercaDe.user.dir").concat(pros.get("user.dir").toString().concat("\n")));
-        texto.append(idioma.getString("AcercaDe.aplicacion.runs").concat(String.valueOf(Config.getMisRuns()).concat("\n")));
+        //texto.append(idioma.getString("AcercaDe.aplicacion.runs").concat(String.valueOf(Config.getMisRuns()).concat("\n")));
         //
         textoPropiedadesSistema.setText(texto.toString());
         textoPropiedadesSistema.setCaretPosition(0);
+        textoPropiedadesSistema.setEditable(false);
     }
 
     /**
@@ -135,6 +136,7 @@ public class AcercaDe extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        textoPropiedadesSistema.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         textoPropiedadesSistema.setFont(Config.FUENTE_NORMAL);
         jScrollPane1.setViewportView(textoPropiedadesSistema);
 
@@ -144,7 +146,7 @@ public class AcercaDe extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -155,14 +157,14 @@ public class AcercaDe extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(448, 448, 448)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(270, Short.MAX_VALUE)))
+                    .addContainerGap(281, Short.MAX_VALUE)))
         );
 
         pack();

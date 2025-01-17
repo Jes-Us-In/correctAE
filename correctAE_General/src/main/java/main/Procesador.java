@@ -967,7 +967,7 @@ public class Procesador {
         }
         return img;
     }
-        
+
     /**
      *
      * @param img
@@ -1377,10 +1377,9 @@ public class Procesador {
     static public String[] restauraCasillasTestInicial() {
         // Copia todas las líneas del archivo original sobre el que está en vigor
         mensajesResultado = new String[]{"", "", ""};
-        
+
         try (FileInputStream inputStream = new FileInputStream(Procesador.class
-                .getClassLoader().getResource(Config.getFicheroCasillasTestInicial()).getFile());
-                FileOutputStream outputStream = new FileOutputStream(Procesador.class
+                .getClassLoader().getResource(Config.getFicheroCasillasTestInicial()).getFile()); FileOutputStream outputStream = new FileOutputStream(Procesador.class
                 .getClassLoader().getResource(Config.getFicheroCasillasTest()).getFile())) {
             byte[] buffer = new byte[1024];
             int length;
@@ -1461,8 +1460,8 @@ public class Procesador {
 
     /**
      * @param elTest Test del modelo en vigor
-     * @param casillasDelTest Lista de todas las casillas del test que tiene el modelo
-     *          las macardas y no marcadas
+     * @param casillasDelTest Lista de todas las casillas del test que tiene el
+     * modelo las macardas y no marcadas
      * @return elTest Test ya corregido del modelo en vigor
      */
     static public ModeloTest100 extraeResultadosCampos(ModeloTest100 elTest, List<Casilla> casillasDelTest) {
@@ -1569,8 +1568,7 @@ public class Procesador {
         graphics2D.dispose();
         return imagenResultado;
     }
-    
-    
+
     /**
      *
      * @param imag
@@ -1613,6 +1611,25 @@ public class Procesador {
         }
     }
 
+    // Calculo si un diálogo de Información ha de verse o no.
+
+    /**
+     *
+     * @param tiempo El tiempo en segundos que quiero mostrar el diálogo.
+     * @return El tiempo que saldrá, teniendo en cuenta el número de usos.
+     */
+    public static int tiempoQueSalgo(int tiempo) {
+        // Calculo el tiempo segun el número de usos
+        int tmp = tiempo - Config.getMisRuns();
+        tmp = tmp > 0 ? tmp : 0;
+        //System.out.println("tiempo " + tiempo);
+        return tmp;
+    }
+    
+    /**
+     *
+     * @return String con las variables de entorno, en forma de líneas.
+     */
     public static String mostrarVariablesEntorno() {
         // Método auxiliar que devuelve las variables de entorno en un String. Quitar
         StringBuilder resultado = new StringBuilder();
@@ -1622,6 +1639,10 @@ public class Procesador {
         return resultado.toString();
     }
 
+    /**
+     *
+     * @return String con las propiedades del sistema, en forma de líneas.
+     */
     public static String mostrarPropiedadesSistema() {
         // Método auxiliar que devuelve las propiedades del sistema en un String. Quitar
         StringBuilder resultado = new StringBuilder();

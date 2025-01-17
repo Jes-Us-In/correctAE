@@ -782,9 +782,12 @@ public class VentanaInicio extends javax.swing.JFrame {
             VentanaInicio Principal = new VentanaInicio();
             Principal.setIconImage(Config.getIconoAplic().getImage());
             Principal.setVisible(true);
-            DialogoInfo info = new DialogoInfo(Principal, true, 500, 200, idioma.getString("DialogoInfo.title"),
-                    idioma.getString("VentanaInicio.infoInicial.text"), 6);
-            info.setVisible(true);
+            // Muestro el diálogo de información inicial, segun los usos.
+            if (Procesador.tiempoQueSalgo(10) > 0) {
+                DialogoInfo info = new DialogoInfo(Principal, true, 500, 200, idioma.getString("DialogoInfo.title"),
+                        idioma.getString("VentanaInicio.infoInicial.text"), Procesador.tiempoQueSalgo(10));
+                info.setVisible(true);
+            }
         });
     }
 

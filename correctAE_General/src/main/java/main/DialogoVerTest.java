@@ -157,7 +157,10 @@ public class DialogoVerTest extends javax.swing.JDialog {
                     g.drawOval(unPunto.getCoordX() - mitadAncho, unPunto.getCoordY() - mitadAncho, Config.getAnchoMarcasRespuesta(), Config.getAnchoMarcasRespuesta());
                 }
                 etqLaImagen.setIcon(new ImageIcon(Procesador.imagenIconReducida(laImg, this.anchoImagenPresentacion, this.altoImagenPresentacion)));
-                rutaArchivo.setText(idioma.getString("VentanaTest.rutaArchivo.text") + fichero.getAbsolutePath());
+                // Limito el tamaño máximo de la ruta a presentar en pantalla
+                String textoRuta = idioma.getString("VentanaTest.rutaArchivo.text") + fichero.getAbsolutePath();
+                textoRuta = textoRuta.length() > 100 ? "...".concat(textoRuta.substring(textoRuta.length() - 100)) : textoRuta;
+                rutaArchivo.setText(textoRuta);
                 repaint();
                 g.dispose();
             } else {
@@ -247,7 +250,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
             panelImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelImagenLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         panelImagenLayout.setVerticalGroup(
@@ -270,7 +273,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
             .addGroup(panelRutaArchivoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(rutaArchivo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(732, Short.MAX_VALUE))
         );
         panelRutaArchivoLayout.setVerticalGroup(
             panelRutaArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,8 +382,11 @@ public class DialogoVerTest extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // Muestro la ventana de información.
-        new DialogoInfo(this, true, 680, 170, idioma.getString("Atencion.text"), 
-                idioma.getString("DialogoVerTestInfo.text"), 7).setVisible(true);
+        if (Procesador.tiempoQueSalgo(7) > 0) {
+            new DialogoInfo(this, true, 680, 170, idioma.getString("Atencion.text"), 
+                idioma.getString("DialogoVerTestInfo.text"), Procesador.tiempoQueSalgo(7)).setVisible(true);
+        }
+        
     }//GEN-LAST:event_formWindowOpened
 
     /**

@@ -61,14 +61,9 @@ public class DialogoInfo extends javax.swing.JDialog {
         // Oculto el cursor, ya que en Linux se ve, aunque no sea editable.
         textoInfo.setCaretColor(Color.white);
         Procesador.Centrame(this);
-        // Calculo el tiempo segun el número de usos
-        int tiempo = tmpSeg - Config.getMisRuns();
-        tiempo = tiempo > 0 ? tiempo : 0;
-        System.out.println("tiempo " + tiempo);
-        //
         // Si ha especificado tiempo pongo un timer
-        if (tiempo > 0) {
-            Timer timer = new Timer(tiempo * 1000, (ActionEvent e) -> {
+        if (tmpSeg > 0) {
+            Timer timer = new Timer(tmpSeg * 1000, (ActionEvent e) -> {
                 setVisible(false);
                 dispose();
             });
@@ -76,8 +71,6 @@ public class DialogoInfo extends javax.swing.JDialog {
             // Iniciar el Timer
             timer.setRepeats(false); // Para Asegurarse de que el Timer solo se ejecute una vez
             timer.start();
-        } else {
-            dispose();
         }
     }
 
@@ -98,6 +91,7 @@ public class DialogoInfo extends javax.swing.JDialog {
         setTitle(bundle.getString("DialogoInfo.title")); // NOI18N
         setFont(Config.FUENTE_NORMAL);
 
+        textoInfo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         textoInfo.setContentType(""); // NOI18N
         textoInfo.setFont(Config.FUENTE_TITULO);
         jScrollPane1.setViewportView(textoInfo);
