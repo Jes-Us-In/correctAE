@@ -159,7 +159,7 @@ public class DialogoVerTest extends javax.swing.JDialog {
                 etqLaImagen.setIcon(new ImageIcon(Procesador.imagenIconReducida(laImg, this.anchoImagenPresentacion, this.altoImagenPresentacion)));
                 // Limito el tamaño máximo de la ruta a presentar en pantalla
                 String textoRuta = idioma.getString("VentanaTest.rutaArchivo.text") + fichero.getAbsolutePath();
-                textoRuta = textoRuta.length() > 100 ? "...".concat(textoRuta.substring(textoRuta.length() - 100)) : textoRuta;
+                textoRuta = textoRuta.length() > 100 ? idioma.getString("VentanaTest.rutaArchivo.text").concat(" ...").concat(textoRuta.substring(textoRuta.length() - 100)) : textoRuta;
                 rutaArchivo.setText(textoRuta);
                 repaint();
                 g.dispose();
