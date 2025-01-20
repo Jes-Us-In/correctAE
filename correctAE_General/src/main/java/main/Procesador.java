@@ -103,19 +103,41 @@ public class Procesador {
     /**
      * Inicializa todo lo necesario para el funcionamiento de la aplicación
      *
-     * @return Inicializacon correcta o no.
+     * @return Entero con el código de error. 0 si no lo ha habido.
      */
     public static boolean InicializarAplicacion() {
         // Cargo la configuración, si hay error salgo de la aplicación
-        if (!Config.cargarConfiguracion()) {
+        if (!CargarConfiguracion()) {
             return false;
         }
 
         // Inicializo lo modelo de la tablas de la aplicación
         InicializarModelosAplicacion();
-
         // Inicializo la base de datos. Alli se comprueba si ya lo está
         BaseDatos.InicializarBaseDatos();
+        return true;
+    }
+
+    public static boolean CargarConfiguracion() {
+        int error = Config.cargarArchivoConfiguracion();
+        if (error > 0) {
+            String textoError;
+            switch (error) {
+                case 1 -> {
+                    textoError = Procesador.idioma.getString("Configuracion.Error.Fichero.noesta");
+                }
+                case 2 -> {
+                    textoError = Procesador.idioma.getString("Configuracion.Error.Fichero.formato");
+                }
+                default -> {
+                    textoError = Procesador.idioma.getString("Configuracion.Error.desconocido.configuracion");
+                }
+            }
+            log.error(textoError);
+            JOptionPane.showOptionDialog(null, textoError, Procesador.idioma.getString("Error.text"),
+                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+            return false;
+        }
         return true;
     }
 
@@ -1386,6 +1408,7 @@ public class Procesador {
             while ((length = inputStream.read(buffer)) > 0) {
                 outputStream.write(buffer, 0, length);
             }
+
             log.aviso(idioma.getString("Procesador.ficheroCasillasRestarurado.text"));
         } catch (IOException e) {
             log.aviso(idioma.getString("Procesador.ficheroCasillasError.text"));
@@ -1612,7 +1635,6 @@ public class Procesador {
     }
 
     // Calculo si un diálogo de Información ha de verse o no.
-
     /**
      *
      * @param tiempo El tiempo en segundos que quiero mostrar el diálogo.
@@ -1625,7 +1647,7 @@ public class Procesador {
         //System.out.println("tiempo " + tiempo);
         return tmp;
     }
-    
+
     /**
      *
      * @return String con las variables de entorno, en forma de líneas.

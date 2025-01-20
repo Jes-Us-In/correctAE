@@ -708,7 +708,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
             g.setColor(Color.RED);
             if (Procesador.getTestActual() != null) {
                 for (Casilla pun : Procesador.getCasillasTest()) {
-                    g.drawRect(pun.getCoordX() - mitadAncho, pun.getCoordY() - mitadAncho, 
+                    g.drawRect(pun.getCoordX() - mitadAncho, pun.getCoordY() - mitadAncho,
                             Config.getAnchoMarcasRespuesta(), Config.getAnchoMarcasRespuesta());
                 }
             }
@@ -918,7 +918,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
         ventaConfig.pack();
         ventaConfig.setVisible(true);
         // Vuelvo a cargar la ventaConfig, por si hubo cambios
-        Config.cargarConfiguracion();
+        Procesador.CargarConfiguracion();
     }//GEN-LAST:event_configuracionActionPerformed
 
     private void btnAyudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAyudaActionPerformed
@@ -1013,20 +1013,22 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
 
     private void ponCajas() {
         // Cargo la configuración, por si han cambiado las casillas
-        Config.cargarConfiguracion();
-        int ajuste = Config.getAnchoMarcasRespuesta();
+        if (!Procesador.CargarConfiguracion()) {
+            // Si no hay error cargando la configuración
+            int ajuste = Config.getAnchoMarcasRespuesta();
 
-        // Agrego en la capa 10 todas las cajas que hay definidas en las coordenadas del fichero.
-        // Las coordenadas son del CENTRO DE la casilla
-        if (etqLaImagen.getIcon() != null) {
-            if (Procesador.getTestActual() != null) {
-                int i = 0;
-                for (Casilla pun : Procesador.getCasillasTest()) {
-                    // Agrego una nueva caja
-                    JCheckBox caja = nuevaCaja(String.valueOf(i), pun.getCoordX() - ajuste, pun.getCoordY() - ajuste, Config.ANCHO_CAJA);
-                    PortaCapas.add(caja, JLayeredPane.PALETTE_LAYER); // Pongo las cajas en la capa 100,palette_layer
-                    lasCajas.add(caja);
-                    i++;
+            // Agrego en la capa 10 todas las cajas que hay definidas en las coordenadas del fichero.
+            // Las coordenadas son del CENTRO DE la casilla
+            if (etqLaImagen.getIcon() != null) {
+                if (Procesador.getTestActual() != null) {
+                    int i = 0;
+                    for (Casilla pun : Procesador.getCasillasTest()) {
+                        // Agrego una nueva caja
+                        JCheckBox caja = nuevaCaja(String.valueOf(i), pun.getCoordX() - ajuste, pun.getCoordY() - ajuste, Config.ANCHO_CAJA);
+                        PortaCapas.add(caja, JLayeredPane.PALETTE_LAYER); // Pongo las cajas en la capa 100,palette_layer
+                        lasCajas.add(caja);
+                        i++;
+                    }
                 }
             }
         }

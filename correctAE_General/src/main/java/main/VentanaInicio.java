@@ -28,8 +28,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -369,7 +367,7 @@ public class VentanaInicio extends javax.swing.JFrame {
 
         menuLookAndFeel.setText(java.util.ResourceBundle.getBundle("propiedades/Idioma").getString("VentanaInicio.menu.temas.text"));
         menuLookAndFeel.setFont(Config.FUENTE_NORMAL);
-        menuLookAndFeel.setName("menuLookAndFeel"); // NOI18N
+        menuLookAndFeel.setName(bundle.getString("VentanaInicio.menuTemas.text")); // NOI18N
         menuLookAndFeel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuLookAndFeelActionPerformed(evt);
@@ -585,7 +583,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         ventaConfig.pack();
         ventaConfig.setVisible(true);
         // Vuelvo a cargar la ventaConfig, por si hubo cambios
-        Config.cargarConfiguracion();
+        Procesador.CargarConfiguracion();
     }//GEN-LAST:event_configuracionActionPerformed
 
     private void btnMostrarModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarModeloActionPerformed
@@ -703,7 +701,7 @@ public class VentanaInicio extends javax.swing.JFrame {
      */
     protected JMenu menuAspectos() {
         // Menú look and feel
-        JMenu mimenu = new JMenu("Look and Feel");
+        JMenu mimenu = new JMenu(idioma.getString("VentanaInicio.menuTemas.text"));
 
         List<JMenuItem> LosLookAndfFeels = new ArrayList<>();
         List<String> laf = new ArrayList<>();
@@ -724,8 +722,7 @@ public class VentanaInicio extends javax.swing.JFrame {
                     // Actualizo los estilos de todas las ventanas declaradas en Principal
                     actualizarLookAndFeel();
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-                    Logger.getLogger(DialogoPruebasTest.class
-                            .getName()).log(Level.SEVERE, null, ex);
+                    log.error("ERROR = " + ex.getLocalizedMessage());
                 }
             });
             mimenu.add(LosLookAndfFeels.get(i));
@@ -766,10 +763,26 @@ public class VentanaInicio extends javax.swing.JFrame {
         //</editor-fold>
 
         // Inicializo la aplicacion
-        if (!Procesador.InicializarAplicacion()) {
-            log.error(idioma.getString("ErrorInicioApliacion.text"));
-            System.exit(0);
-        }
+        Boolean initCorrecto;
+        do {
+            initCorrecto = Procesador.InicializarAplicacion();
+            if (!initCorrecto) {
+                log.error(idioma.getString("ErrorInicioApliacion.text"));
+                int loqueDice = JOptionPane.showOptionDialog(null, idioma.getString("Configuracion.reset.archivo.text"), idioma.getString("Atencion.text"),
+                        JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Config.OPCIONES_ACEPTAR_CANCELAR,
+                        Config.OPCIONES_ACEPTAR_CANCELAR[Config.OPCIONES_ACEPTAR_CANCELAR.length - 1]);
+                // El primer botón, el 0 es aceptar
+                if (loqueDice == 0) {
+                    JOptionPane.showOptionDialog(null, idioma.getString("Configuracion.reset.hecho.text"), idioma.getString("Atencion.text"),
+                            JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Config.OPCION_ACEPTAR,
+                            Config.OPCIONES_ACEPTAR_CANCELAR[0]);
+                    Config.guardarConfiguracion();
+                    initCorrecto = false;
+                } else {
+                    System.exit(0);
+                }
+            }
+        } while (!initCorrecto);
 
         // Actualizo el número de ejecuciones de la aplicación.
         Config.misRunsMasMas();

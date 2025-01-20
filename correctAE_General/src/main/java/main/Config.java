@@ -308,12 +308,13 @@ public class Config {
      * Restaura los valores por defecto de la configuración
      */
     public static void ValoresConfiguracionDefecto() {
-        setUmbralDeteccionEsquina(210);
-        setUmbralDeteccionMarca(245);
-        setAnchoMarcasRespuesta(80);
-        setMargenDerechoHojaRecortar(0);
-        setMargenIzquierdoHojaRecortar(0);
-        setMargenSuperiorHojaRecortar(0);
+        setUmbralDeteccionEsquina(INICIAL_UMBRAL_DETECCION_ESQUINA);
+        setUmbralDeteccionMarca(INICIAL_UMBRAL_DETECCION_MARCA);
+        setAnchoMarcasRespuesta(INICIAL_ANCHO_MARCAS_RESPUESTA);
+        setRangoBusquedaEsquinas(INICIAL_RANGO_BUSQUEDA_ESQUINAS);
+        setMargenDerechoHojaRecortar(INICIAL_MARGEN_DERECHO_RECORTAR);
+        setMargenIzquierdoHojaRecortar(INICIAL_MARGEN_IZQUIERDO_RECORTAR);
+        setMargenSuperiorHojaRecortar(INICIAL_MARGEN_SUPERIOR_RECORTAR);
     }
 
     private static final int LIMITE_NEGRO_MARGEN = 150; // Valor por defecto
@@ -400,6 +401,18 @@ public class Config {
     public static final int MAX_NUM_TIPOS = 6;
 
     private static int numPreguntas = 10;
+    
+    /**
+     * Valores iniciales de configuración para lectura de las imágenes de los test
+     */
+    private static final int INICIAL_UMBRAL_DETECCION_ESQUINA = 210;
+    private static final int INICIAL_UMBRAL_DETECCION_MARCA = 245;
+    private static final int INICIAL_ANCHO_MARCAS_RESPUESTA = 80;
+    private static final int INICIAL_RANGO_BUSQUEDA_ESQUINAS = 70;
+    private static final int INICIAL_MARGEN_DERECHO_RECORTAR = 0;
+    private static final int INICIAL_MARGEN_IZQUIERDO_RECORTAR = 0;
+    private static final int INICIAL_MARGEN_SUPERIOR_RECORTAR = 0;
+    //
 
     /**
      * Get the value of numPreguntas
@@ -665,7 +678,11 @@ public class Config {
         }
     }
 
-    public static boolean cargarConfiguracion() {
+    /**
+     *
+     * @return Entero con el código de error producido, 0 si no hay error
+     */
+    public static int cargarArchivoConfiguracion() {
         Properties conf = new Properties();
         // uso un formato de separador decimal, independiente del locale. Float.parseFloat sólo funciona con el punto inglés.
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
@@ -715,21 +732,22 @@ public class Config {
 
             // Cargo todas las casillas del test del modelo100, que está activo. Se cargan del CSV 
             Procesador.setCasillasTest(Procesador.cargaCasillas());
-
         } catch (FileNotFoundException ex) {
-            String error = Procesador.idioma.getString("Configuracion.Error.Fichero.noesta") + "\n" + ex.getMessage() + "\n";
-            log.error(error);
-            JOptionPane.showOptionDialog(null, error, Procesador.idioma.getString("Error.text"),
-                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
-            return false;
+            return 1;
         } catch (NumberFormatException | IOException | ParseException ex) {
-            String error = Procesador.idioma.getString("Configuracion.Error.Fichero.formato") + "\n" + ex.getMessage() + "\n";
-            log.error(error);
-            JOptionPane.showOptionDialog(null, error, Procesador.idioma.getString("Error.text"),
-                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
-            return false;
+            return 2;
+        } catch (NullPointerException ex) {
+            return 3;
         }
-        return true;
+        
+        try {
+            
+        } catch (Exception e) {
+        } finally {
+        }
+        
+        
+        return 0;
     }
 
     /**
