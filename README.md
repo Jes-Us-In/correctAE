@@ -23,13 +23,23 @@
       Su uso es muy sencillo. Incluye una completa ayuda multilenguaje y unos cuantos test de ejemplo para aprender a manejar la app rápidamente.
     </td>
   </tr>
+  <tr>
+    <td colspan="2">
+      <p align="center">
+        <img width="50%" src="https://github.com/user-attachments/assets/9c43a8e9-d2e9-4448-98d1-3d3d5aa0161f">  
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      It has multilingual support. Currently Spanish and English, but it can incorporate anothers if neccesary.      
+    </td>
+    <td>
+      Dispone de soporte multilingüe. Actualmente español e inglés, pero puede incorporar otros en caso de ser necesario.
+    </td>
+  </tr>
 </table>
 
-It has multilingual support. Currently Spanish and English, but it can incorporate anothers if neccesary.
-
-<p align="center">
-  <img width="50%" src="https://github.com/user-attachments/assets/9c43a8e9-d2e9-4448-98d1-3d3d5aa0161f">  
-</p>
 
 Windows Installer: 
 1. CorrectAE-1.7.8.exe - Windows: 
