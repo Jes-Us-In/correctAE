@@ -33,7 +33,7 @@
       <ol>
         <li>It is multilingual. It is currently available in Spanish and English, but can incorporate other languages ​​if necessary.</li>
         <li>From the application, the answer sheet form can be printed on any available printer in the system.</li>
-        <li>It interprets and extracts data from previously scanned answer sheets.</li>
+        <li>Interprets and extracts data from response sheets, previously scanned with a flatbed scanner; it is highly recommended that it has an automatic sheet feeder (ADF).</li>
         <li>It grades the exams according to the parameters entered.</li>
         <li>It offers complete results. These can be exported to a <em>"csv"</em> file for processing with any spreadsheet program.</li>
         <li>It generates detailed statistics on both the results and the questions, by analyzing the answers given by the examinees.</li>
@@ -49,7 +49,7 @@
       <ol>
         <li>Es multilingüe. Actualmente está disponible en español e inglés, pero puede incorporar otros lenguajes en caso de ser necesario..</li>
         <li>Desde la aplicación se puede imprimir el formulario de hoja de respuestas, en cualquier impresora del sistema disponible.</li>
-        <li>Interpreta y extrae los datos de las hojas de respueta, previamente escaneadas.</li>
+        <li>Interpreta y extrae los datos de las hojas de respueta, previamente escaneadas con un escáner plano, es muy recomendable que tenga alimentador automático de hojas (ADF).</li>
         <li>Califica los exámenes, según los parámetros introducidos.</li>
         <li>Ofrece los resultados completos. Estos se pueden exportar a un archivo <em>"csv"</em> para procesarlo con cualquier programa de hojas de cálculo.</li>
         <li>Genera estadísticas detalladas tanto de los resultados como de las preguntas, mediante el análisis de las respuestas dadas por los examinados.</li>
