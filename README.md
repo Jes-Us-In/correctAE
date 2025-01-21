@@ -12,7 +12,7 @@
       reading machines and specific answer sheets, as this type of application does, its operation is based on the use of ordinary paper sheets 
       for answers, A4 size. The image on this sheets can be captured through an ordinary commercial image scanner. With the graphic files obtained,
       <strong>CorrectAE</strong> is fed for data capture and evaluation.
-      It is very easy to use. It includes comprehensive multilingual help and sample tests to learn how to use the app quickly.
+      It is very easy to use. It includes comprehensive multilingual help and a few sample tests to learn how to use the app quickly.
     </td>
     <td>
       <strong>CorrectAE</strong> es una aplicación diseñada y desarrollada para automatizar el proceso de corrección y evaluación de exámenes de opción múltiple.
@@ -20,7 +20,7 @@
       máquinas de lectura y hojas de respuestas específicas, como lo hace este tipo de aplicaciones, su funcionamiento se basa en el uso de hojas de papel ordinarias 
       para las respuestas, tamaño A4. La imagen de estas hojas se puede capturar a través de un escáner de imágenes comercial ordinario. Con los archivos gráficos obtenidos,
       <strong>CorrectAE</strong> se alimenta para la captura y evaluación de datos.
-      Su uso es muy sencillo. Incluye una completa ayuda multilenguaje y  de test de ejemplo para aprender a manejar la app rápidamente.
+      Su uso es muy sencillo. Incluye una completa ayuda multilenguaje y unos cuantos test de ejemplo para aprender a manejar la app rápidamente.
     </td>
   </tr>
 </table>
