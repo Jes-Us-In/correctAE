@@ -365,7 +365,6 @@ public class VentanaInicio extends javax.swing.JFrame {
 
         menuPrincipalBarra.add(menuOpciones);
 
-        menuLookAndFeel.setText(java.util.ResourceBundle.getBundle("propiedades/Idioma").getString("VentanaInicio.menu.temas.text"));
         menuLookAndFeel.setFont(Config.FUENTE_NORMAL);
         menuLookAndFeel.setName(bundle.getString("VentanaInicio.menuTemas.text")); // NOI18N
         menuLookAndFeel.addActionListener(new java.awt.event.ActionListener() {
@@ -678,7 +677,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         cargarTestDemo.setText(idioma.getString("VentanaInicio.cargarTestDemo.text")); // NOI18N
         probarTest.setText(idioma.getString("VENTANAINICIO.MENU_OPCIONES.PROBAR_TEST.TEXT")); // NOI18N
         configuracion.setText(idioma.getString("VENTANAINICIO.MENU_OPCIONES.CONFIGURACION.TEXT")); // NOI18N
-        menuLookAndFeel.setText("Look and Feel");
+        menuLookAndFeel.setText(idioma.getString("VentanaInicio.menuTemas.text"));
         menuIdioma.setText(idioma.getString("VENTANAINICIO.MENU_IDIOMA.TEXT")); // NOI18N
         menuAyuda.setText(idioma.getString("VentanaInicio.menuAyuda.text")); // NOI18N
         mostrarAyuda.setText(idioma.getString("VentanaInicio.mostrarAyuda.text")); // NOI18N
