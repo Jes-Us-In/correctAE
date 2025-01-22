@@ -7,7 +7,8 @@ It includes complete multilingual help and a few example tests to learn how to u
 
 What CorrectAE does:
 
-    It is multilingual. It is currently available in Spanish and English, but can incorporate other languages ​​if necessary.
+    <p>Hola</p>    
+It is multilingual. It is currently available in Spanish and English, but can incorporate other languages ​​if necessary.
     From the application, the answer sheet form can be printed on any available printer in the system.
     Interprets and extracts data from response sheets, previously scanned with a flatbed scanner; it is highly recommended that it has an automatic sheet feeder (ADF).
     It grades the exams according to the parameters entered.
