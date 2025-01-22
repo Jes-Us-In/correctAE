@@ -66,4 +66,21 @@
       </p>
     </td>
   </tr>
+  <tr>
+    <td colspan="2">
+      <h2>Releases:</h2>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p align="center">
+        <a>Windows href="https://github.com/Jes-Us-In/correctAE/releases/tag/v_1.7.11_windows_x64"</a>
+      </p>
+    </td>
+    <td>
+      <p align="center">
+        <a>Linux href="https://github.com/Jes-Us-In/correctAE/releases/tag/v1.7.11_Linux"</a>
+      </p>
+    </td>
+  </tr>
 </table>
