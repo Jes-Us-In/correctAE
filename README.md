@@ -74,12 +74,12 @@
   <tr>
     <td>
       <p align="center">
-        <a>Windows href="https://github.com/Jes-Us-In/correctAE/releases/tag/v_1.7.11_windows_x64"</a>
+        <a href="https://github.com/Jes-Us-In/correctAE/releases/tag/v_1.7.11_windows_x64">Windows</a>
       </p>
     </td>
     <td>
       <p align="center">
-        <a>Linux href="https://github.com/Jes-Us-In/correctAE/releases/tag/v1.7.11_Linux"</a>
+        <a href="https://github.com/Jes-Us-In/correctAE/releases/tag/v1.7.11_Linux">Linux</a>
       </p>
     </td>
   </tr>
