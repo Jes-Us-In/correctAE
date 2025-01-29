@@ -20,7 +20,6 @@
 package main;
 
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 
@@ -31,7 +30,6 @@ import javax.swing.UIManager;
 public class DialogoCarpertaFichero extends JFileChooser {
 
     // Para seleccionar un fichero para guardar
-    ResourceBundle idioma = Procesador.idioma;
     private final ArrayList<String> claves;
 
     // Para seleccionar un fichero para leer o una carpeta
@@ -61,7 +59,7 @@ public class DialogoCarpertaFichero extends JFileChooser {
 
         // Recargo las claves en el idioma que esté
         for (String clave : claves) {
-            UIManager.put(clave, idioma.getString(clave));
+            UIManager.put(clave, Config.getIdioma().getString(clave));
         }
         this.updateUI();
     }
@@ -69,18 +67,18 @@ public class DialogoCarpertaFichero extends JFileChooser {
 
 //    private void IdiomaFileChooser(boolean esCarpeta) {
 //        if (this.isFileSelectionEnabled()) {
-//            this.setDialogTitle(idioma.getString("FileChooser.Fichero.title"));
+//            this.setDialogTitle(Config.getIdioma().getString("FileChooser.Fichero.title"));
 //
 //        } else {
-//            this.setDialogTitle(idioma.getString("FileChooser.Carpeta.title"));
+//            this.setDialogTitle(Config.getIdioma().getString("FileChooser.Carpeta.title"));
 //        }
 //        for (String clave : claves) {
 //            // Si es carpeta el texto del boton de abrir es específico
 //            if (esCarpeta && clave.equals("FileChooser.openButtonText")) {
-//                UIManager.put(clave, idioma.getString("FileChooser.folderOpenButtonText"));
+//                UIManager.put(clave, Config.getIdioma().getString("FileChooser.folderOpenButtonText"));
 //
 //            } else {
-//                UIManager.put(clave, idioma.getString(clave));
+//                UIManager.put(clave, Config.getIdioma().getString(clave));
 //            }
 //        }
 //        this.updateUI();

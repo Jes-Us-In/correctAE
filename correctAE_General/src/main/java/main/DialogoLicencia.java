@@ -23,7 +23,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ResourceBundle;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -32,10 +31,6 @@ import javax.swing.JOptionPane;
  * @author Jesus.delBuey
  */
 public class DialogoLicencia extends javax.swing.JDialog {
-
-    ResourceBundle idioma = Procesador.idioma;
-    // Log de la aplicación
-    private static final Loguero log = Procesador.getLog();
 
     /**
      * Creates new form DialogoLicencia
@@ -115,14 +110,14 @@ public class DialogoLicencia extends javax.swing.JDialog {
                     }
                 }
             } else {
-                log.error(idioma.getString("DialogoVerLicencia.noExiste.text") + ": " + nombreArchivo);
-                JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerLicencia.noExiste.text") + ": " + nombreArchivo,
-                        idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+                Config.getLog().error(Config.getIdioma().getString("DialogoVerLicencia.noExiste.text") + ": " + nombreArchivo);
+                JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoVerLicencia.noExiste.text") + ": " + nombreArchivo,
+                        Config.getIdioma().getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             }
         } catch (IOException ex) {
-            log.error(ex.getLocalizedMessage());
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerLicencia.noExiste.text") + ": " + ex.getLocalizedMessage(),
-                    idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+            Config.getLog().error(ex.getLocalizedMessage());
+            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoVerLicencia.noExiste.text") + ": " + ex.getLocalizedMessage(),
+                    Config.getIdioma().getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
         return textoLicencia.toString();
     }

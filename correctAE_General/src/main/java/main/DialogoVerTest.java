@@ -29,7 +29,6 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
-import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
@@ -54,8 +53,6 @@ public class DialogoVerTest extends javax.swing.JDialog {
 
     private File fichero;
 
-    protected Loguero log = Procesador.getLog();
-    ResourceBundle idioma = Procesador.idioma;
     List<Casilla> casillasMarcadas;
     int indiceActual;
     // Para escucher los eventos de teclado
@@ -133,9 +130,9 @@ public class DialogoVerTest extends javax.swing.JDialog {
             Toolkit.getDefaultToolkit().addAWTEventListener(flechasListener, AWTEvent.KEY_EVENT_MASK);
             //
         } catch (Exception ex) {
-            log.info(idioma.getString("DialogoVerTest.noExiste.text"));
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerTest.noExiste.text") + ex.getLocalizedMessage(),
-                    idioma.getString("Error.text"),
+            Config.getLog().info(Config.getIdioma().getString("DialogoVerTest.noExiste.text"));
+            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoVerTest.noExiste.text") + ex.getLocalizedMessage(),
+                    Config.getIdioma().getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             imagenCargada = false;
         }
@@ -158,17 +155,17 @@ public class DialogoVerTest extends javax.swing.JDialog {
                 }
                 etqLaImagen.setIcon(new ImageIcon(Procesador.imagenIconReducida(laImg, this.anchoImagenPresentacion, this.altoImagenPresentacion)));
                 // Limito el tamaño máximo de la ruta a presentar en pantalla
-                String textoRuta = idioma.getString("VentanaTest.rutaArchivo.text") + fichero.getAbsolutePath();
-                textoRuta = textoRuta.length() > 100 ? idioma.getString("VentanaTest.rutaArchivo.text").concat(" ...").concat(textoRuta.substring(textoRuta.length() - 100)) : textoRuta;
+                String textoRuta = Config.getIdioma().getString("VentanaTest.rutaArchivo.text") + fichero.getAbsolutePath();
+                textoRuta = textoRuta.length() > 100 ? Config.getIdioma().getString("VentanaTest.rutaArchivo.text").concat(" ...").concat(textoRuta.substring(textoRuta.length() - 100)) : textoRuta;
                 rutaArchivo.setText(textoRuta);
                 repaint();
                 g.dispose();
             } else {
-                JOptionPane.showOptionDialog(rootPane, idioma.getString("VENTANAPRUEBASTESTS.btnAnalizar.ERROR_FICHERO_PLANTILLA.TEXT"), idioma.getString("Error.text"),
+                JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("VENTANAPRUEBASTESTS.btnAnalizar.ERROR_FICHERO_PLANTILLA.TEXT"), Config.getIdioma().getString("Error.text"),
                         JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             }
         } else {
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("VENTANAPRUEBASTESTS.btnAnalizar.ERROR_SIN_IMAGEN_O_LIMITE.TEXT"), idioma.getString("Error.text"),
+            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("VENTANAPRUEBASTESTS.btnAnalizar.ERROR_SIN_IMAGEN_O_LIMITE.TEXT"), Config.getIdioma().getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
     }
@@ -347,9 +344,9 @@ public class DialogoVerTest extends javax.swing.JDialog {
                     cargaLaImagen(unFichero);
                 }
             } catch (Exception ex) {
-                log.info(idioma.getString("DialogoVerTest.noExiste.text"));
+                Config.getLog().info(Config.getIdioma().getString("DialogoVerTest.noExiste.text"));
                 this.dispose();
-                JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerTest.noExiste.text"), idioma.getString("Error.text"),
+                JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoVerTest.noExiste.text"), Config.getIdioma().getString("Error.text"),
                         JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             }
         }
@@ -372,9 +369,9 @@ public class DialogoVerTest extends javax.swing.JDialog {
                     cargaLaImagen(unFichero);
                 }
             } catch (Exception ex) {
-                log.info(idioma.getString("DialogoVerTest.noExiste.text"));
+                Config.getLog().info(Config.getIdioma().getString("DialogoVerTest.noExiste.text"));
                 this.dispose();
-                JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerTest.noExiste.text"), idioma.getString("Error.text"),
+                JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoVerTest.noExiste.text"), Config.getIdioma().getString("Error.text"),
                         JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             }
         }
@@ -383,8 +380,8 @@ public class DialogoVerTest extends javax.swing.JDialog {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // Muestro la ventana de información.
         if (Procesador.tiempoQueSalgo(7) > 0) {
-            new DialogoInfo(this, true, 680, 170, idioma.getString("Atencion.text"), 
-                idioma.getString("DialogoVerTestInfo.text"), Procesador.tiempoQueSalgo(7)).setVisible(true);
+            new DialogoInfo(this, true, 680, 170, Config.getIdioma().getString("Atencion.text"), 
+                Config.getIdioma().getString("DialogoVerTestInfo.text"), Procesador.tiempoQueSalgo(7)).setVisible(true);
         }
         
     }//GEN-LAST:event_formWindowOpened

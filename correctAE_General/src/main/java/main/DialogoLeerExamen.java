@@ -20,7 +20,6 @@
 package main;
 
 import java.awt.event.MouseAdapter;
-import java.util.ResourceBundle;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -35,14 +34,12 @@ import javax.swing.table.TableColumnModel;
  */
 public class DialogoLeerExamen extends javax.swing.JDialog {
 
-    ResourceBundle idioma = Procesador.idioma;
-
-    String[] columnasTabla = {idioma.getString("DialogoLeerExamen.col0.header.text"),
-        idioma.getString("DialogoLeerExamen.col1.header.text"),
-        idioma.getString("DialogoLeerExamen.col2.header.text"),
-        idioma.getString("DialogoLeerExamen.col3.header.text"),
-        idioma.getString("DialogoLeerExamen.col4.header.text"),
-        idioma.getString("DialogoLeerExamen.col5.header.text")
+    String[] columnasTabla = {Config.getIdioma().getString("DialogoLeerExamen.col0.header.text"),
+        Config.getIdioma().getString("DialogoLeerExamen.col1.header.text"),
+        Config.getIdioma().getString("DialogoLeerExamen.col2.header.text"),
+        Config.getIdioma().getString("DialogoLeerExamen.col3.header.text"),
+        Config.getIdioma().getString("DialogoLeerExamen.col4.header.text"),
+        Config.getIdioma().getString("DialogoLeerExamen.col5.header.text")
     };
     private MiModeloTabla modeloTablaExamenes;
 
@@ -272,7 +269,7 @@ public class DialogoLeerExamen extends javax.swing.JDialog {
                 // borro la línea del modelo también
                 modeloTablaExamenes.removeRow(tablaExamenes.getSelectedRow());
                 // Examen borrado correctamente
-                JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoLeerExamen.examen.borrado.text"), idioma.getString("Atencion.text"),
+                JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoLeerExamen.examen.borrado.text"), Config.getIdioma().getString("Atencion.text"),
                         JOptionPane.NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             }
         }
@@ -292,7 +289,7 @@ public class DialogoLeerExamen extends javax.swing.JDialog {
             return true;
         } else {
             examenSeleccionado = -1;
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoLeerExamen.error.mala.seleccion.text"), idioma.getString("Atencion.text"),
+            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoLeerExamen.error.mala.seleccion.text"), Config.getIdioma().getString("Atencion.text"),
                     JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
         return false;

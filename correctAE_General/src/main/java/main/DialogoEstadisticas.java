@@ -24,7 +24,6 @@ import java.awt.Font;
 import java.awt.Point;
 import java.io.File;
 import java.util.HashSet;
-import java.util.ResourceBundle;
 import java.util.Set;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -52,14 +51,11 @@ import org.jfree.data.general.PieDataset;
 public class DialogoEstadisticas extends javax.swing.JDialog {
 // Objetos de los graficos
 
-    ResourceBundle idioma = Procesador.idioma;
-    private final Loguero log = Procesador.getLog();
-
-    String[] columnas = {idioma.getString("DialogoEstadisticas.numPregunta.text"),
-        idioma.getString("DialogoEvaluar.tabla.columna4"),
-        idioma.getString("DialogoEvaluar.tabla.columna5"),
-        idioma.getString("DialogoEvaluar.tabla.columna6"),
-        idioma.getString("DialogoEvaluar.tabla.columna7"),
+    String[] columnas = {Config.getIdioma().getString("DialogoEstadisticas.numPregunta.text"),
+        Config.getIdioma().getString("DialogoEvaluar.tabla.columna4"),
+        Config.getIdioma().getString("DialogoEvaluar.tabla.columna5"),
+        Config.getIdioma().getString("DialogoEvaluar.tabla.columna6"),
+        Config.getIdioma().getString("DialogoEvaluar.tabla.columna7"),
         "A", "B", "C", "D", "E"};
     DefaultTableModel modeloEstadisPreg = new DefaultTableModel(columnas, 0);
 
@@ -130,13 +126,13 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
             // Respuesta correcta segun la equivalencia respecto al tipo Maestro
             respCorrecta = Procesador.getModeloRespTipos().getValueAt(fil, 1).toString();
             // Si está anulada no pongo nada
-            if (respCorrecta.contains(idioma.getString("DialogoTipos.Anular.text"))) {
+            if (respCorrecta.contains(Config.getIdioma().getString("DialogoTipos.Anular.text"))) {
                 fila = new Object[]{fil + 1,
-                    idioma.getString("DialogoTipos.Anular.text"), idioma.getString("DialogoTipos.Anular.text"),
-                    idioma.getString("DialogoTipos.Anular.text"), idioma.getString("DialogoTipos.Anular.text"),
-                    idioma.getString("DialogoTipos.Anular.text"), idioma.getString("DialogoTipos.Anular.text"),
-                    idioma.getString("DialogoTipos.Anular.text"), idioma.getString("DialogoTipos.Anular.text"),
-                    idioma.getString("DialogoTipos.Anular.text")};
+                    Config.getIdioma().getString("DialogoTipos.Anular.text"), Config.getIdioma().getString("DialogoTipos.Anular.text"),
+                    Config.getIdioma().getString("DialogoTipos.Anular.text"), Config.getIdioma().getString("DialogoTipos.Anular.text"),
+                    Config.getIdioma().getString("DialogoTipos.Anular.text"), Config.getIdioma().getString("DialogoTipos.Anular.text"),
+                    Config.getIdioma().getString("DialogoTipos.Anular.text"), Config.getIdioma().getString("DialogoTipos.Anular.text"),
+                    Config.getIdioma().getString("DialogoTipos.Anular.text")};
                 // Guardo las posiciones para poner las celdas en negrita
                 for (int i = 1; i < modelCol.getColumnCount(); i++) {
                     celdasNegritas.add(new Point(fil, i));
@@ -167,18 +163,18 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
     private void ponGraficos(int totalTests, int[] aprSus, int[] estadNotas) {
 // Grafico de tarta con aprovados y suspensos
         PieDataset tartaDataset = createTartaDataset(totalTests, aprSus);
-        JFreeChart tartaChart = createTartaChart(tartaDataset, idioma.getString("DialogoEstadisticas.tarta.titulo.text"));
+        JFreeChart tartaChart = createTartaChart(tartaDataset, Config.getIdioma().getString("DialogoEstadisticas.tarta.titulo.text"));
         ChartPanel tartaPanel = new ChartPanel(tartaChart);
 
 // Grafico de barras con distribución de notas
         DefaultCategoryDataset barrasSet = new DefaultCategoryDataset();
 
         for (int ind = 0; ind < estadNotas.length; ind++) {
-            barrasSet.addValue(estadNotas[ind], idioma.getString("DialogoEstadisticas.barras.etqCalificacion.text"), String.valueOf(ind));
+            barrasSet.addValue(estadNotas[ind], Config.getIdioma().getString("DialogoEstadisticas.barras.etqCalificacion.text"), String.valueOf(ind));
         }
-        JFreeChart barrasChart = ChartFactory.createBarChart(idioma.getString("DialogoEstadisticas.barras.titulo.text"),
-                idioma.getString("DialogoEstadisticas.barras.categoria.text"),
-                idioma.getString("DialogoEstadisticas.barras.valor.text"),
+        JFreeChart barrasChart = ChartFactory.createBarChart(Config.getIdioma().getString("DialogoEstadisticas.barras.titulo.text"),
+                Config.getIdioma().getString("DialogoEstadisticas.barras.categoria.text"),
+                Config.getIdioma().getString("DialogoEstadisticas.barras.valor.text"),
                 barrasSet,
                 PlotOrientation.VERTICAL,
                 true,
@@ -221,10 +217,10 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
             strTantoSus = "0";
         }
 
-        grafTartaDataSet.setValue(idioma.getString("DialogoEstadisticas.tarta.suspensos.text").concat(" ").concat(String.valueOf(estadAproySus[1])).
+        grafTartaDataSet.setValue(Config.getIdioma().getString("DialogoEstadisticas.tarta.suspensos.text").concat(" ").concat(String.valueOf(estadAproySus[1])).
                 concat(" - ").concat(strTantoSus).concat("%"), estadAproySus[1]);
 
-        grafTartaDataSet.setValue(idioma.getString("DialogoEstadisticas.tarta.aprobados.text").concat(" ").concat(String.valueOf(estadAproySus[0])).
+        grafTartaDataSet.setValue(Config.getIdioma().getString("DialogoEstadisticas.tarta.aprobados.text").concat(" ").concat(String.valueOf(estadAproySus[0])).
                 concat(" - ").concat(strTantoApro).concat("%"), estadAproySus[0]);
         //result.setValue("No presentados", 51);
         return grafTartaDataSet;
@@ -258,7 +254,7 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
             DialogoCarpertaFichero SelectorFichero = new DialogoCarpertaFichero();  // false indica que quiero seleccionar ficheros
             SelectorFichero.setDialogType(JFileChooser.SAVE_DIALOG);
             SelectorFichero.setFileSelectionMode(JFileChooser.FILES_ONLY); // Para que elija carpeta en lugar de ficheros individuales
-            SelectorFichero.setDialogTitle(idioma.getString("FileChooser.Fichero.title"));
+            SelectorFichero.setDialogTitle(Config.getIdioma().getString("FileChooser.Fichero.title"));
             SelectorFichero.setCurrentDirectory(new File(Config.getCarpetaArchivosTests()));
 
             String[] extensions = {"csv", "txt"};
@@ -273,12 +269,12 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
                 // Si hay algún mensaje, lo muestro
                 if (!"".equals(mensajes[0])) {
                     // Hubo un error u otro mensaje
-                    JOptionPane.showOptionDialog(this.getContentPane(), idioma.getString(mensajes[0]), idioma.getString(mensajes[1]),
+                    JOptionPane.showOptionDialog(this.getContentPane(), Config.getIdioma().getString(mensajes[0]), Config.getIdioma().getString(mensajes[1]),
                             JOptionPane.NO_OPTION, Integer.parseInt(mensajes[2]), null, Config.OPCION_ACEPTAR, null);
                 }
             }
         } else {
-            JOptionPane.showOptionDialog(this.getContentPane(), idioma.getString("DialogoEvaluar.tablaVacia.text"), idioma.getString("Atencion.text"),
+            JOptionPane.showOptionDialog(this.getContentPane(), Config.getIdioma().getString("DialogoEvaluar.tablaVacia.text"), Config.getIdioma().getString("Atencion.text"),
                     JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE, null, Config.OPCION_ACEPTAR,
                     null);
         }
@@ -419,9 +415,9 @@ public class DialogoEstadisticas extends javax.swing.JDialog {
         String error = Procesador.mostrarAyuda(Config.getRutaAyudaEstadisticas());
 
         if (!"".equals(error)) {
-            log.error(error);
-            JOptionPane.showOptionDialog(rootPane, error, idioma.getString("Error.text"),
-                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text")}, idioma.getString("Aceptar.text"));
+            Config.getLog().error(error);
+            JOptionPane.showOptionDialog(rootPane, error, Config.getIdioma().getString("Error.text"),
+                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{Config.getIdioma().getString("Aceptar.text")}, Config.getIdioma().getString("Aceptar.text"));
         }
     }//GEN-LAST:event_btnAyudaActionPerformed
 

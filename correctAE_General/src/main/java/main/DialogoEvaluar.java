@@ -26,7 +26,6 @@ import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ResourceBundle;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -45,9 +44,6 @@ import main.estilos.RenderAlineadoFuenteActual;
  * @author Jesus.delBuey
  */
 public class DialogoEvaluar extends javax.swing.JDialog {
-
-    ResourceBundle idioma = Procesador.idioma;
-    private final Loguero log = Procesador.getLog();
 
 //    Tamaño y posicion del formulario minimizado
     Dimension tamanoPrevio;
@@ -118,8 +114,8 @@ public class DialogoEvaluar extends javax.swing.JDialog {
                             tabla.getModel().setValueAt(testCorregido.get("respuestas"), tabla.getSelectedRow(), 9);
                         }
                     } catch (IndexOutOfBoundsException ex) {
-                        log.info(idioma.getString("DialogoVerTest.error.leyendo.archivo.text") + "\n" + ex.getMessage());
-                        JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerTest.error.leyendo.archivo.text"), idioma.getString("Error.text"),
+                        Config.getLog().info(Config.getIdioma().getString("DialogoVerTest.error.leyendo.archivo.text") + "\n" + ex.getMessage());
+                        JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoVerTest.error.leyendo.archivo.text"), Config.getIdioma().getString("Error.text"),
                                 JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
                     }
                 }
@@ -445,7 +441,7 @@ public class DialogoEvaluar extends javax.swing.JDialog {
                     Procesador.getEstadAprobados(), Procesador.getEstadNotas(), Procesador.getEstadPregs());
             estadis.setVisible(true);
         } else {
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoEvaluar.error.nohayCorreccion.text"), idioma.getString("Atencion.text"),
+            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoEvaluar.error.nohayCorreccion.text"), Config.getIdioma().getString("Atencion.text"),
                     JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
     }//GEN-LAST:event_btnEstadisticasActionPerformed
@@ -460,7 +456,7 @@ public class DialogoEvaluar extends javax.swing.JDialog {
             String[] mensajes = Procesador.CorregiryPuntuar();
             if (!"".equals(mensajes[0])) {
                 // Hubo un error u otro mensaje
-                JOptionPane.showOptionDialog(this.getContentPane(), idioma.getString(mensajes[0]), idioma.getString(mensajes[1]),
+                JOptionPane.showOptionDialog(this.getContentPane(), Config.getIdioma().getString(mensajes[0]), Config.getIdioma().getString(mensajes[1]),
                         JOptionPane.NO_OPTION, Integer.parseInt(mensajes[2]), null, Config.OPCION_ACEPTAR, null);
             }
             if (!"Error.text".equals(mensajes[1])) {
@@ -488,7 +484,7 @@ public class DialogoEvaluar extends javax.swing.JDialog {
                 // pongo el nuevo modelo
                 tablaTestsCorregidos.setModel(modelo);
                 // Pongo el nombre del test
-                etqNombreExamen.setText(idioma.getString("DialogoEvaluar.etqNombreExamen.text").concat(ventaLeer.getNombreExamenSeleccionado()));
+                etqNombreExamen.setText(Config.getIdioma().getString("DialogoEvaluar.etqNombreExamen.text").concat(ventaLeer.getNombreExamenSeleccionado()));
                 // Actualiza la configuración con los datos de tipos y equivalencias nuevos
                 Config.setNumPreguntas(ventaLeer.getNumPreguntas());
                 Config.setNumTipos(ventaLeer.getNumTipos());
@@ -499,7 +495,7 @@ public class DialogoEvaluar extends javax.swing.JDialog {
                 Procesador.CargaEquivalenciasyTipos(idExamen);
             }
         } else {
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("BaseDatos.error.nohayguardados.text"), idioma.getString("Error.text"),
+            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("BaseDatos.error.nohayguardados.text"), Config.getIdioma().getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             ventaLeer.dispose();
         }
@@ -514,15 +510,15 @@ public class DialogoEvaluar extends javax.swing.JDialog {
             ventaGuardar.setVisible(true);
             Procesador.nombreExamen = ventaGuardar.getNombreExamen();
             Procesador.descrExamen = ventaGuardar.getDescrExamen();
-            etqNombreExamen.setText(idioma.getString("DialogoEvaluar.etqNombreExamen.text") + Procesador.nombreExamen);
+            etqNombreExamen.setText(Config.getIdioma().getString("DialogoEvaluar.etqNombreExamen.text") + Procesador.nombreExamen);
             if (!Procesador.nombreExamen.isEmpty()) {
                 BaseDatos.GuardarExamen(Procesador.nombreExamen, Procesador.descrExamen, Procesador.modeloTablaTestsCorregidos, Procesador.getModeloRespTipos(), Config.getNumPreguntas(), Config.getNumTipos());
             } else {
-                JOptionPane.showOptionDialog(rootPane, idioma.getString("BaseDatos.error.indices.noguardados.text"), idioma.getString("Error.text"),
+                JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("BaseDatos.error.indices.noguardados.text"), Config.getIdioma().getString("Error.text"),
                         JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             }
         } else {
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaInicio.btnGuardarExamen.error.text"), idioma.getString("Atencion.text"),
+            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("VentanaInicio.btnGuardarExamen.error.text"), Config.getIdioma().getString("Atencion.text"),
                     JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
     }//GEN-LAST:event_guardarExamenActionPerformed
@@ -531,7 +527,7 @@ public class DialogoEvaluar extends javax.swing.JDialog {
         // Cargo la tabla desde un archivo csv
         // Borro todos los test de la tabla. Uso un JOptionPane personalizado que cambia el idioma, en en array de opciones de botón. Por defecto, paso el botón cancelar
 
-        int loqueDice = JOptionPane.showOptionDialog(this, idioma.getString("VentanaInicio.aviso.borrar.lista.tests.text"), idioma.getString("Atencion.text"),
+        int loqueDice = JOptionPane.showOptionDialog(this, Config.getIdioma().getString("VentanaInicio.aviso.borrar.lista.tests.text"), Config.getIdioma().getString("Atencion.text"),
                 JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Config.OPCIONES_ACEPTAR_CANCELAR,
                 Config.OPCIONES_ACEPTAR_CANCELAR[Config.OPCIONES_ACEPTAR_CANCELAR.length - 1]);
         // El primer botón, el 0 es aceptar
@@ -540,7 +536,7 @@ public class DialogoEvaluar extends javax.swing.JDialog {
             DialogoCarpertaFichero SelectorFichero = new DialogoCarpertaFichero();  // false indica que quiero seleccionar ficheros
             SelectorFichero.setDialogType(JFileChooser.OPEN_DIALOG);
             SelectorFichero.setFileSelectionMode(JFileChooser.FILES_ONLY); // Para que elija carpeta en lugar de ficheros individuales
-            SelectorFichero.setDialogTitle(idioma.getString("FileChooser.Fichero.title"));
+            SelectorFichero.setDialogTitle(Config.getIdioma().getString("FileChooser.Fichero.title"));
             SelectorFichero.setCurrentDirectory(new File(Config.getCarpetaArchivosTests()));
 
             String[] extensions = {"csv", "txt"};
@@ -556,7 +552,7 @@ public class DialogoEvaluar extends javax.swing.JDialog {
                         tablaTestsCorregidos.getColumnCount(), Config.MAX_NUM_TEST, Config.CSV_TEST_CORREGIDOS);
                 if (!"".equals(mensajes[0])) {
                     // Hubo un error u otro mensaje
-                    JOptionPane.showOptionDialog(this.getContentPane(), idioma.getString(mensajes[0]), idioma.getString(mensajes[1]),
+                    JOptionPane.showOptionDialog(this.getContentPane(), Config.getIdioma().getString(mensajes[0]), Config.getIdioma().getString(mensajes[1]),
                             JOptionPane.NO_OPTION, Integer.parseInt(mensajes[2]), null, Config.OPCION_ACEPTAR, null);
                 }
             }
@@ -572,7 +568,7 @@ public class DialogoEvaluar extends javax.swing.JDialog {
             DialogoCarpertaFichero SelectorFichero = new DialogoCarpertaFichero();  // false indica que quiero seleccionar ficheros
             SelectorFichero.setDialogType(JFileChooser.SAVE_DIALOG);
             SelectorFichero.setFileSelectionMode(JFileChooser.FILES_ONLY); // Para que elija carpeta en lugar de ficheros individuales
-            SelectorFichero.setDialogTitle(idioma.getString("FileChooser.Fichero.title"));
+            SelectorFichero.setDialogTitle(Config.getIdioma().getString("FileChooser.Fichero.title"));
             SelectorFichero.setCurrentDirectory(new File(Config.getCarpetaArchivosTests()));
 
             String[] extensions = {"csv", "txt"};
@@ -587,12 +583,12 @@ public class DialogoEvaluar extends javax.swing.JDialog {
                 // Si hay algún mensaje, lo muestro
                 if (!"".equals(mensajes[0])) {
                     // Hubo un error u otro mensaje
-                    JOptionPane.showOptionDialog(this.getContentPane(), idioma.getString(mensajes[0]), idioma.getString(mensajes[1]),
+                    JOptionPane.showOptionDialog(this.getContentPane(), Config.getIdioma().getString(mensajes[0]), Config.getIdioma().getString(mensajes[1]),
                             JOptionPane.NO_OPTION, Integer.parseInt(mensajes[2]), null, Config.OPCION_ACEPTAR, null);
                 }
             }
         } else {
-            JOptionPane.showOptionDialog(this.getContentPane(), idioma.getString("DialogoEvaluar.tablaVacia.text"), idioma.getString("Atencion.text"),
+            JOptionPane.showOptionDialog(this.getContentPane(), Config.getIdioma().getString("DialogoEvaluar.tablaVacia.text"), Config.getIdioma().getString("Atencion.text"),
                     JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE, null, Config.OPCION_ACEPTAR,
                     null);
         }
@@ -601,13 +597,13 @@ public class DialogoEvaluar extends javax.swing.JDialog {
     private void borrarTestsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarTestsActionPerformed
         // Borro todos los test de la tabla. Uso un JOptionPane personalizado que cambia el idioma, en en array de opciones de botón. Por defecto, paso el botón cancelar
 
-        int loqueDice = JOptionPane.showOptionDialog(this, idioma.getString("VentanaInicio.aviso.borrar.lista.tests.text"), idioma.getString("Atencion.text"),
+        int loqueDice = JOptionPane.showOptionDialog(this, Config.getIdioma().getString("VentanaInicio.aviso.borrar.lista.tests.text"), Config.getIdioma().getString("Atencion.text"),
                 JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Config.OPCIONES_ACEPTAR_CANCELAR,
                 Config.OPCIONES_ACEPTAR_CANCELAR[Config.OPCIONES_ACEPTAR_CANCELAR.length - 1]);
         // El primer botón, el 0 es aceptar
         if (loqueDice == 0) {
             // Borro los test que hay en la tabla
-            log.info("Borró los tests de la tabla");
+            Config.getLog().info("Borró los tests de la tabla");
             Procesador.modeloTablaTestsCorregidos.setRowCount(0);
             heCorregido = false;
         }
@@ -616,9 +612,9 @@ public class DialogoEvaluar extends javax.swing.JDialog {
     private void btnAyudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAyudaActionPerformed
         String error = Procesador.mostrarAyuda(Config.getRutaAyudaEvaluaciones());
         if (!"".equals(error)) {
-            log.error(error);
-            JOptionPane.showOptionDialog(rootPane, error, idioma.getString("Error.text"),
-                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text")}, idioma.getString("Aceptar.text"));
+            Config.getLog().error(error);
+            JOptionPane.showOptionDialog(rootPane, error, Config.getIdioma().getString("Error.text"),
+                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{Config.getIdioma().getString("Aceptar.text")}, Config.getIdioma().getString("Aceptar.text"));
         }
 
 

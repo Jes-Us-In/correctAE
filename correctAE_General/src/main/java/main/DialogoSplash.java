@@ -29,7 +29,6 @@ import javax.swing.border.EmptyBorder;
 public class DialogoSplash extends javax.swing.JDialog {
 
     // Log de la aplicación
-    private static final Loguero log = Procesador.getLog();
     
     /**
      * Creates new form DialogoSplash
@@ -136,7 +135,7 @@ public class DialogoSplash extends javax.swing.JDialog {
         try {
             Thread.sleep(4000);
         } catch (InterruptedException ex) {
-            log.error(ex.getLocalizedMessage());
+            Config.getLog().error(ex.getLocalizedMessage());
         }
         // Continúo
         this.dispose();

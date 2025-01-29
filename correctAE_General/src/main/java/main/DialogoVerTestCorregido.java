@@ -20,7 +20,6 @@ package main;
 
 import java.awt.Font;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -36,9 +35,6 @@ import javax.swing.table.TableColumnModel;
  */
 public class DialogoVerTestCorregido extends javax.swing.JDialog {
 
-    protected Loguero log = Procesador.getLog();
-    ResourceBundle idioma = Procesador.idioma;
-    // 
     Map<String, String> test;
     JTableHeader cabecera;
 
@@ -76,15 +72,15 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
         // Pongo el tamaño del formulario
         //this.setSize(panelRespuestas.getWidth() + PanelDatos1.getWidth() + 30, panelRespuestas.getHeight() + 125);
         //
-        etqNumExamen.setText(idioma.getString("DialogoVerTestCorregido.etqNumExamen.text").concat(test.get("num")));
+        etqNumExamen.setText(Config.getIdioma().getString("DialogoVerTestCorregido.etqNumExamen.text").concat(test.get("num")));
         campoNIF.setText(test.get("nif"));
         comboTipo.setSelectedIndex("?123456".indexOf(test.get("tipo")));
         comboGrupo.setSelectedIndex("?123456".indexOf(test.get("grupo")));
-        etqAciertos.setText(idioma.getString("DialogoVerTestCorregido.etqAciertos.text").concat(test.get("aciertos")));
-        etqFallos.setText(idioma.getString("DialogoVerTestCorregido.etqFallos.text").concat(test.get("fallos")));
-        etqBlancos.setText(idioma.getString("DialogoVerTestCorregido.etqBlancos.text").concat(test.get("blancos")));
-        etqDobles.setText(idioma.getString("DialogoVerTestCorregido.etqDobles.text").concat(test.get("dobles")));
-        etqNota.setText(idioma.getString("DialogoVerTestCorregido.etqNota.text").concat(test.get("nota")));
+        etqAciertos.setText(Config.getIdioma().getString("DialogoVerTestCorregido.etqAciertos.text").concat(test.get("aciertos")));
+        etqFallos.setText(Config.getIdioma().getString("DialogoVerTestCorregido.etqFallos.text").concat(test.get("fallos")));
+        etqBlancos.setText(Config.getIdioma().getString("DialogoVerTestCorregido.etqBlancos.text").concat(test.get("blancos")));
+        etqDobles.setText(Config.getIdioma().getString("DialogoVerTestCorregido.etqDobles.text").concat(test.get("dobles")));
+        etqNota.setText(Config.getIdioma().getString("DialogoVerTestCorregido.etqNota.text").concat(test.get("nota")));
         //
         formateaColumnas();
         DefaultTableModel modelo = (DefaultTableModel) tablaRespuestas.getModel();
@@ -403,7 +399,7 @@ public class DialogoVerTestCorregido extends javax.swing.JDialog {
             HayCambios = true;
             this.dispose();
         } else {
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerTestCorregido.error.nif.text"), idioma.getString("Error.text"),
+            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoVerTestCorregido.error.nif.text"), Config.getIdioma().getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed

@@ -25,7 +25,6 @@ import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import static main.Procesador.idioma;
 
 /**
  *
@@ -33,10 +32,6 @@ import static main.Procesador.idioma;
  */
 public class DialogoParamCalific extends javax.swing.JDialog {
 
-    // log de la aplicacion
-    private final Loguero log = Procesador.getLog();
-
-//public ResourceBundle idioma = Procesador.idioma;
     // Verificador de que es un número válido, para la puntucación
     VerificadorNumero verif = new VerificadorNumero();
 
@@ -77,9 +72,9 @@ public class DialogoParamCalific extends javax.swing.JDialog {
         this.setIconImage(Config.getIconoAplic().getImage());
         // Coloco el formulario en el centro de la pantalla
         Procesador.Centrame(this);
-        etqTipos.setText(idioma.getString("DialogoParamCalific.etqTipos.text").concat(String.valueOf(Config.getNumTipos())));
-        etqPreguntas.setText(idioma.getString("DialogoParamCalific.etqPreguntas.text").concat(String.valueOf(Config.getNumPreguntas()))
-                .concat(" (").concat(idioma.getString("DialogoTipos.etqPreguntasValidas.text")).concat(" ").concat(String.valueOf(Config.getNumPreguntasValidas())).concat(")"));
+        etqTipos.setText(Config.getIdioma().getString("DialogoParamCalific.etqTipos.text").concat(String.valueOf(Config.getNumTipos())));
+        etqPreguntas.setText(Config.getIdioma().getString("DialogoParamCalific.etqPreguntas.text").concat(String.valueOf(Config.getNumPreguntas()))
+                .concat(" (").concat(Config.getIdioma().getString("DialogoTipos.etqPreguntasValidas.text")).concat(" ").concat(String.valueOf(Config.getNumPreguntasValidas())).concat(")"));
         // Asocio los JTextField
         camposTexto = new JTextField[]{valorAcierto, valorFallo, valorBlanco, valorDobleMarca, valorPuntAprobado, valorEscalaCalificacion};
         // Asigno a los campos los valores de la configuracion y el verificador de que es un valor numérico aceptable
@@ -340,7 +335,7 @@ public class DialogoParamCalific extends javax.swing.JDialog {
                     || valsCalculo[4] < 0 || valsCalculo[4] > 10
                     || valsCalculo[5] < 1 || valsCalculo[5] > 100) {
                 // Hay error en los valores
-                JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoParamCalific.errorValor.text"), idioma.getString("Error.text"),
+                JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoParamCalific.errorValor.text"), Config.getIdioma().getString("Error.text"),
                         JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             } else {
                 // Está todo bien y puedo giraImagen
@@ -356,7 +351,7 @@ public class DialogoParamCalific extends javax.swing.JDialog {
                 this.dispose();
             }
         } catch (ParseException ex) {
-            log.error(ex.getMessage());
+            Config.getLog().error(ex.getMessage());
         }
     }//GEN-LAST:event_btnCorregirActionPerformed
 

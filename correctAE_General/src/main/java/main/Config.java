@@ -34,6 +34,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -43,29 +44,50 @@ import javax.swing.JOptionPane;
  */
 public class Config {
 
+    // Rutas de configuración, base de datos y archivo log
+    public static final String BARRA_CAMINO_ARCHIVOS = System.getProperty("file.separator");
+    public static final String CARPETA_USUARIO = System.getProperty("user.dir");
+    public static final String SISTEMA_ANFITRION = System.getProperty("os.name");
+
+    // Idioma
+    /**
+     * Config.getIdioma(). Bundle con las traducciones de la aplicación
+     */
+    private static ResourceBundle idioma = ResourceBundle.getBundle("propiedades/Idioma");
+
+    /**
+     *
+     * @return el ResourceBundle con las propiedades del idioma
+     */
+    public static ResourceBundle getIdioma() {
+        return idioma;
+    }
+
+    public static void setIdioma(ResourceBundle bund) {
+        idioma = bund;
+    }
+
     // Ruta de la ayuda de la aplicación, con la barra normal, porque sera una url
     /**
      *
      * @return ruta de la ayuda
      */
     public static String getRutaAyuda() {
-        String carpetaUsuario = System.getProperty("user.dir");
         String rutaAyuda;
-        String sistema = System.getProperty("os.name");
 
         // Según el sistema uso una ruta y otra, si está instalado será una si 
         // está en desarrollo otra.
-        if (sistema.contains(
+        if (SISTEMA_ANFITRION.contains(
                 "Windows")) {
             // Ruta en windows, instalado
-            rutaAyuda = (carpetaUsuario.concat("/app/correctAEyuda/").concat(getIdiomaActual())).replace("\\", "/");
+            rutaAyuda = (CARPETA_USUARIO.concat("/app/correctAEyuda/").concat(getIdiomaActual())).replace("\\", "/");
             if (!Files.exists(Paths.get(rutaAyuda))) {
                 // Ruta en windows, desarrollo, en el IDE
-                rutaAyuda = (carpetaUsuario.concat("/correctAEyuda/").concat(getIdiomaActual())).replace("\\", "/");
+                rutaAyuda = (CARPETA_USUARIO.concat("/correctAEyuda/").concat(getIdiomaActual())).replace("\\", "/");
             }
-            log.info("Sistema WINDOWS (" + sistema + ")\nRuta ayuda: " + rutaAyuda);
+            Config.getLog().info("Sistema WINDOWS (" + SISTEMA_ANFITRION + ")\nRuta ayuda: " + rutaAyuda);
         } else {
-            if (sistema.contains("Linux")) {
+            if (SISTEMA_ANFITRION.contains("Linux")) {
                 // Ruta en Linux, instalado
                 rutaAyuda = "/opt/correctae-2x/lib/app/correctAEyuda/".concat(getIdiomaActual());
                 if (!Files.exists(Paths.get(rutaAyuda))) {
@@ -73,14 +95,14 @@ public class Config {
                     rutaAyuda = "/opt/correctae/lib/app/correctAEyuda/".concat(getIdiomaActual());
                     if (!Files.exists(Paths.get(rutaAyuda))) {
                         // Ruta en Linux, desarrollo, en el IDE
-                        rutaAyuda = carpetaUsuario.concat("/correctAEyuda/").concat(getIdiomaActual());
+                        rutaAyuda = CARPETA_USUARIO.concat("/correctAEyuda/").concat(getIdiomaActual());
                     }
                 }
-                log.info("Sistema LINUX (" + sistema + ")\nRuta ayuda: " + rutaAyuda);
+                Config.getLog().info("Sistema LINUX (" + SISTEMA_ANFITRION + ")\nRuta ayuda: " + rutaAyuda);
             } else {
                 // Sistema DESCONOCIDO, Ruta defecto
-                rutaAyuda = (carpetaUsuario.concat("/correctAEyuda/").concat(getIdiomaActual())).replace("\\", "/");
-                log.info("Sistema DESCONOCIDO : " + sistema + "\nRuta ayuda: " + rutaAyuda);
+                rutaAyuda = (CARPETA_USUARIO.concat("/correctAEyuda/").concat(getIdiomaActual())).replace("\\", "/");
+                Config.getLog().info("Sistema DESCONOCIDO : " + SISTEMA_ANFITRION + "\nRuta ayuda: " + rutaAyuda);
             }
         }
         return rutaAyuda;
@@ -123,17 +145,53 @@ public class Config {
         return iconoAplic;
     }
 
-    // Log general de la aplicación
     /**
-     * Log de la aplicacion
+     *
+     * @return Ubicación de la carpeta con los archivos de la aplicación.
      */
-    protected static Loguero log = Procesador.getLog();
+    public static String getCaminoArchivosApp() {
+        if (SISTEMA_ANFITRION.toLowerCase().contains("linux")) {
+            // Ruta en Linux, instalado
+            return CARPETA_USUARIO + BARRA_CAMINO_ARCHIVOS + "CorrectAE_files";
+        } else {
+            return "CorrectAE_files";
+        }
+    }
+    
+    private static final String FICHERO_LOG = "correctAE.log";
+
+    /**
+     *
+     * @return la ruta del fichero log de la aplicación
+     */
+    public static String getFicheroLog() {
+        return getCaminoArchivosApp() + BARRA_CAMINO_ARCHIVOS + FICHERO_LOG;
+    }
+
+    // Log de la aplicación
+    private static LogApp log = new LogApp();
+
+    /**
+     *
+     * @param unLog el log a asignar
+     */
+    public static void setLog(LogApp unLog) {
+        log = unLog;
+    }
+    
+    /**
+     *
+     * @return el log de la aplicación
+     */
+    public static LogApp getLog() {
+        return log;
+    }
 
     // Base de datos de la aplicación.
     // Como debe estar fuera del archivo .jar para poderlo sobreescribirla la creo si no existe, en la carperta raiz de ejecución
     // En el ide si funciona, en la carpeta de recursos "src/main/resources/main/correctA.db". pero en un .jar, NO.
     // Genero un path válido multiplataforma
-    private static final String FICHERO_BASE_DATOS = Paths.get("correctAE.db").toString();
+    private static final String FICHERO_BASE_DATOS = "correctAE.db";
 
     /**
      * Get the value of nombreBaseDatos
@@ -141,18 +199,20 @@ public class Config {
      * @return the value of nombreBaseDatos
      */
     public static String getFicheroBaseDatos() {
-        return FICHERO_BASE_DATOS;
+        return getCaminoArchivosApp() + BARRA_CAMINO_ARCHIVOS + FICHERO_BASE_DATOS;
+
     }
 
     // Fichero de configuración. Igual que el de base de datos, debe estar fuera del archivo .jar para poderlo sobreescribir lo creo si no existe,
     // en la carperta raiz de ejecución.
     //
     // Genero un path válido multiplataforma
-    private static final String FICHERO_CONFIGURACION = Paths.get("correctAE.cfg").toString();
+    private static final String FICHERO_CONFIGURACION = "correctAE.cfg";
 
     public static String getFichConfiguracion() {
-        return FICHERO_CONFIGURACION;
+        return getCaminoArchivosApp() + BARRA_CAMINO_ARCHIVOS + FICHERO_CONFIGURACION;
     }
+
 
     private static String IdiomaActual = Locale.getDefault().getLanguage(); // valor por defecto
 
@@ -401,9 +461,10 @@ public class Config {
     public static final int MAX_NUM_TIPOS = 6;
 
     private static int numPreguntas = 10;
-    
+
     /**
-     * Valores iniciales de configuración para lectura de las imágenes de los test
+     * Valores iniciales de configuración para lectura de las imágenes de los
+     * test
      */
     private static final int INICIAL_UMBRAL_DETECCION_ESQUINA = 210;
     private static final int INICIAL_UMBRAL_DETECCION_MARCA = 245;
@@ -600,12 +661,12 @@ public class Config {
      * Arrays de Strings con las opciones para JOptionPane.OPtionDialog. Sólo
      * Aceptar
      */
-    public static final String[] OPCION_ACEPTAR = {Procesador.idioma.getString("Aceptar.text")};
+    public static final String[] OPCION_ACEPTAR = {Config.getIdioma().getString("Aceptar.text")};
     /**
      * Arrays de Strings con las opciones para JOptionPane.OPtionDialog. Aceptar
      * y Cancelar
      */
-    public static final String[] OPCIONES_ACEPTAR_CANCELAR = {Procesador.idioma.getString("Aceptar.text"), Procesador.idioma.getString("Cancelar.text")};
+    public static final String[] OPCIONES_ACEPTAR_CANCELAR = {Config.getIdioma().getString("Aceptar.text"), Config.getIdioma().getString("Cancelar.text")};
     //
 
     /**
@@ -629,7 +690,7 @@ public class Config {
 
 // Métodos para guardar y cargar la configuración en el fichero
     public static void guardarConfiguracion() {
-        File f = new File(FICHERO_CONFIGURACION);
+        File f = new File(getFichConfiguracion());
         guardarConfiguracion(f);
     }
 
@@ -662,16 +723,16 @@ public class Config {
             // Utilizo UTF-8 por compatibilidad con Linux
             conf.store(new OutputStreamWriter(fos, "UTF-8"), "Ultima Actualización");
         } catch (FileNotFoundException ex) {
-            String error = Procesador.idioma.getString("Configuracion.Error.Fichero.noesta") + "\n" + ex.getMessage() + "\n";
-            log.error(error);
-            JOptionPane.showOptionDialog(null, error, Procesador.idioma.getString("Error.text"),
+            String error = Config.getIdioma().getString("Configuracion.Error.Fichero.noesta") + "\n" + ex.getMessage() + "\n";
+            Config.getLog().error(error);
+            JOptionPane.showOptionDialog(null, error, Config.getIdioma().getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             System.exit(0);
             //Exceptions.printStackTrace(ex);
         } catch (IOException ex) {
-            String error = Procesador.idioma.getString("Configuracion.Error.Fichero.formato") + "\n" + ex.getMessage();
-            log.error(error);
-            JOptionPane.showOptionDialog(null, error, Procesador.idioma.getString("Error.text"),
+            String error = Config.getIdioma().getString("Configuracion.Error.Fichero.formato") + "\n" + ex.getMessage();
+            Config.getLog().error(error);
+            JOptionPane.showOptionDialog(null, error, Config.getIdioma().getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             //Exceptions.printStackTrace(ex);
             System.exit(0);
@@ -691,7 +752,7 @@ public class Config {
         formato.setDecimalFormatSymbols(symbols);
         try {
             // Compruebo si existe el fichero de configuración, si no lo creo nuevo
-            File f = new File(FICHERO_CONFIGURACION);
+            File f = new File(getFichConfiguracion());
             if (!(f.exists())) {
                 // Si no existe el fichero de configuración, lo creo. En el directorio de ejecución de la aplicación
                 // Con los valores por defecto.
@@ -739,14 +800,6 @@ public class Config {
         } catch (NullPointerException ex) {
             return 3;
         }
-        
-        try {
-            
-        } catch (Exception e) {
-        } finally {
-        }
-        
-        
         return 0;
     }
 

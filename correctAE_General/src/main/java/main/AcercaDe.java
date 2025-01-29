@@ -20,15 +20,12 @@ package main;
 
 import java.awt.Font;
 import java.util.Properties;
-import java.util.ResourceBundle;
 
 /**
  *
  * @author Jesus.delBuey
  */
 public class AcercaDe extends javax.swing.JDialog {
-
-    ResourceBundle idioma = Procesador.idioma;
 
     /**
      * Creates new form AcercaDe
@@ -55,22 +52,22 @@ public class AcercaDe extends javax.swing.JDialog {
 
         // En Netbeans, da null, no lee bien el manifest que puesto en el POM; por tanto concat da error. Así no, añade "null"
         String dato;
-        texto.append(idioma.getString("AcercaDe.aplicacion.nombre"));
+        texto.append(Config.getIdioma().getString("AcercaDe.aplicacion.nombre"));
         texto.append(getClass().getPackage().getImplementationTitle());
         texto.append("\n");
-        texto.append(idioma.getString("AcercaDe.aplicacion.version"));
+        texto.append(Config.getIdioma().getString("AcercaDe.aplicacion.version"));
         texto.append(getClass().getPackage().getImplementationVersion());
         texto.append("\n");
-        texto.append(idioma.getString("AcercaDe.os.name").concat(pros.get("os.name").toString().concat("\n")));
-        texto.append(idioma.getString("AcercaDe.os.arch").concat(pros.get("os.arch").toString().concat("\n")));
+        texto.append(Config.getIdioma().getString("AcercaDe.os.name").concat(pros.get("os.name").toString().concat("\n")));
+        texto.append(Config.getIdioma().getString("AcercaDe.os.arch").concat(pros.get("os.arch").toString().concat("\n")));
         dato = (pros.get("native.encoding") == null) ? "N/A" : pros.get("native.encoding").toString();
-        texto.append(idioma.getString("AcercaDe.os.juegoCaracteres").concat(dato.concat("\n")));
-        texto.append(idioma.getString("AcercaDe.user.language").concat(pros.get("user.language").toString().concat("\n")));
-        texto.append(idioma.getString("AcercaDe.os.timeZone").concat(pros.get("user.timezone").toString().concat("\n")));
-        texto.append(idioma.getString("AcercaDe.java.version").concat(pros.get("java.version").toString().concat("\n")));
-        texto.append(idioma.getString("AcercaDe.java.vm.version").concat(pros.get("java.vm.version").toString().concat("\n")));
-        texto.append(idioma.getString("AcercaDe.user.dir").concat(pros.get("user.dir").toString().concat("\n")));
-        //texto.append(idioma.getString("AcercaDe.aplicacion.runs").concat(String.valueOf(Config.getMisRuns()).concat("\n")));
+        texto.append(Config.getIdioma().getString("AcercaDe.os.juegoCaracteres").concat(dato.concat("\n")));
+        texto.append(Config.getIdioma().getString("AcercaDe.user.language").concat(pros.get("user.language").toString().concat("\n")));
+        texto.append(Config.getIdioma().getString("AcercaDe.os.timeZone").concat(pros.get("user.timezone").toString().concat("\n")));
+        texto.append(Config.getIdioma().getString("AcercaDe.java.version").concat(pros.get("java.version").toString().concat("\n")));
+        texto.append(Config.getIdioma().getString("AcercaDe.java.vm.version").concat(pros.get("java.vm.version").toString().concat("\n")));
+        texto.append(Config.getIdioma().getString("AcercaDe.user.dir").concat(pros.get("user.dir").toString().concat("\n")));
+        //texto.append(Config.getIdioma().getString("AcercaDe.aplicacion.runs").concat(String.valueOf(Config.getMisRuns()).concat("\n")));
         //
         textoPropiedadesSistema.setText(texto.toString());
         textoPropiedadesSistema.setCaretPosition(0);

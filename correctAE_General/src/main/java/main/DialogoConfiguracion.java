@@ -21,7 +21,6 @@ package main;
 
 import java.awt.Font;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JSlider;
@@ -32,8 +31,6 @@ import javax.swing.JSlider;
  */
 public class DialogoConfiguracion extends javax.swing.JDialog {
 
-    ResourceBundle idioma = Procesador.idioma;
-    private final Loguero log = Procesador.getLog();
 
     /**
      * Creates new form DialogoConfiguracion
@@ -62,7 +59,7 @@ public class DialogoConfiguracion extends javax.swing.JDialog {
         postY = postY < 5 ? 5 : postY;
         this.setLocation(this.getLocation().x, postY);
         // Cargo los valores iniciales
-        etqIdiomaActual.setText(idioma.getString("DialogoConfiguracion.etqIdiomaActual.text")
+        etqIdiomaActual.setText(Config.getIdioma().getString("DialogoConfiguracion.etqIdiomaActual.text")
                 + " - " + Locale.getDefault().getDisplayCountry() + " (" + Config.getIdiomaActual() + ") ");
         valorUmbralEsquinas.setText(Integer.toString(Config.getUmbralDeteccionEsquina()));
         valorUmbralMarcas.setText(Integer.toString(Config.getUmbralDeteccionMarca()));
@@ -113,7 +110,7 @@ public class DialogoConfiguracion extends javax.swing.JDialog {
     }
 
     private void errorValores() {
-        JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoConfiguracion.errorValores.text"), idioma.getString("Error.text"),
+        JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoConfiguracion.errorValores.text"), Config.getIdioma().getString("Error.text"),
                 JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         InicializarFormulario();
     }
@@ -595,9 +592,9 @@ public class DialogoConfiguracion extends javax.swing.JDialog {
     private void btnAyudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAyudaActionPerformed
         String error = Procesador.mostrarAyuda(Config.getRutaAyudaConfiguracion());
         if (!"".equals(error)) {
-            log.error(error);
-            JOptionPane.showOptionDialog(rootPane, error, idioma.getString("Error.text"),
-                JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text")}, idioma.getString("Aceptar.text"));
+            Config.getLog().error(error);
+            JOptionPane.showOptionDialog(rootPane, error, Config.getIdioma().getString("Error.text"),
+                JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{Config.getIdioma().getString("Aceptar.text")}, Config.getIdioma().getString("Aceptar.text"));
         }
     }//GEN-LAST:event_btnAyudaActionPerformed
 
@@ -638,7 +635,7 @@ public class DialogoConfiguracion extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            Procesador.getLog().error(ex.getMessage());
+            Config.getLog().error(ex.getMessage());
         }
         //</editor-fold>
 

@@ -28,7 +28,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -37,14 +36,6 @@ import javax.swing.table.DefaultTableModel;
  * @author Jesus.delBuey
  */
 public class BaseDatos {
-
-    // Idioma
-    static ResourceBundle idioma = Procesador.idioma;
-
-    /**
-    * Log general de la aplicación
-    */
-    static protected Loguero log = Procesador.getLog();
 
     // String de conexión a la base de datos
     private static final String URL_BASE_DATOS = "jdbc:sqlite:" + Config.getFicheroBaseDatos();
@@ -117,7 +108,7 @@ public class BaseDatos {
                 stmt.execute(sql);
 
             } catch (SQLException e) {
-                log.error(idioma.getString("BaseDatos.error.text") + " - " + e.getMessage());
+                Config.getLog().error(Config.getIdioma().getString("BaseDatos.error.text") + " - " + e.getMessage());
             }
         }
     }
@@ -142,7 +133,7 @@ public class BaseDatos {
                 modelo.addRow(datos);
             }
         } catch (SQLException e) {
-            log.error(idioma.getString("BaseDatos.error.leyendo.lista.examenes.text") + " - " + e.getMessage());
+            Config.getLog().error(Config.getIdioma().getString("BaseDatos.error.leyendo.lista.examenes.text") + " - " + e.getMessage());
             modelo = null;
         }
         return modelo;
@@ -172,8 +163,8 @@ public class BaseDatos {
                 idConsec++;
             }
         } catch (SQLException e) {
-            log.error(idioma.getString("BaseDatos.error.leyendo.lista.tests.text") + " - " + e.getMessage());
-            JOptionPane.showOptionDialog(null, idioma.getString("BaseDatos.error.leyendo.lista.tests.text"), idioma.getString("Error.text"),
+            Config.getLog().error(Config.getIdioma().getString("BaseDatos.error.leyendo.lista.tests.text") + " - " + e.getMessage());
+            JOptionPane.showOptionDialog(null, Config.getIdioma().getString("BaseDatos.error.leyendo.lista.tests.text"), Config.getIdioma().getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             return null;
         }
@@ -213,8 +204,8 @@ public class BaseDatos {
                 modelo.addRow(datos.toArray());
             }
         } catch (SQLException e) {
-            log.error(idioma.getString("BaseDatos.error.leyendo.lista.tests.text") + " - " + e.getMessage());
-            JOptionPane.showOptionDialog(null, idioma.getString("BaseDatos.error.leyendo.lista.tests.text"), idioma.getString("Error.text"),
+            Config.getLog().error(Config.getIdioma().getString("BaseDatos.error.leyendo.lista.tests.text") + " - " + e.getMessage());
+            JOptionPane.showOptionDialog(null, Config.getIdioma().getString("BaseDatos.error.leyendo.lista.tests.text"), Config.getIdioma().getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
     }
@@ -295,13 +286,13 @@ public class BaseDatos {
                     ultimaRespuesta++;
                 }
             } else {
-                log.error(idioma.getString("BaseDatos.error.indices.text"));
-                JOptionPane.showOptionDialog(null, idioma.getString("BaseDatos.error.indices.noguardados.text"), idioma.getString("Error.text"),
+                Config.getLog().error(Config.getIdioma().getString("BaseDatos.error.indices.text"));
+                JOptionPane.showOptionDialog(null, Config.getIdioma().getString("BaseDatos.error.indices.noguardados.text"), Config.getIdioma().getString("Error.text"),
                         JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             }
         } catch (SQLException e) {
-            log.error(idioma.getString("BaseDatos.error.text") + " - " + e.getMessage());
-            JOptionPane.showOptionDialog(null, idioma.getString("BaseDatos.error.indices.noguardados.text"), idioma.getString("Error.text"),
+            Config.getLog().error(Config.getIdioma().getString("BaseDatos.error.text") + " - " + e.getMessage());
+            JOptionPane.showOptionDialog(null, Config.getIdioma().getString("BaseDatos.error.indices.noguardados.text"), Config.getIdioma().getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
     }
@@ -328,8 +319,8 @@ public class BaseDatos {
             stmt.executeUpdate(sql);
             return true;
         } catch (SQLException e) {
-            log.error(idioma.getString("BaseDatos.error.leyendo.lista.tests.text") + " - " + e.getMessage());
-            JOptionPane.showOptionDialog(null, idioma.getString("BaseDatos.error.leyendo.lista.tests.text"), idioma.getString("Error.text"),
+            Config.getLog().error(Config.getIdioma().getString("BaseDatos.error.leyendo.lista.tests.text") + " - " + e.getMessage());
+            JOptionPane.showOptionDialog(null, Config.getIdioma().getString("BaseDatos.error.leyendo.lista.tests.text"), Config.getIdioma().getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             return false;
         }

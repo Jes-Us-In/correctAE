@@ -71,6 +71,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Procesador {
 
+    public Procesador() {
+    }
+
     // Mensajes, de AVISO, INFORMCION y de ERROR
     /**
      * Array de tres strings, para transmitir los mensajes de error a la clase
@@ -78,27 +81,6 @@ public class Procesador {
      * diálogo/mensaje
      */
     public static String[] mensajesResultado = {"", "", ""};
-
-    // Idioma
-    /**
-     * idioma. Bundle con las traducciones
-     */
-    protected static ResourceBundle idioma = ResourceBundle.getBundle("propiedades/Idioma");
-    //
-    //protected static ResourceBundle configuracion = ResourceBundle.getBundle("propiedades/Configuracion");
-
-    /**
-     * Log de la aplicación
-     */
-    static protected Loguero log = new Loguero();
-
-    /**
-     *
-     * @return log común para toda la aplicación
-     */
-    public static Loguero getLog() {
-        return log;
-    }
 
     /**
      * Inicializa todo lo necesario para el funcionamiento de la aplicación
@@ -124,17 +106,17 @@ public class Procesador {
             String textoError;
             switch (error) {
                 case 1 -> {
-                    textoError = Procesador.idioma.getString("Configuracion.Error.Fichero.noesta");
+                    textoError = Config.getIdioma().getString("Configuracion.Error.Fichero.noesta");
                 }
                 case 2 -> {
-                    textoError = Procesador.idioma.getString("Configuracion.Error.Fichero.formato");
+                    textoError = Config.getIdioma().getString("Configuracion.Error.Fichero.formato");
                 }
                 default -> {
-                    textoError = Procesador.idioma.getString("Configuracion.Error.desconocido.configuracion");
+                    textoError = Config.getIdioma().getString("Configuracion.Error.desconocido.configuracion");
                 }
             }
-            log.error(textoError);
-            JOptionPane.showOptionDialog(null, textoError, Procesador.idioma.getString("Error.text"),
+            Config.getLog().error(textoError);
+            JOptionPane.showOptionDialog(null, textoError, Config.getIdioma().getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             return false;
         }
@@ -154,9 +136,9 @@ public class Procesador {
             public void actionPerformed(ActionEvent e) {
                 String error = mostrarAyuda(rutaArchivoAyuda);
                 if (!"".equals(error)) {
-                    log.error(error);
-                    JOptionPane.showOptionDialog(null, error, idioma.getString("Error.text"),
-                            JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text")}, idioma.getString("Aceptar.text"));
+                    Config.getLog().error(error);
+                    JOptionPane.showOptionDialog(null, error, Config.getIdioma().getString("Error.text"),
+                            JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{Config.getIdioma().getString("Aceptar.text")}, Config.getIdioma().getString("Aceptar.text"));
                 }
             }
         };
@@ -327,7 +309,7 @@ public class Procesador {
      */
     protected static void ReCargarIdioma() {
         ResourceBundle.clearCache();
-        idioma = ResourceBundle.getBundle("propiedades/Idioma");
+        Config.setIdioma(ResourceBundle.getBundle("propiedades/Idioma"));
         Config.setIdiomaActual(Locale.getDefault().getLanguage());
     }
 
@@ -355,12 +337,12 @@ public class Procesador {
      */
     static public void CabecerasModeloTablaTestsLeidos() {
         modeloTablaTestsLeidos.setColumnIdentifiers(new String[]{
-            idioma.getString("VENTANAINICIO.TABLA_TEST.COLUMNA0"),
-            idioma.getString("VENTANAINICIO.TABLA_TEST.COLUMNA1"),
-            idioma.getString("VENTANAINICIO.TABLA_TEST.COLUMNA2"),
-            idioma.getString("VENTANAINICIO.TABLA_TEST.COLUMNA3"),
-            idioma.getString("VENTANAINICIO.TABLA_TEST.COLUMNA4"),
-            idioma.getString("VENTANAINICIO.TABLA_TEST.COLUMNA5")});
+            Config.getIdioma().getString("VENTANAINICIO.TABLA_TEST.COLUMNA0"),
+            Config.getIdioma().getString("VENTANAINICIO.TABLA_TEST.COLUMNA1"),
+            Config.getIdioma().getString("VENTANAINICIO.TABLA_TEST.COLUMNA2"),
+            Config.getIdioma().getString("VENTANAINICIO.TABLA_TEST.COLUMNA3"),
+            Config.getIdioma().getString("VENTANAINICIO.TABLA_TEST.COLUMNA4"),
+            Config.getIdioma().getString("VENTANAINICIO.TABLA_TEST.COLUMNA5")});
     }
 
     // Modelo de la tabla de test de un examen, o prueba
@@ -387,16 +369,16 @@ public class Procesador {
     static public void InicializaModeloTablaTestCorregidos() {
         //CabecerasTablaTestsExamen();
         modeloTablaTestsCorregidos = new MiModeloTabla(new String[]{
-            idioma.getString("DialogoEvaluar.tabla.columna0"),
-            idioma.getString("DialogoEvaluar.tabla.columna1"),
-            idioma.getString("DialogoEvaluar.tabla.columna2"),
-            idioma.getString("DialogoEvaluar.tabla.columna3"),
-            idioma.getString("DialogoEvaluar.tabla.columna4"),
-            idioma.getString("DialogoEvaluar.tabla.columna5"),
-            idioma.getString("DialogoEvaluar.tabla.columna6"),
-            idioma.getString("DialogoEvaluar.tabla.columna7"),
-            idioma.getString("DialogoEvaluar.tabla.columna8"),
-            idioma.getString("DialogoEvaluar.tabla.columna9")});
+            Config.getIdioma().getString("DialogoEvaluar.tabla.columna0"),
+            Config.getIdioma().getString("DialogoEvaluar.tabla.columna1"),
+            Config.getIdioma().getString("DialogoEvaluar.tabla.columna2"),
+            Config.getIdioma().getString("DialogoEvaluar.tabla.columna3"),
+            Config.getIdioma().getString("DialogoEvaluar.tabla.columna4"),
+            Config.getIdioma().getString("DialogoEvaluar.tabla.columna5"),
+            Config.getIdioma().getString("DialogoEvaluar.tabla.columna6"),
+            Config.getIdioma().getString("DialogoEvaluar.tabla.columna7"),
+            Config.getIdioma().getString("DialogoEvaluar.tabla.columna8"),
+            Config.getIdioma().getString("DialogoEvaluar.tabla.columna9")});
     }
 
     static public void AgregarTestLeidos() {
@@ -449,11 +431,11 @@ public class Procesador {
 
         // Cabeceras
         String[] cabeceras = new String[numTipos + 2];
-        cabeceras[0] = idioma.getString("DialogoTipos.Pregunta.text");
-        cabeceras[1] = idioma.getString("DialogoTipos.Respuesta.text");
+        cabeceras[0] = Config.getIdioma().getString("DialogoTipos.Pregunta.text");
+        cabeceras[1] = Config.getIdioma().getString("DialogoTipos.Respuesta.text");
         // Columnas de los tipos
         for (int i = 1; i <= numTipos; i++) {
-            cabeceras[i + 1] = idioma.getString("DialogoTipos.Tipo.text") + " " + i;
+            cabeceras[i + 1] = Config.getIdioma().getString("DialogoTipos.Tipo.text") + " " + i;
         }
 
         // Tipos de datos en columna
@@ -569,16 +551,16 @@ public class Procesador {
                             try {
                                 Desktop.getDesktop().browse(lauri);
                             } catch (IOException ex) {
-                                log.error(ex.getLocalizedMessage());
+                                Config.getLog().error(ex.getLocalizedMessage());
                             }
                         });
                     } else {
-                        error = idioma.getString("VentanaInicio.errorNavegador.text");
+                        error = Config.getIdioma().getString("VentanaInicio.errorNavegador.text");
                     }
                 }
             }
         } catch (URISyntaxException | IOException ex) {
-            log.error(ex.getLocalizedMessage());
+            Config.getLog().error(ex.getLocalizedMessage());
             error = ex.getLocalizedMessage();
         }
 
@@ -631,7 +613,7 @@ public class Procesador {
                         modeloTmp = nuevoModeloRespTipos(cabeceraFich.length - 1);
                         modeloRespTipos = modeloTmp;
                     } else {
-                        log.error(idioma.getString("Procesador.error.tipo_csv_no_admitido.text"));
+                        Config.getLog().error(Config.getIdioma().getString("Procesador.error.tipo_csv_no_admitido.text"));
                         mensajesResultado[0] = "Procesador.error.tipo_csv_no_admitido.text";
                         mensajesResultado[1] = "Error.text";
                         mensajesResultado[2] = String.valueOf(JOptionPane.ERROR_MESSAGE);
@@ -647,7 +629,7 @@ public class Procesador {
 
                 default:
                     // No es un tipo de importación admitido
-                    log.error(idioma.getString("Procesador.error.tipo_csv_no_admitido.text"));
+                    Config.getLog().error(Config.getIdioma().getString("Procesador.error.tipo_csv_no_admitido.text"));
                     mensajesResultado[0] = "Procesador.error.tipo_csv_no_admitido.text";
                     mensajesResultado[1] = "Error.text";
                     mensajesResultado[2] = String.valueOf(JOptionPane.ERROR_MESSAGE);
@@ -673,14 +655,14 @@ public class Procesador {
                             lineaNum++;
                         } else {
                             // Se alcanzó el límite de preguntas, NO leo más
-                            log.error(idioma.getString("DialogoTipos.error.limite_preguntas_alcanzado.text"));
+                            Config.getLog().error(Config.getIdioma().getString("DialogoTipos.error.limite_preguntas_alcanzado.text"));
                             mensajesResultado[0] = "DialogoTipos.error.limite_preguntas_alcanzado.text";
                             mensajesResultado[1] = "Atencion.text";
                             mensajesResultado[2] = String.valueOf(JOptionPane.WARNING_MESSAGE);
                             return mensajesResultado;
                         }
                     } else {
-                        log.error(idioma.getString("DialogoTipos.error.leer_csv_linea.text") + (lineaNum + 1));
+                        Config.getLog().error(Config.getIdioma().getString("DialogoTipos.error.leer_csv_linea.text") + (lineaNum + 1));
                         mensajesResultado[0] = "DialogoTipos.error.leer_csv.text";
                         mensajesResultado[1] = "Atencion.text";
                         mensajesResultado[2] = String.valueOf(JOptionPane.WARNING_MESSAGE);
@@ -695,18 +677,18 @@ public class Procesador {
 
             } else {
                 // Falta la cabecera o está incompleta
-                log.error(idioma.getString("DialogoTipos.error.leer_csv.text"));
+                Config.getLog().error(Config.getIdioma().getString("DialogoTipos.error.leer_csv.text"));
                 mensajesResultado[0] = "DialogoTipos.error.leer_csv.text";
                 mensajesResultado[1] = "Error.text";
                 mensajesResultado[2] = String.valueOf(JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException ex) {
-            log.error("Error de formato en el fichero csv - " + ex.getMessage());
+            Config.getLog().error("Error de formato en el fichero csv - " + ex.getMessage());
             mensajesResultado[0] = "DialogoTipos.error.leer_csv.text";
             mensajesResultado[1] = "Error.text";
             mensajesResultado[2] = String.valueOf(JOptionPane.ERROR_MESSAGE);
         } catch (FileNotFoundException ex) {
-            log.error("No existe el fichero csv - " + ex.getMessage());
+            Config.getLog().error("No existe el fichero csv - " + ex.getMessage());
             mensajesResultado[0] = "DialogoTipos.error.no_existe_csv.text";
             mensajesResultado[1] = "Error.text";
             mensajesResultado[2] = String.valueOf(JOptionPane.ERROR_MESSAGE);
@@ -755,7 +737,7 @@ public class Procesador {
             mensajesResultado[1] = "Atencion.text";
             mensajesResultado[2] = String.valueOf(JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException ex) {
-            log.error(ex.getMessage());
+            Config.getLog().error(ex.getMessage());
             mensajesResultado[0] = "DialogoTipos.error.escribir_csv.text";
             mensajesResultado[1] = "Error.text";
             mensajesResultado[2] = String.valueOf(JOptionPane.ERROR_MESSAGE);
@@ -853,7 +835,7 @@ public class Procesador {
                                 // Respuesta correcta segun la equivalencia respecto al tipo Maestro
                                 respuestaCorrecta = modeloRespTipos.getValueAt(equiv, 1).toString();
                                 // Si la pregunta NO está anulada sigo, en caso contrario no apunto nada
-                                if (!idioma.getString("DialogoTipos.Anular.text").equals(respuestaCorrecta)) {
+                                if (!Config.getIdioma().getString("DialogoTipos.Anular.text").equals(respuestaCorrecta)) {
                                     responde = respuestaDelTest.charAt(preg);
                                     if (responde == '?') {
                                         dobles++;
@@ -915,7 +897,7 @@ public class Procesador {
                     // Si da error al extraer el tipo, o la equivalencia, una interrogación por doble marca, pongo guiones en la tabla y NO evalúo
                     tipoEquivNoValidos(fila);
                 } catch (ArrayIndexOutOfBoundsException ex) {
-                    log.error(ex.getLocalizedMessage());
+                    Config.getLog().error(ex.getLocalizedMessage());
                 }
 
             }
@@ -1004,7 +986,7 @@ public class Procesador {
 
         for (int fila = 0; fila < 4; fila++) {
             //System.out.printf("%s  %s\n", "Buscando esquina ", nomEsquina[fila]);
-            //log.info("Buscando esquina " + nomEsquina[fila]);
+            //Config.getLog().info("Buscando esquina " + nomEsquina[fila]);
             coorPunto = buscaUnaEsquina(img, esquinasZona[fila][0], esquinasZona[fila][1], Config.ANCHO_PUNTO_ESQUINA, Config.getUmbralDeteccionEsquina());
             if (coorPunto != null) {
                 // Guardo las coordenadas donde encontró el punto de esquina
@@ -1102,7 +1084,7 @@ public class Procesador {
         try (FileWriter fich = new FileWriter(caminoCasillas, true)) {
             fich.append(String.valueOf(x) + Config.SEPARADOR_CSV + String.valueOf(y) + "\r\n");
         } catch (IOException ex) {
-            log.error(ex.getMessage());
+            Config.getLog().error(ex.getMessage());
         }
     }
 
@@ -1362,7 +1344,7 @@ public class Procesador {
                         pun.setMarcada(false);
                     }
                 } catch (RasterFormatException ex) {
-                    log.error("Error en Procesador.analizar\n" + ex.getMessage());
+                    Config.getLog().error("Error en Procesador.analizar\n" + ex.getMessage());
                 }
             }
         }
@@ -1409,9 +1391,9 @@ public class Procesador {
                 outputStream.write(buffer, 0, length);
             }
 
-            log.aviso(idioma.getString("Procesador.ficheroCasillasRestarurado.text"));
+            Config.getLog().aviso(Config.getIdioma().getString("Procesador.ficheroCasillasRestarurado.text"));
         } catch (IOException e) {
-            log.aviso(idioma.getString("Procesador.ficheroCasillasError.text"));
+            Config.getLog().aviso(Config.getIdioma().getString("Procesador.ficheroCasillasError.text"));
             mensajesResultado[0] = "Procesador.ficheroCasillasError.text";
             mensajesResultado[1] = "Error.text";
             mensajesResultado[2] = String.valueOf(JOptionPane.ERROR_MESSAGE);
@@ -1436,7 +1418,7 @@ public class Procesador {
             }
             return lasCasillasTest;
         } catch (NumberFormatException ex) {
-            log.error(idioma.getString("Procesador.plantilla.error.leyendo.text") + " - " + ex.getMessage());
+            Config.getLog().error(Config.getIdioma().getString("Procesador.plantilla.error.leyendo.text") + " - " + ex.getMessage());
             mensajesResultado[0] = "Procesador.plantilla.error.leyendo.text";
             mensajesResultado[1] = "Error.text";
             mensajesResultado[2] = String.valueOf(JOptionPane.ERROR_MESSAGE);
@@ -1472,7 +1454,7 @@ public class Procesador {
                 }
                 // Si no error
             } catch (IOException ex) {
-                log.error(ex.getMessage());
+                Config.getLog().error(ex.getMessage());
                 mensajesResultado[0] = "Procesador.plantilla.error.escribiendo.text";
                 mensajesResultado[1] = "Error.text";
                 mensajesResultado[2] = String.valueOf(JOptionPane.ERROR_MESSAGE);
@@ -1574,7 +1556,7 @@ public class Procesador {
             // Creo un nuevo test y le pongo el nombre. Guardo también la ruta completa del archivo, con nombre
             setTestActual(new ModeloTest100(ficheroImagen.getCanonicalPath()));
         } catch (IOException e) {
-            log.aviso(e.getMessage());
+            Config.getLog().aviso(e.getMessage());
             setImagenTest(null);
         }
     }
@@ -1629,7 +1611,7 @@ public class Procesador {
             grModeloNuevoLogo.dispose();
             return modeloNuevoLogo;
         } catch (IOException e) {
-            log.aviso(e.getMessage());
+            Config.getLog().aviso(e.getMessage());
             return null;
         }
     }

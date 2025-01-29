@@ -54,9 +54,7 @@ import main.estilos.RenderAlineadoFuenteActual;
 public class VentanaInicio extends javax.swing.JFrame {
 
     VentanaInicio esteFrame = this;
-
-    static ResourceBundle idioma = Procesador.idioma;
-    private static final Loguero log = Procesador.getLog();
+    private static LogApp log = new LogApp();
 
     /**
      * Actualiza el aspecto cuando se ha cambiado
@@ -96,7 +94,7 @@ public class VentanaInicio extends javax.swing.JFrame {
             default ->
                 PonIdioma("en", "US", this.English);
         }
-
+        // Creo el log de la aplicación y lo asocio al log de la configuración
         // 
         // Añado un listener a la tabla para el doble click sobre una fila
         VentanaInicio pasoPadre = this;
@@ -120,13 +118,13 @@ public class VentanaInicio extends javax.swing.JFrame {
                                 ventaTest.dispose();
                             }
                         } else {
-                            JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerTest.noExiste.text") + ": " + fich.getCanonicalPath(),
-                                    idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+                            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoVerTest.noExiste.text") + ": " + fich.getCanonicalPath(),
+                                    Config.getIdioma().getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
                         }
                     } catch (IndexOutOfBoundsException | IOException ex) {
                         // Se produce un error al obtener getCanonicalPath, si el nombre de archivo no es correcto
-                        log.info(idioma.getString("DialogoVerTest.error.leyendo.archivo.text") + "\n" + ex.getMessage());
-                        JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoVerTest.error.leyendo.archivo.text"), idioma.getString("Error.text"),
+                        Config.getLog().info(Config.getIdioma().getString("DialogoVerTest.error.leyendo.archivo.text") + "\n" + ex.getMessage());
+                        JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoVerTest.error.leyendo.archivo.text"), Config.getIdioma().getString("Error.text"),
                                 JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
                     }
                 }
@@ -479,7 +477,7 @@ public class VentanaInicio extends javax.swing.JFrame {
     private void btnAgregarTestsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarTestsActionPerformed
         // Leo nuevos test y los añado a la tabla
         leerTests();
-        etqCarpetaArchivos.setText(idioma.getString("VENTANAINICIO.etqCarpetaArchivos.TEXT") + Config.getCarpetaArchivosTests()); // NOI18N
+        etqCarpetaArchivos.setText(Config.getIdioma().getString("VENTANAINICIO.etqCarpetaArchivos.TEXT") + Config.getCarpetaArchivosTests()); // NOI18N
     }//GEN-LAST:event_btnAgregarTestsActionPerformed
 
     private void leerTests() {
@@ -488,9 +486,9 @@ public class VentanaInicio extends javax.swing.JFrame {
         DialogoCarpertaFichero SelectorCarpeta = new DialogoCarpertaFichero(); // true indica que quiero seleccionar carpetas
         SelectorCarpeta.setCurrentDirectory(new File(Config.getCarpetaArchivosTests()));
         SelectorCarpeta.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // Para que elija carpeta en lugar de ficheros individuales
-        SelectorCarpeta.setDialogTitle(idioma.getString("FileChooser.Carpeta.title"));
+        SelectorCarpeta.setDialogTitle(Config.getIdioma().getString("FileChooser.Carpeta.title"));
         // Paso el padre para que coja el iconoAplic
-        if (SelectorCarpeta.showDialog(this, idioma.getString("FileChooser.Carpeta.title")) == DialogoCarpertaFichero.APPROVE_OPTION) {
+        if (SelectorCarpeta.showDialog(this, Config.getIdioma().getString("FileChooser.Carpeta.title")) == DialogoCarpertaFichero.APPROVE_OPTION) {
             Config.setCarpetaArchivosTests(SelectorCarpeta.getSelectedFile().getPath());
             File carpeta = new File(SelectorCarpeta.getSelectedFile().getPath());
             //Paso la carpeta con los test que quiero leer
@@ -526,14 +524,14 @@ public class VentanaInicio extends javax.swing.JFrame {
                 // Cargo un nuevo Test Principal.TestActual
                 // Si hay un error en el proceso, lo muestro y pregunto si quiere seguir
                 if (!Procesador.leerTest(fichero)) {
-                    int loqueDice = JOptionPane.showOptionDialog(padre, idioma.getString("Procesador.Error.Esquinas") + "\n"
-                            + fichero.getPath(), idioma.getString("Error.text"),
-                            JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE, null, new String[]{idioma.getString("Procesador.btnCancelarLectura.text"),
-                                idioma.getString("Procesador.btnContinuarLectura.text")}, idioma.getString("Procesador.btnContinuarLectura.text"));
+                    int loqueDice = JOptionPane.showOptionDialog(padre, Config.getIdioma().getString("Procesador.Error.Esquinas") + "\n"
+                            + fichero.getPath(), Config.getIdioma().getString("Error.text"),
+                            JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE, null, new String[]{Config.getIdioma().getString("Procesador.btnCancelarLectura.text"),
+                                Config.getIdioma().getString("Procesador.btnContinuarLectura.text")}, Config.getIdioma().getString("Procesador.btnContinuarLectura.text"));
                     // El primer botón, el 0 es cancelar lectura
                     if (loqueDice == 0) {
                         // Ya no leo más, no quiere seguir
-                        log.info("Canceló la lectura de tests");
+                        Config.getLog().info("Canceló la lectura de tests");
                         break;
                     }
                     Procesador.getTestActual().setNombreArchivo("ERROR en fichero :" + Procesador.getTestActual().getNombreArchivo());
@@ -545,7 +543,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         @Override
         protected void done() {
             // Cuando acabo aviso.
-            JOptionPane.showOptionDialog(padre, idioma.getString("Procesador.LecturaTerminada.text"), idioma.getString("Atencion.text"),
+            JOptionPane.showOptionDialog(padre, Config.getIdioma().getString("Procesador.LecturaTerminada.text"), Config.getIdioma().getString("Atencion.text"),
                     JOptionPane.NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
     }
@@ -606,8 +604,8 @@ public class VentanaInicio extends javax.swing.JFrame {
         int queDice;
         // Borro todos los test de la tabla. Uso un DialogoAceptarCancelar que tiene en cuenta la escala en lugar de JOptionpane
         // Pregunto si quiere borrar todos o sólo los seleccionados
-        queDice = JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaInicio.PerguntaQueBorrar.text"), idioma.getString("Atencion.text"),
-                JOptionPane.NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{idioma.getString("SoloSeleccionadas.text"), idioma.getString("Todas.text")}, idioma.getString("SoloSeleccionadas.text"));
+        queDice = JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("VentanaInicio.PerguntaQueBorrar.text"), Config.getIdioma().getString("Atencion.text"),
+                JOptionPane.NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{Config.getIdioma().getString("SoloSeleccionadas.text"), Config.getIdioma().getString("Todas.text")}, Config.getIdioma().getString("SoloSeleccionadas.text"));
         if (queDice == 0) {
             int paBorrar = tablaTests.getSelectedRow();
             while (paBorrar > 0) {
@@ -615,13 +613,13 @@ public class VentanaInicio extends javax.swing.JFrame {
                 paBorrar = tablaTests.getSelectedRow();
             }
         } else {
-            String[] botones = {idioma.getString("Aceptar.text"), idioma.getString("Cancelar.text")};
-            queDice = JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaInicio.aviso.borrar.lista.tests.text"), idioma.getString("Atencion.text"),
-                    JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, idioma.getString("Cancelar.text"));
+            String[] botones = {Config.getIdioma().getString("Aceptar.text"), Config.getIdioma().getString("Cancelar.text")};
+            queDice = JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("VentanaInicio.aviso.borrar.lista.tests.text"), Config.getIdioma().getString("Atencion.text"),
+                    JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, Config.getIdioma().getString("Cancelar.text"));
             // El primer botón, el 0 es aceptar
             if (queDice == JOptionPane.OK_OPTION) {
                 // Borro los test que hay en la tabla
-                log.info("Borró los tests de la tabla");
+                Config.getLog().info("Borró los tests de la tabla");
                 Procesador.modeloTablaTestsLeidos.setRowCount(0);
             }
         }
@@ -633,9 +631,9 @@ public class VentanaInicio extends javax.swing.JFrame {
         // Muestro la ayuda
         String error = Procesador.mostrarAyuda(Config.getRutaAyudaInicio());
         if (!"".equals(error)) {
-            log.error(error);
-            JOptionPane.showOptionDialog(rootPane, error, idioma.getString("Error.text"),
-                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text")}, idioma.getString("Aceptar.text"));
+            Config.getLog().error(error);
+            JOptionPane.showOptionDialog(rootPane, error, Config.getIdioma().getString("Error.text"),
+                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{Config.getIdioma().getString("Aceptar.text")}, Config.getIdioma().getString("Aceptar.text"));
         }
     }//GEN-LAST:event_mostrarAyudaActionPerformed
 
@@ -647,7 +645,7 @@ public class VentanaInicio extends javax.swing.JFrame {
 
     private void cargarTestDemoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarTestDemoActionPerformed
         // Cargar imágenes de prueba. Uso la misma ruta de la ayuda, cambiando
-        // correAEyuda por demoTest y quitándole el idioma.
+        // correAEyuda por demoTest y quitándole el Config.getIdioma().
         String rutaArchis = Config.getRutaAyuda().replace("correctAEyuda", "demoTest");
         rutaArchis = rutaArchis.substring(0, rutaArchis.lastIndexOf("/"));
         File carpeta = new File(rutaArchis);
@@ -655,39 +653,38 @@ public class VentanaInicio extends javax.swing.JFrame {
         if (carpeta.exists()) {
             leerTestDeCarpeta(carpeta);
         } else {
-            log.error(idioma.getString("VentanaInicio.cargarTestDemo.error.text")
+            Config.getLog().error(Config.getIdioma().getString("VentanaInicio.cargarTestDemo.error.text")
                     + " - ruta: " + rutaArchis);
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaInicio.cargarTestDemo.error.text"), idioma.getString("Error.text"),
-                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text")}, idioma.getString("Aceptar.text"));
+            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("VentanaInicio.cargarTestDemo.error.text"), Config.getIdioma().getString("Error.text"),
+                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{Config.getIdioma().getString("Aceptar.text")}, Config.getIdioma().getString("Aceptar.text"));
         }
     }//GEN-LAST:event_cargarTestDemoActionPerformed
 
     private void cambiarIdioma() {
         // Recargo el idioma
         Procesador.ReCargarIdioma();
-        idioma = Procesador.idioma;
 
         // Cambio el idioma en la ayuda
-        this.setTitle(idioma.getString("VENTANAINICIO.TITULO"));
-        etqCarpetaArchivos.setText(idioma.getString("VENTANAINICIO.etqCarpetaArchivos.TEXT")); // NOI18N
-        etqInfoDobleClick.setText(idioma.getString("VentanaInicio.etqInfoDobleClick.text")); // NOI18N
-        menuArchivo.setText(idioma.getString("VENTANAINICIO.MENU_ARCHIVO.TEXT")); // NOI18N
-        exitMenuItem.setText(idioma.getString("VENTANAINICIO.MENU_ARCHIVO.SALIR.TEXT")); // NOI18N
-        menuOpciones.setText(idioma.getString("VENTANAINICIO.OPCIONES.TEXT")); // NOI18N
-        cargarTestDemo.setText(idioma.getString("VentanaInicio.cargarTestDemo.text")); // NOI18N
-        probarTest.setText(idioma.getString("VENTANAINICIO.MENU_OPCIONES.PROBAR_TEST.TEXT")); // NOI18N
-        configuracion.setText(idioma.getString("VENTANAINICIO.MENU_OPCIONES.CONFIGURACION.TEXT")); // NOI18N
-        menuLookAndFeel.setText(idioma.getString("VentanaInicio.menuTemas.text"));
-        menuIdioma.setText(idioma.getString("VENTANAINICIO.MENU_IDIOMA.TEXT")); // NOI18N
-        menuAyuda.setText(idioma.getString("VentanaInicio.menuAyuda.text")); // NOI18N
-        mostrarAyuda.setText(idioma.getString("VentanaInicio.mostrarAyuda.text")); // NOI18N
-        acercaDeMenuItem.setText(idioma.getString("VentanaInicio.acercaDeMenuItem.text")); // NOI18N
-        Espanol.setText(idioma.getString("VENTANAINICIO.MENU_IDIOMA.ESPANOL.TEXT")); // NOI18N
-        English.setText(idioma.getString("VENTANAINICIO.MENU_IDIOMA.INGLES.TEXT")); // NOI18N
-        btnAgregarTests.setText(idioma.getString("VENTANAINICIO.btnAgregarTest.TEXT")); // NOI18N
-        btnBorrarTest.setText(idioma.getString("VentanaInicio.btnBorrarTest.text"));
-        btnEvaluaciones.setText(idioma.getString("VentanaInicio.btnEvaluaciones.text"));
-        btnMostrarModelo.setText(idioma.getString("VentanaInicio.btnMostrarModelo.text"));
+        this.setTitle(Config.getIdioma().getString("VENTANAINICIO.TITULO"));
+        etqCarpetaArchivos.setText(Config.getIdioma().getString("VENTANAINICIO.etqCarpetaArchivos.TEXT")); // NOI18N
+        etqInfoDobleClick.setText(Config.getIdioma().getString("VentanaInicio.etqInfoDobleClick.text")); // NOI18N
+        menuArchivo.setText(Config.getIdioma().getString("VENTANAINICIO.MENU_ARCHIVO.TEXT")); // NOI18N
+        exitMenuItem.setText(Config.getIdioma().getString("VENTANAINICIO.MENU_ARCHIVO.SALIR.TEXT")); // NOI18N
+        menuOpciones.setText(Config.getIdioma().getString("VENTANAINICIO.OPCIONES.TEXT")); // NOI18N
+        cargarTestDemo.setText(Config.getIdioma().getString("VentanaInicio.cargarTestDemo.text")); // NOI18N
+        probarTest.setText(Config.getIdioma().getString("VENTANAINICIO.MENU_OPCIONES.PROBAR_TEST.TEXT")); // NOI18N
+        configuracion.setText(Config.getIdioma().getString("VENTANAINICIO.MENU_OPCIONES.CONFIGURACION.TEXT")); // NOI18N
+        menuLookAndFeel.setText(Config.getIdioma().getString("VentanaInicio.menuTemas.text"));
+        menuIdioma.setText(Config.getIdioma().getString("VENTANAINICIO.MENU_IDIOMA.TEXT")); // NOI18N
+        menuAyuda.setText(Config.getIdioma().getString("VentanaInicio.menuAyuda.text")); // NOI18N
+        mostrarAyuda.setText(Config.getIdioma().getString("VentanaInicio.mostrarAyuda.text")); // NOI18N
+        acercaDeMenuItem.setText(Config.getIdioma().getString("VentanaInicio.acercaDeMenuItem.text")); // NOI18N
+        Espanol.setText(Config.getIdioma().getString("VENTANAINICIO.MENU_IDIOMA.ESPANOL.TEXT")); // NOI18N
+        English.setText(Config.getIdioma().getString("VENTANAINICIO.MENU_IDIOMA.INGLES.TEXT")); // NOI18N
+        btnAgregarTests.setText(Config.getIdioma().getString("VENTANAINICIO.btnAgregarTest.TEXT")); // NOI18N
+        btnBorrarTest.setText(Config.getIdioma().getString("VentanaInicio.btnBorrarTest.text"));
+        btnEvaluaciones.setText(Config.getIdioma().getString("VentanaInicio.btnEvaluaciones.text"));
+        btnMostrarModelo.setText(Config.getIdioma().getString("VentanaInicio.btnMostrarModelo.text"));
         // Vuelvo a poner las cabeceras de todas las tabla, para que actualice el idioma
         // Inicializo lo modelo de la tablas de la aplicación
         Procesador.InicializarModelosAplicacion();
@@ -700,7 +697,7 @@ public class VentanaInicio extends javax.swing.JFrame {
      */
     protected JMenu menuAspectos() {
         // Menú look and feel
-        JMenu mimenu = new JMenu(idioma.getString("VentanaInicio.menuTemas.text"));
+        JMenu mimenu = new JMenu(Config.getIdioma().getString("VentanaInicio.menuTemas.text"));
 
         List<JMenuItem> LosLookAndfFeels = new ArrayList<>();
         List<String> laf = new ArrayList<>();
@@ -721,12 +718,11 @@ public class VentanaInicio extends javax.swing.JFrame {
                     // Actualizo los estilos de todas las ventanas declaradas en Principal
                     actualizarLookAndFeel();
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-                    log.error("ERROR = " + ex.getLocalizedMessage());
+                    Config.getLog().error("ERROR = " + ex.getLocalizedMessage());
                 }
             });
             mimenu.add(LosLookAndfFeels.get(i));
-            //System.out.println(laf.get(laf.size() - 1));
-            log.info(laf.get(laf.size() - 1));
+            Config.getLog().info(laf.get(laf.size() - 1));
             i++;
         }
         return mimenu;
@@ -736,8 +732,43 @@ public class VentanaInicio extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        log.info("Pantalla - Alto : " + Procesador.getAltoPantalla() + " - Ancho " + Procesador.getAnchoPantalla());
-
+        // Creo la carpeta para los archivos de configuracion, base datos y log
+        // Si no existen
+        File directorio = new File(Config.getCaminoArchivosApp());
+        if (!directorio.exists()) {
+            if (!directorio.mkdirs()) {
+                // Si no puede crear la carpeta, salgo
+                JOptionPane.showMessageDialog(null, "ERROR Initializing app", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+                System.exit(0);
+            }
+        }
+        // Inicializo el log
+        log = new LogApp(Config.getFicheroLog());
+        Config.setLog(log);
+        
+        // Inicializo la aplicacion
+        Boolean initCorrecto;
+        do {
+            initCorrecto = Procesador.InicializarAplicacion();
+            if (!initCorrecto) {
+                Config.getLog().error(Config.getIdioma().getString("ErrorInicioApliacion.text"));
+                int loqueDice = JOptionPane.showOptionDialog(null, Config.getIdioma().getString("Configuracion.reset.archivo.text"), Config.getIdioma().getString("Atencion.text"),
+                        JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Config.OPCIONES_ACEPTAR_CANCELAR,
+                        Config.OPCIONES_ACEPTAR_CANCELAR[Config.OPCIONES_ACEPTAR_CANCELAR.length - 1]);
+                // El primer botón, el 0 es aceptar
+                if (loqueDice == 0) {
+                    JOptionPane.showOptionDialog(null, Config.getIdioma().getString("Configuracion.reset.hecho.text"), Config.getIdioma().getString("Atencion.text"),
+                            JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Config.OPCION_ACEPTAR,
+                            Config.OPCIONES_ACEPTAR_CANCELAR[0]);
+                    Config.guardarConfiguracion();
+                    initCorrecto = false;
+                } else {
+                    System.exit(0);
+                }
+            }
+        } while (!initCorrecto);
+        Config.getLog().info("Pantalla - Alto : " + Procesador.getAltoPantalla() + " - Ancho " + Procesador.getAnchoPantalla());
+        //
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -750,38 +781,16 @@ public class VentanaInicio extends javax.swing.JFrame {
             // Fondo del control o ventana
             UIManager.put("control", new Color(0xd9cbbd));
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                log.info("Tema disponible - " + info.getName());
+                Config.getLog().info("Tema disponible - " + info.getName());
                 if ("Nimbus".equals(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VentanaInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Config.getLog().error(ex.getLocalizedMessage());
         }
         //</editor-fold>
-
-        // Inicializo la aplicacion
-        Boolean initCorrecto;
-        do {
-            initCorrecto = Procesador.InicializarAplicacion();
-            if (!initCorrecto) {
-                log.error(idioma.getString("ErrorInicioApliacion.text"));
-                int loqueDice = JOptionPane.showOptionDialog(null, idioma.getString("Configuracion.reset.archivo.text"), idioma.getString("Atencion.text"),
-                        JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Config.OPCIONES_ACEPTAR_CANCELAR,
-                        Config.OPCIONES_ACEPTAR_CANCELAR[Config.OPCIONES_ACEPTAR_CANCELAR.length - 1]);
-                // El primer botón, el 0 es aceptar
-                if (loqueDice == 0) {
-                    JOptionPane.showOptionDialog(null, idioma.getString("Configuracion.reset.hecho.text"), idioma.getString("Atencion.text"),
-                            JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Config.OPCION_ACEPTAR,
-                            Config.OPCIONES_ACEPTAR_CANCELAR[0]);
-                    Config.guardarConfiguracion();
-                    initCorrecto = false;
-                } else {
-                    System.exit(0);
-                }
-            }
-        } while (!initCorrecto);
 
         // Actualizo el número de ejecuciones de la aplicación.
         Config.misRunsMasMas();
@@ -796,8 +805,8 @@ public class VentanaInicio extends javax.swing.JFrame {
             Principal.setVisible(true);
             // Muestro el diálogo de información inicial, segun los usos.
             if (Procesador.tiempoQueSalgo(10) > 0) {
-                DialogoInfo info = new DialogoInfo(Principal, true, 500, 200, idioma.getString("DialogoInfo.title"),
-                        idioma.getString("VentanaInicio.infoInicial.text"), Procesador.tiempoQueSalgo(10));
+                DialogoInfo info = new DialogoInfo(Principal, true, 500, 200, Config.getIdioma().getString("DialogoInfo.title"),
+                        Config.getIdioma().getString("VentanaInicio.infoInicial.text"), Procesador.tiempoQueSalgo(10));
                 info.setVisible(true);
             }
         });

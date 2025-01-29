@@ -37,7 +37,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RasterFormatException;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
@@ -57,9 +56,6 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
     AWTEventListener flechasListener;
     AWTEventListener dragListener;
     JScrollBar barraVertical;
-
-    ResourceBundle idioma = Procesador.idioma;
-    protected static Loguero log = Procesador.getLog();
 
     Casilla[] esquinasImagen = new Casilla[4];
     ArrayList<JCheckBox> lasCajas = new ArrayList<>();
@@ -669,7 +665,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
         DialogoCarpertaFichero SelectorFichero = new DialogoCarpertaFichero();
         // Compruevo y ajusto la escala si es necesario
         SelectorFichero.setFileSelectionMode(JFileChooser.FILES_ONLY); // Para que elija carpeta en lugar de ficheros individuales
-        SelectorFichero.setDialogTitle(idioma.getString("FileChooser.Fichero.title"));
+        SelectorFichero.setDialogTitle(Config.getIdioma().getString("FileChooser.Fichero.title"));
         SelectorFichero.setCurrentDirectory(new File(Config.getCarpetaArchivosTests()));
 
         String[] extensions = ImageIO.getReaderFileSuffixes();
@@ -693,7 +689,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
             repaint();
         } else {
             // No hay imagen
-            JOptionPane.showOptionDialog(this.getContentPane(), idioma.getString("Procesador.error.noImagen.text"), idioma.getString("Atencion.text"),
+            JOptionPane.showOptionDialog(this.getContentPane(), Config.getIdioma().getString("Procesador.error.noImagen.text"), Config.getIdioma().getString("Atencion.text"),
                     JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
     }//GEN-LAST:event_buscarEsquinasActionPerformed
@@ -718,7 +714,7 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
             repaint();
         } else {
             // No hay imagen
-            JOptionPane.showOptionDialog(this.getContentPane(), idioma.getString("Procesador.error.noImagen.text"), idioma.getString("Atencion.text"),
+            JOptionPane.showOptionDialog(this.getContentPane(), Config.getIdioma().getString("Procesador.error.noImagen.text"), Config.getIdioma().getString("Atencion.text"),
                     JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
     }//GEN-LAST:event_pintarCasillasActionPerformed
@@ -749,13 +745,13 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
     private void menuGuardarPlantillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGuardarPlantillaActionPerformed
         // Guardo las coordenadas de las cajas en el fichero csv
 
-        int quedice = JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaPruebasTest.menuGuardandoPlantila.text"), idioma.getString("VentanaPruebasTest.menuGuardandoPlantila.titulo.text"),
-                JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text"), idioma.getString("Cancelar.text")}, idioma.getString("Cancelar.text"));
+        int quedice = JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("VentanaPruebasTest.menuGuardandoPlantila.text"), Config.getIdioma().getString("VentanaPruebasTest.menuGuardandoPlantila.titulo.text"),
+                JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{Config.getIdioma().getString("Aceptar.text"), Config.getIdioma().getString("Cancelar.text")}, Config.getIdioma().getString("Cancelar.text"));
         if (quedice == 0) {
             String[] mensajes = Procesador.guardaCasillas(lasCajas);
             if (!"".equals(mensajes[0])) {
                 // Hubo un error u otro mensaje
-                JOptionPane.showOptionDialog(this.getContentPane(), idioma.getString(mensajes[0]), idioma.getString(mensajes[1]),
+                JOptionPane.showOptionDialog(this.getContentPane(), Config.getIdioma().getString(mensajes[0]), Config.getIdioma().getString(mensajes[1]),
                         JOptionPane.NO_OPTION, Integer.parseInt(mensajes[2]), null, Config.OPCION_ACEPTAR, null);
             }
         }
@@ -766,10 +762,10 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
         if (Procesador.getImagenTest() != null) {
             try {
                 Color queColor = new Color(Procesador.getImagenTest().getRGB(evt.getX(), evt.getY()));
-                etqCoordenadas.setText(idioma.getString("DialogoPruebasTest.etqCoordenadas.text") + "(x,y): " + evt.getX() + "," + evt.getY());
-                etqBrillo.setText(idioma.getString("DialogoPruebasTest.etqBrillo.text") + queColor.getRed());
+                etqCoordenadas.setText(Config.getIdioma().getString("DialogoPruebasTest.etqCoordenadas.text") + "(x,y): " + evt.getX() + "," + evt.getY());
+                etqBrillo.setText(Config.getIdioma().getString("DialogoPruebasTest.etqBrillo.text") + queColor.getRed());
             } catch (ArrayIndexOutOfBoundsException ex) {
-                etqCoordenadas.setText(idioma.getString("VENTANAPRUEBASTESTS.etqCoordenadas.Cambiado.TEXT"));
+                etqCoordenadas.setText(Config.getIdioma().getString("VENTANAPRUEBASTESTS.etqCoordenadas.Cambiado.TEXT"));
             }
         }
     }//GEN-LAST:event_etqLaImagenMouseMoved
@@ -778,14 +774,14 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
         // Primero calculo el brillo y luego pinto, para no estropear la media
         int unaX, unaY;
 
-        etqUltimoClick.setText(idioma.getString("VentanaPruebasTest.etqUltimoClick.text") + "(x,y): " + evt.getX() + "," + evt.getY());
+        etqUltimoClick.setText(Config.getIdioma().getString("VentanaPruebasTest.etqUltimoClick.text") + "(x,y): " + evt.getX() + "," + evt.getY());
         if (Procesador.getImagenTest() != null) {
             unaX = evt.getX() - 3;
             unaY = evt.getY() - 2;
             // Agrego una nueva caja
             //PortaCapas.add(nuevaCaja("nombre", unaX, unaY, Config.), JLayeredPane.PALETTE_LAYER); // Pongo las cajas en la capa 10
             BufferedImage resp = Procesador.getImagenTest().getSubimage(unaX, unaY, Config.getAnchoMarcasRespuesta(), Config.getAnchoMarcasRespuesta());
-            etqBrilloMedio.setText(idioma.getString("DialogoPruebasTest.etqBrilloMedio.text") + Procesador.brilloRespuesta(resp));
+            etqBrilloMedio.setText(Config.getIdioma().getString("DialogoPruebasTest.etqBrilloMedio.text") + Procesador.brilloRespuesta(resp));
             // Si está marcado el seleccionador de columnas o filas las selecciono todas
             if (chkSeleccionarColumna.isSelected() || chkSeleccionarFila.isSelected()) {
                 // Columna entera a partir del click
@@ -856,8 +852,8 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
 
         // Si la imagen ya está corregida, no hago nada
         if (isImagenCorregida()) {
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoPruevasTest.imagen_ya_corregida.text"),
-                    idioma.getString("Atencion.text"), JOptionPane.NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoPruevasTest.imagen_ya_corregida.text"),
+                    Config.getIdioma().getString("Atencion.text"), JOptionPane.NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         } else {
             if (Procesador.getImagenTest() != null) {
                 try {
@@ -866,14 +862,14 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
                     imagenCorredida = true;
                     repaint();
                 } catch (NullPointerException ex) {
-                    JOptionPane.showOptionDialog(rootPane, idioma.getString("VENTANAPRUEBASTESTS.ERROR_EN_FICHERO.TEXT") + " - " + Procesador.getTestActual().getNombreArchivo(),
-                            idioma.getString("VENTANAPRUEBASTESTS.btnAnalizar.TITULO_ERROR.TEXT"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+                    JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("VENTANAPRUEBASTESTS.ERROR_EN_FICHERO.TEXT") + " - " + Procesador.getTestActual().getNombreArchivo(),
+                            Config.getIdioma().getString("VENTANAPRUEBASTESTS.btnAnalizar.TITULO_ERROR.TEXT"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
                 } catch (RasterFormatException ex) {
-                    log.error("Error en Procesador.corrigeImagen. Fuera de límites.\n" + ex.getMessage());
+                    Config.getLog().error("Error en Procesador.corrigeImagen. Fuera de límites.\n" + ex.getMessage());
                 }
             } else {
-                JOptionPane.showOptionDialog(rootPane, idioma.getString("VENTANAPRUEBASTESTS.btnAnalizar.ERROR_SIN_IMAGEN_O_LIMITE.TEXT"),
-                        idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+                JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("VENTANAPRUEBASTESTS.btnAnalizar.ERROR_SIN_IMAGEN_O_LIMITE.TEXT"),
+                        Config.getIdioma().getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             }
         }
     }//GEN-LAST:event_btnCorrigeImagenActionPerformed
@@ -903,12 +899,12 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
                 repaint();
                 g.dispose();
             } else {
-                JOptionPane.showOptionDialog(rootPane, idioma.getString("VENTANAPRUEBASTESTS.btnAnalizar.ERROR_SIN_IMAGEN_O_LIMITE.TEXT"),
-                        idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+                JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("VENTANAPRUEBASTESTS.btnAnalizar.ERROR_SIN_IMAGEN_O_LIMITE.TEXT"),
+                        Config.getIdioma().getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             }
         } else {
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("VENTANAPRUEBASTESTS.btnAnalizar.ERROR_SIN_IMAGEN_O_LIMITE.TEXT"),
-                    idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("VENTANAPRUEBASTESTS.btnAnalizar.ERROR_SIN_IMAGEN_O_LIMITE.TEXT"),
+                    Config.getIdioma().getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
     }//GEN-LAST:event_btnAnalizarActionPerformed
 
@@ -925,9 +921,9 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
         // Muestro la ayuda de la ventana
         String error = Procesador.mostrarAyuda(Config.getRutaAyudaPruebas());
         if (!"".equals(error)) {
-            log.error(error);
-            JOptionPane.showOptionDialog(rootPane, error, idioma.getString("Error.text"),
-                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text")}, idioma.getString("Aceptar.text"));
+            Config.getLog().error(error);
+            JOptionPane.showOptionDialog(rootPane, error, Config.getIdioma().getString("Error.text"),
+                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{Config.getIdioma().getString("Aceptar.text")}, Config.getIdioma().getString("Aceptar.text"));
         }
     }//GEN-LAST:event_btnAyudaActionPerformed
 
@@ -940,27 +936,27 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
                 etqLaImagen.setIcon(new ImageIcon(Procesador.getImagenTest()));
                 repaint();
             } catch (NullPointerException ex) {
-                JOptionPane.showOptionDialog(rootPane, idioma.getString("VENTANAPRUEBASTESTS.ERROR_EN_FICHERO.TEXT") + " - " + Procesador.getTestActual().getNombreArchivo(),
-                        idioma.getString("VENTANAPRUEBASTESTS.btnAnalizar.TITULO_ERROR.TEXT"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+                JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("VENTANAPRUEBASTESTS.ERROR_EN_FICHERO.TEXT") + " - " + Procesador.getTestActual().getNombreArchivo(),
+                        Config.getIdioma().getString("VENTANAPRUEBASTESTS.btnAnalizar.TITULO_ERROR.TEXT"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             } catch (RasterFormatException ex) {
-                log.error("Error en Procesador.corrigeImagen. Fuera de límites.\n" + ex.getMessage());
+                Config.getLog().error("Error en Procesador.corrigeImagen. Fuera de límites.\n" + ex.getMessage());
             }
         } else {
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("VENTANAPRUEBASTESTS.btnAnalizar.ERROR_SIN_IMAGEN_O_LIMITE.TEXT"),
-                    idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("VENTANAPRUEBASTESTS.btnAnalizar.ERROR_SIN_IMAGEN_O_LIMITE.TEXT"),
+                    Config.getIdioma().getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
     }//GEN-LAST:event_btnRecortaImagenActionPerformed
 
     private void menuRestaurarPlantillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRestaurarPlantillaActionPerformed
         // Restaura el archivo csv original de casillas del test
         // Guardo las coordenadas de las cajas en el fichero csv
-        int quedice = JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoPruebasTest.menuRestaurandoPlantila.text"), idioma.getString("DialogoPruebasTest.menuRestaurandoPlantila.titulo.text"),
-                JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text"), idioma.getString("Cancelar.text")}, idioma.getString("Cancelar.text"));
+        int quedice = JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoPruebasTest.menuRestaurandoPlantila.text"), Config.getIdioma().getString("DialogoPruebasTest.menuRestaurandoPlantila.titulo.text"),
+                JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{Config.getIdioma().getString("Aceptar.text"), Config.getIdioma().getString("Cancelar.text")}, Config.getIdioma().getString("Cancelar.text"));
         if (quedice == 0) {
             String[] mensajes = Procesador.restauraCasillasTestInicial();
             if (!"".equals(mensajes[0])) {
                 // Hubo un error u otro mensaje
-                JOptionPane.showOptionDialog(this.getContentPane(), idioma.getString(mensajes[0]), idioma.getString(mensajes[1]),
+                JOptionPane.showOptionDialog(this.getContentPane(), Config.getIdioma().getString(mensajes[0]), Config.getIdioma().getString(mensajes[1]),
                         JOptionPane.NO_OPTION, Integer.parseInt(mensajes[2]), null, Config.OPCION_ACEPTAR, null);
             } else {
                 // Reinicio el formulario
@@ -1001,13 +997,13 @@ public class DialogoPruebasTest extends javax.swing.JDialog {
             //panelScroll.add(etqLaImagen);
             etqLaImagen.setIcon(new ImageIcon(Procesador.getImagenTest()));
             //panelScroll.repaint();
-            etqTamano.setText(idioma.getString("VENTANAPRUEBASTESTS.etqTamano.Cambiado.TEXT") + Procesador.getImagenTest().getWidth() + "x" + Procesador.getImagenTest().getHeight());
-            etqNombreArchivo.setText(idioma.getString("VentanaPruebasTest.etqNombreArchivo.text") + fichero.getName());
+            etqTamano.setText(Config.getIdioma().getString("VENTANAPRUEBASTESTS.etqTamano.Cambiado.TEXT") + Procesador.getImagenTest().getWidth() + "x" + Procesador.getImagenTest().getHeight());
+            etqNombreArchivo.setText(Config.getIdioma().getString("VentanaPruebasTest.etqNombreArchivo.text") + fichero.getName());
             // Al estar recién cargada, la imagen no está corregida
             imagenCorredida = false;
         } else {
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("VENTANAPRUEBASTESTS.ERROR_EN_FICHERO.TEXT"),
-                    idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("VENTANAPRUEBASTESTS.ERROR_EN_FICHERO.TEXT"),
+                    Config.getIdioma().getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
     }
 

@@ -28,7 +28,6 @@ import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
@@ -51,10 +50,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class DialogoModelo extends javax.swing.JDialog {
 
-    ResourceBundle idioma;
     BufferedImage imgCargo;
     ModeloImprimible modelo;
-    Loguero log;
 
     /**
      * Creates new form DdialogoModelo
@@ -64,7 +61,6 @@ public class DialogoModelo extends javax.swing.JDialog {
      */
     public DialogoModelo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        this.idioma = Procesador.idioma;
         super.setIconImage(parent.getIconImage());
         initComponents();
         InicializarFormulario();
@@ -84,7 +80,6 @@ public class DialogoModelo extends javax.swing.JDialog {
         float tama = (float) Config.FUENTE_TITULO.getSize() * 3;
         etqDialogoImprimiendo.setFont(Config.FUENTE_TITULO.deriveFont(tama).deriveFont(Font.BOLD));
 
-        log = Procesador.getLog();
         // Cargo el modelo de plantilla en pantalla
         try {
             imgCargo = ImageIO.read(this.getClass().getResourceAsStream(Config.getFICHERO_MODELO_TEST()));
@@ -99,7 +94,7 @@ public class DialogoModelo extends javax.swing.JDialog {
             // Oculto el mensaje de Imprimiendo...
             panelImprimiendo.setVisible(false);
         } catch (IOException e) {
-            log.aviso(e.getMessage());
+            Config.getLog().aviso(e.getMessage());
         }
     }
 
@@ -277,21 +272,21 @@ public class DialogoModelo extends javax.swing.JDialog {
     private void btnAyudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAyudaActionPerformed
         String error = Procesador.mostrarAyuda(Config.getRutaAyudaHojaRespuestas());
         if (!"".equals(error)) {
-            log.error(error);
-            JOptionPane.showOptionDialog(rootPane, error, idioma.getString("Error.text"),
-                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text")}, idioma.getString("Aceptar.text"));
+            Config.getLog().error(error);
+            JOptionPane.showOptionDialog(rootPane, error, Config.getIdioma().getString("Error.text"),
+                    JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{Config.getIdioma().getString("Aceptar.text")}, Config.getIdioma().getString("Aceptar.text"));
         }
     }//GEN-LAST:event_btnAyudaActionPerformed
 
     private void btnCambiarLogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarLogoActionPerformed
         // Cambiar el logo
-        int quedice = JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoModelo.AvisoCambiarLogo.text"), idioma.getString("Atencion.text"),
-                JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text"), idioma.getString("Cancelar.text")}, idioma.getString("Cancelar.text"));
+        int quedice = JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoModelo.AvisoCambiarLogo.text"), Config.getIdioma().getString("Atencion.text"),
+                JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{Config.getIdioma().getString("Aceptar.text"), Config.getIdioma().getString("Cancelar.text")}, Config.getIdioma().getString("Cancelar.text"));
         if (quedice == 0) {
             DialogoCarpertaFichero SelectorFichero = new DialogoCarpertaFichero();
             // Compruevo y ajusto la escala si es necesario
             SelectorFichero.setFileSelectionMode(JFileChooser.FILES_ONLY); // Para que elija carpeta en lugar de ficheros individuales
-            SelectorFichero.setDialogTitle(idioma.getString("FileChooser.Fichero.title"));
+            SelectorFichero.setDialogTitle(Config.getIdioma().getString("FileChooser.Fichero.title"));
             SelectorFichero.setCurrentDirectory(new File(Config.getCarpetaArchivosTests()));
 
             String[] extensions = ImageIO.getReaderFileSuffixes();
@@ -309,8 +304,8 @@ public class DialogoModelo extends javax.swing.JDialog {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // Muestro la ventana de información.
         if (Procesador.tiempoQueSalgo(20) > 0) {
-            new DialogoInfo(this, true, 680, 400, idioma.getString("Atencion.text"),
-                    idioma.getString("DialogoModeloVinfo.text"), Procesador.tiempoQueSalgo(20)).setVisible(true);
+            new DialogoInfo(this, true, 680, 400, Config.getIdioma().getString("Atencion.text"),
+                    Config.getIdioma().getString("DialogoModeloVinfo.text"), Procesador.tiempoQueSalgo(20)).setVisible(true);
         }
 
     }//GEN-LAST:event_formWindowOpened
@@ -322,8 +317,8 @@ public class DialogoModelo extends javax.swing.JDialog {
         if (nuevoModelo != null) {
             modelo.setIcon(new ImageIcon(nuevoModelo));
         } else {
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoModelo.errorFicheroLogo.text"),
-                    idioma.getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
+            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoModelo.errorFicheroLogo.text"),
+                    Config.getIdioma().getString("Error.text"), JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
     }
 
@@ -359,20 +354,20 @@ public class DialogoModelo extends javax.swing.JDialog {
                     impresion.setPrintService(acceptingPrintServices[0]); // Selecciona la primera impresora disponible Si no hay por defecto
                 }
             } catch (PrinterException ex) {
-                log.error(ex.getLocalizedMessage());
-                JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaModelo.error.imprimiendo.modelo.Text") + ": " + ex.getMessage(), idioma.getString("Error.text"),
+                Config.getLog().error(ex.getLocalizedMessage());
+                JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("VentanaModelo.error.imprimiendo.modelo.Text") + ": " + ex.getMessage(), Config.getIdioma().getString("Error.text"),
                         JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
                 return;
             }
         } else {
-            log.error(idioma.getString("VentanaModelo.error.noHayImpresoras.Text"));
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaModelo.error.noHayImpresoras.Text"), idioma.getString("Error.text"),
+            Config.getLog().error(Config.getIdioma().getString("VentanaModelo.error.noHayImpresoras.Text"));
+            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("VentanaModelo.error.noHayImpresoras.Text"), Config.getIdioma().getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             return;
         }
         //
         impresion.setPrintable(modelo);
-        impresion.setJobName(idioma.getString("Impresion.NombreTrabajo.text"));
+        impresion.setJobName(Config.getIdioma().getString("Impresion.NombreTrabajo.text"));
 
         //muestra ventana de dialogo para imprimir
         // Muestro el mensaje de Imprimiendo...
@@ -395,8 +390,8 @@ public class DialogoModelo extends javax.swing.JDialog {
             try {
                 impresion.print(attr);
             } catch (PrinterException ex) {
-                log.error("Error:" + ex);
-                JOptionPane.showOptionDialog(rootPane, idioma.getString("VentanaModelo.error.imprimiendo.modelo.Text") + ": " + ex.getMessage(), idioma.getString("Error.text"),
+                Config.getLog().error("Error:" + ex);
+                JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("VentanaModelo.error.imprimiendo.modelo.Text") + ": " + ex.getMessage(), Config.getIdioma().getString("Error.text"),
                         JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             }
         }

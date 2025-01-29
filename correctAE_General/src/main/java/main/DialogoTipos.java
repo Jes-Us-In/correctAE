@@ -22,7 +22,6 @@ package main;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.io.File;
-import java.util.ResourceBundle;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -61,9 +60,6 @@ public class DialogoTipos extends javax.swing.JDialog {
     public void setNumPreguntasCambiadas(boolean valor) {
         this.numPreguntasCambiadas = valor;
     }
-
-    ResourceBundle idioma = Procesador.idioma;
-    protected static Loguero log = Procesador.getLog();
 
     JTableHeader cabecera;
     DefaultTableCellRenderer ren = new DefaultTableCellRenderer();
@@ -128,13 +124,13 @@ public class DialogoTipos extends javax.swing.JDialog {
         // Columna de respuesta correcta, son JComboBox. Aplico un editor de ComboBox, y renderizado negrita
         col = modelCol.getColumn(1);
         col.setCellRenderer(new main.estilos.RenderCabeceraFilasTabla_VideoInverso());
-        JComboBox elCombo = new JComboBox(new String[]{"A", "B", "C", "D", "E", idioma.getString("DialogoTipos.Anular.text")});
+        JComboBox elCombo = new JComboBox(new String[]{"A", "B", "C", "D", "E", Config.getIdioma().getString("DialogoTipos.Anular.text")});
 
         // Asocio al comboBox un Listener para dectectar cambios en el valor y contar las preguntas anuladas
         elCombo.addPropertyChangeListener((evt) -> {
             // Actualizo el las preguntas válidas
             Config.setNumPreguntasValidas(Config.getNumPreguntas() - Procesador.numPreguntasNulas());
-            etqPreguntasValidas.setText("(".concat(idioma.getString("DialogoTipos.etqPreguntasValidas.text").concat(" "))
+            etqPreguntasValidas.setText("(".concat(Config.getIdioma().getString("DialogoTipos.etqPreguntasValidas.text").concat(" "))
                     .concat(String.valueOf(Config.getNumPreguntasValidas())).concat(")"));
         });
         col.setCellEditor(new DefaultCellEditor(elCombo));
@@ -357,7 +353,7 @@ public class DialogoTipos extends javax.swing.JDialog {
             DialogoCarpertaFichero SelectorFichero = new DialogoCarpertaFichero();  // false indica que quiero seleccionar ficheros
             SelectorFichero.setDialogType(JFileChooser.SAVE_DIALOG);
             SelectorFichero.setFileSelectionMode(JFileChooser.FILES_ONLY); // Para que elija carpeta en lugar de ficheros individuales
-            SelectorFichero.setDialogTitle(idioma.getString("FileChooser.Fichero.title"));
+            SelectorFichero.setDialogTitle(Config.getIdioma().getString("FileChooser.Fichero.title"));
             SelectorFichero.setCurrentDirectory(new File(Config.getCarpetaArchivosTests()));
 
             String[] extensions = {"csv", "txt"};
@@ -373,12 +369,12 @@ public class DialogoTipos extends javax.swing.JDialog {
                 // Si hay algún mensaje, lo muestro
                 if (!"".equals(mensajes[0])) {
                     // Hubo un error u otro mensaje
-                    JOptionPane.showOptionDialog(this.getContentPane(), idioma.getString(mensajes[0]), idioma.getString(mensajes[1]),
+                    JOptionPane.showOptionDialog(this.getContentPane(), Config.getIdioma().getString(mensajes[0]), Config.getIdioma().getString(mensajes[1]),
                             JOptionPane.NO_OPTION, Integer.parseInt(mensajes[2]), null, Config.OPCION_ACEPTAR, null);
                 }
             }
         } else {
-            JOptionPane.showOptionDialog(this.getContentPane(), idioma.getString("DialogoTipos.errorGuardarCSV.text"), idioma.getString("Error.text"),
+            JOptionPane.showOptionDialog(this.getContentPane(), Config.getIdioma().getString("DialogoTipos.errorGuardarCSV.text"), Config.getIdioma().getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR,
                     null);
         }
@@ -388,7 +384,7 @@ public class DialogoTipos extends javax.swing.JDialog {
         // Cargo la tabla desde un archivo csv
         // Borro todos los test de la tabla. Uso un JOptionPane personalizado que cambia el idioma, en en array de opciones de botón. Por defecto, paso el botón cancelar
 
-        int loqueDice = JOptionPane.showOptionDialog(this, idioma.getString("DialogoTipos.aviso.borrar.aviso.text"), idioma.getString("Atencion.text"),
+        int loqueDice = JOptionPane.showOptionDialog(this, Config.getIdioma().getString("DialogoTipos.aviso.borrar.aviso.text"), Config.getIdioma().getString("Atencion.text"),
                 JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Config.OPCIONES_ACEPTAR_CANCELAR,
                 Config.OPCIONES_ACEPTAR_CANCELAR[Config.OPCIONES_ACEPTAR_CANCELAR.length - 1]);
         // El primer botón, el 0 es aceptar
@@ -397,7 +393,7 @@ public class DialogoTipos extends javax.swing.JDialog {
             DialogoCarpertaFichero SelectorFichero = new DialogoCarpertaFichero();  // false indica que quiero seleccionar ficheros
             SelectorFichero.setDialogType(JFileChooser.OPEN_DIALOG);
             SelectorFichero.setFileSelectionMode(JFileChooser.FILES_ONLY); // Para que elija carpeta en lugar de ficheros individuales
-            SelectorFichero.setDialogTitle(idioma.getString("FileChooser.Fichero.title"));
+            SelectorFichero.setDialogTitle(Config.getIdioma().getString("FileChooser.Fichero.title"));
             SelectorFichero.setCurrentDirectory(new File(Config.getCarpetaArchivosTests()));
 
             String[] extensions = {"csv", "txt"};
@@ -421,7 +417,7 @@ public class DialogoTipos extends javax.swing.JDialog {
                 } else {
                     // Si hubo un error u otro mensaje
                     if (!"".equals(mensajes[0])) {
-                        JOptionPane.showOptionDialog(this.getContentPane(), idioma.getString(mensajes[0]), idioma.getString(mensajes[1]),
+                        JOptionPane.showOptionDialog(this.getContentPane(), Config.getIdioma().getString(mensajes[0]), Config.getIdioma().getString(mensajes[1]),
                                 JOptionPane.NO_OPTION, Integer.parseInt(mensajes[2]), null, Config.OPCION_ACEPTAR, null);
                     }
                 }
@@ -482,9 +478,9 @@ public class DialogoTipos extends javax.swing.JDialog {
         String error = Procesador.mostrarAyuda(Config.getRutaAyudaTiposyEquivalencias());
         
         if (!"".equals(error)) {
-            log.error(error);
-            JOptionPane.showOptionDialog(rootPane, error, idioma.getString("Error.text"),
-                JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{idioma.getString("Aceptar.text")}, idioma.getString("Aceptar.text"));
+            Config.getLog().error(error);
+            JOptionPane.showOptionDialog(rootPane, error, Config.getIdioma().getString("Error.text"),
+                JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new String[]{Config.getIdioma().getString("Aceptar.text")}, Config.getIdioma().getString("Aceptar.text"));
         }
 
     }//GEN-LAST:event_btnAyudaActionPerformed
@@ -504,7 +500,7 @@ public class DialogoTipos extends javax.swing.JDialog {
                 return actualizarPreguntas();
             }
         } catch (NumberFormatException ex) {
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoTipos.valorNumPreguntas.error.text"), idioma.getString("Error.text"),
+            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoTipos.valorNumPreguntas.error.text"), Config.getIdioma().getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             // Restauro el valor de numero de preguntas
             valorPreguntasTotal.setText(String.valueOf(Config.getNumPreguntas()));
@@ -546,25 +542,25 @@ public class DialogoTipos extends javax.swing.JDialog {
                     Config.setNumPreguntas(preguntas);
                     valorPreguntasTotal.setText(String.valueOf(preguntas));
                     Config.setNumPreguntasValidas(preguntas - Procesador.numPreguntasNulas());
-                    etqPreguntasValidas.setText("(".concat(idioma.getString("DialogoTipos.etqPreguntasValidas.text").concat(" "))
+                    etqPreguntasValidas.setText("(".concat(Config.getIdioma().getString("DialogoTipos.etqPreguntasValidas.text").concat(" "))
                             .concat(String.valueOf(Config.getNumPreguntasValidas())).concat(")"));
                     Config.guardarConfiguracion();
                     InicializarFormulario();
                     return true;
                 }
             } else {
-                JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoTipos.valorNumPreguntas.error.text"), idioma.getString("Error.text"),
+                JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoTipos.valorNumPreguntas.error.text"), Config.getIdioma().getString("Error.text"),
                         JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
             }
         } catch (NumberFormatException ex) {
-            JOptionPane.showOptionDialog(rootPane, idioma.getString("DialogoTipos.valorNumPreguntas.error.text"), idioma.getString("Error.text"),
+            JOptionPane.showOptionDialog(rootPane, Config.getIdioma().getString("DialogoTipos.valorNumPreguntas.error.text"), Config.getIdioma().getString("Error.text"),
                     JOptionPane.NO_OPTION, JOptionPane.ERROR_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
         // El valor de preguntas NO es correcto
         valorPreguntasTotal.setText(String.valueOf(Config.getNumPreguntas()));
         comboTipos.setSelectedIndex(Config.getNumTipos() - 1);
         Config.setNumPreguntasValidas(Procesador.getModeloRespTipos().getRowCount() - Procesador.numPreguntasNulas());
-        etqPreguntasValidas.setText("(".concat(idioma.getString("DialogoTipos.etqPreguntasValidas.text").concat(" "))
+        etqPreguntasValidas.setText("(".concat(Config.getIdioma().getString("DialogoTipos.etqPreguntasValidas.text").concat(" "))
                 .concat(String.valueOf(Config.getNumPreguntasValidas())).concat(")"));
         return false;
     }

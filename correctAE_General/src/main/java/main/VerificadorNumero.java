@@ -23,7 +23,6 @@ import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
-import static main.Procesador.idioma;
 
 /**
  *
@@ -38,7 +37,7 @@ public class VerificadorNumero extends InputVerifier {
             float valor = Float.parseFloat(valorStr.replace(',', '.'));
             return true;
         } catch (NumberFormatException ex) {
-            JOptionPane.showOptionDialog(input.getParent(), idioma.getString("DialogoParamCalific.errorValor.text"), idioma.getString("Atencion.text"),
+            JOptionPane.showOptionDialog(input.getParent(), Config.getIdioma().getString("DialogoParamCalific.errorValor.text"), Config.getIdioma().getString("Atencion.text"),
                     JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE, null, Config.OPCION_ACEPTAR, null);
         }
         return false;
