@@ -33,7 +33,6 @@
       <h2>What <strong>CorrectAE</strong> does:</h2>
       <p>
         <ul>
-          <li>It is multilingual. It is currently available in Spanish and English, but can incorporate other languages ​​if necessary.</li>
           <li>From the application, the answer sheet form can be printed on any available printer in the system.</li>
           <li>Interprets and extracts data from response sheets, previously scanned with a flatbed scanner; it is highly recommended that it has an automatic sheet feeder (ADF).</li>
           <li>It grades the exams according to the parameters entered.</li>
@@ -44,6 +43,7 @@
           <li>You can <strong>cancel</strong> questions afterwards, and recalculate the grades.</li>
           <li>The corrected exams can be exported to <em>"csv"</em> for storage or later use.</li>
           <li>In addition, the exams can also be saved, including the equivalence table used in the grading, in the application's internal <strong>Database</strong> system.</li>
+          <li>It is multilingual. It is currently available in Spanish and English, but can incorporate other languages ​​if necessary.</li>
         </ul>
       </p>
     </td>
@@ -51,7 +51,6 @@
       <h2>Lo que hace <strong>CorrectAE:</strong></h2>
       <p>
         <ul>
-          <li>Es multilingüe. Actualmente está disponible en español e inglés, pero puede incorporar otros lenguajes en caso de ser necesario..</li>
           <li>Desde la aplicación se puede imprimir el formulario de hoja de respuestas, en cualquier impresora del sistema disponible.</li>
           <li>Interpreta y extrae los datos de las hojas de respueta, previamente escaneadas con un escáner plano, es muy recomendable que tenga alimentador automático de hojas (ADF).</li>
           <li>Califica los exámenes, según los parámetros introducidos.</li>
@@ -62,6 +61,7 @@
           <li>Se pueden <strong>anular</strong> preguntas a posteriori, y recalcular las calificaciones.</li>
           <li>Los exámenes corregidos se pueden exportar a <em>"csv"</em> para su conservación o posterior uso.</li>
           <li>Además los exámenes también se pueden guardar, incluyendo la tabla de equivalencias usada en la calificación, en el sistema de <strong>Base de Datos</strong> interno de la aplicación.</li>
+          <li>Es multilingüe. Actualmente está disponible en español e inglés, pero puede incorporar otros lenguajes en caso de ser necesario.</li>
         </ul>
       </p>
     </td>
