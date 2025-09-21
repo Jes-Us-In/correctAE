@@ -13,12 +13,12 @@
       Its use is very simple. It includes complete multilingual help and a few example tests to learn how to use the app quickly.
     </td>
     <td>
-      <strong>CorrectAE</strong> es una suite completa con todas las funciones necesarias para realizar un examen de evaluación del tipo <em>test de respuestas de opción múltiple.</em><br/>
-      Pertenece a la familia de herramientas OMR (Optical Mark Recognition). Su principal rasgo característico es que, en lugar de utilizar 
-      máquinas de lectura y hojas de respuestas específicas, como lo hace este tipo de aplicaciones, emplea hojas de papel ordinarias para las respuestas, tamaño A4.<br/>
+      <strong>CorrectAE</strong> es una suite completa con todas las funciones necesarias para realizar un examen de evaluación de tipo <em>test, con respuestas de opción múltiple.</em><br/>
+      Pertenece a la familia de herramientas OMR (Optical Mark Recognition). Su principal rasgo característico es que en lugar de utilizar 
+      máquinas de lectura y hojas de respuestas específicas como suelen hacer este tipo de aplicaciones, emplea hojas de papel ordinarias para las respuestas, tamaño A4.<br/>
       La imagen de estas hojas se puede capturar a través de un escáner de imágenes comercial ordinario. Con los archivos gráficos obtenidos,
-      <strong>CorrectAE</strong> se alimenta para la captura y evaluación de datos.
-      Su uso es muy sencillo. Incluye una completa ayuda multilenguaje y unos cuantos test de ejemplo para aprender a manejar la app rápidamente.
+      <strong>CorrectAE</strong> se alimenta a la aplicación para la captura y evaluación de datos.
+      Su uso es muy sencillo. Incluye una completa ayuda multilenguaje y unos cuantos test de ejemplo para aprender a manejar la aplicación rápidamente.
     </td>
   </tr>
   <tr>
@@ -51,15 +51,15 @@
       <h2>Lo que hace <strong>CorrectAE:</strong></h2>
       <p>
         <ul>
-          <li>Desde la aplicación se puede imprimir el formulario de hoja de respuestas, en cualquier impresora del sistema disponible.</li>
+          <li>Desde la aplicación se puede imprimir el formulario de hoja de respuestas, en cualquier impresora conectada.</li>
           <li>Interpreta y extrae los datos de las hojas de respueta, previamente escaneadas con un escáner plano, es muy recomendable que tenga alimentador automático de hojas (ADF).</li>
-          <li>Califica los exámenes, según los parámetros introducidos.</li>
-          <li>Ofrece los resultados completos. Estos se pueden exportar a un archivo <em>"csv"</em> para procesarlo con cualquier programa de hojas de cálculo.</li>
-          <li>Genera estadísticas detalladas tanto de los resultados como de las preguntas, mediante el análisis de las respuestas dadas por los examinados.</li>
+          <li>Califica los exámenes, según los parámetros elegidos.</li>
+          <li>Ofrece resultados completos, estos se pueden exportar a un archivo <em>"csv"</em> para procesarlo con cualquier programa de hojas de cálculo.</li>
+          <li>Genera estadísticas detalladas tanto de los resultados como de las preguntas, mediante el análisis de las respuestas extraídas de los test.</li>
           <li>La tabla de estadísticas también se puede exportar a <em>"csv".</em></li>
           <li>Puede utilizar hasta 6 tipos distintos de variantes del exmanen, con distinto orden de preguntas.</li>
           <li>Se pueden <strong>anular</strong> preguntas a posteriori, y recalcular las calificaciones.</li>
-          <li>Los exámenes corregidos se pueden exportar a <em>"csv"</em> para su conservación o posterior uso.</li>
+          <li>Los exámenes corregidos se pueden exportar a <em>"csv"</em> para su conservación o posterior reutilización.</li>
           <li>Además los exámenes también se pueden guardar, incluyendo la tabla de equivalencias usada en la calificación, en el sistema de <strong>Base de Datos</strong> interno de la aplicación.</li>
           <li>Es multilingüe. Actualmente está disponible en español e inglés, pero puede incorporar otros lenguajes en caso de ser necesario.</li>
         </ul>
