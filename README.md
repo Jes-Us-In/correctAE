@@ -7,7 +7,7 @@
   <tr>
     <td>
       <strong>CorrectAE</strong> is a complete suite with all the functions needed to carry out a multiple choice test type assessment.<br/>
-      It belongs to the OMR (Optical Mark Recognition) family of tools. Its main characteristic feature is that, instead of using reading machines and specific answer sheets, as this type of application does, it uses          ordinary sheets of paper for the answers, A4 size. <br/>
+      It belongs to the OMR (Optical Mark Recognition) family of tools. Its main characteristic feature is that, instead of using reading machines and specific answer sheets, as this type of application does, it uses          ordinary sheets of paper for the answers, DIN A4 size. <br/>
       The image of these sheets can be captured through an ordinary commercial image scanner. With the obtained graphic files,
       <strong>CorrectAE</strong> is fed for data capture and evaluation.
       Its use is very simple. It includes complete multilingual help and a few example tests to learn how to use the app quickly.
@@ -15,7 +15,7 @@
     <td>
       <strong>CorrectAE</strong> es una suite completa con todas las funciones necesarias para realizar un examen de evaluación de tipo <em>test, con respuestas de opción múltiple.</em><br/>
       Pertenece a la familia de herramientas OMR (Optical Mark Recognition). Su principal característica es que en lugar de utilizar 
-      máquinas de lectura y hojas de respuestas específicas como suelen hacer este tipo de aplicaciones, emplea hojas de papel ordinarias para las respuestas, tamaño A4.<br/>
+      máquinas de lectura y hojas de respuestas específicas como suelen hacer este tipo de aplicaciones, emplea hojas de papel ordinarias para las respuestas, tamaño DIN A4.<br/>
       La imagen de estas hojas se puede capturar a través de un escáner de imágenes comercial ordinario. Con los archivos gráficos obtenidos,
       <strong>CorrectAE</strong> se alimenta a la aplicación para la captura y evaluación de datos.
       Su uso es muy sencillo. Incluye una completa ayuda multilenguaje y unos cuantos test de ejemplo para aprender a manejar la aplicación rápidamente.
