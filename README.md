@@ -14,7 +14,7 @@
     </td>
     <td>
       <strong>CorrectAE</strong> es una suite completa con todas las funciones necesarias para realizar un examen de evaluación de tipo <em>test, con respuestas de opción múltiple.</em><br/>
-      Pertenece a la familia de herramientas OMR (Optical Mark Recognition). Su principal rasgo característico es que en lugar de utilizar 
+      Pertenece a la familia de herramientas OMR (Optical Mark Recognition). Su principal característica es que en lugar de utilizar 
       máquinas de lectura y hojas de respuestas específicas como suelen hacer este tipo de aplicaciones, emplea hojas de papel ordinarias para las respuestas, tamaño A4.<br/>
       La imagen de estas hojas se puede capturar a través de un escáner de imágenes comercial ordinario. Con los archivos gráficos obtenidos,
       <strong>CorrectAE</strong> se alimenta a la aplicación para la captura y evaluación de datos.
