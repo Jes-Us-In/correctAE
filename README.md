@@ -30,7 +30,7 @@
   </tr>
   <tr>
     <td>
-      <h2>What <strong>CorrectAE</strong> does:</h2>
+      <h2><strong>CorrectAE</strong> features:</h2>
       <p>
         <ul>
           <li>From the application, the answer sheet form can be printed on any available printer in the system.</li>
