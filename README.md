@@ -33,7 +33,7 @@
       <h2><strong>CorrectAE</strong> features:</h2>
       <p>
         <ul>
-          <li>From the application, the answer sheet form can be printed on any available printer in the system.</li>
+          <li>The answer sheet form can be printed with any available printer in the system.</li>
           <li>Interprets and extracts data from response sheets, previously scanned with a flatbed scanner; it is highly recommended that it has an automatic sheet feeder (ADF).</li>
           <li>It grades the exams according to the parameters entered.</li>
           <li>It offers complete results. These can be exported to a <em>"csv"</em> file for processing with any spreadsheet program.</li>
