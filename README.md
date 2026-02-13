@@ -1,4 +1,4 @@
-# CorrectAE - Capture and evaluation of answer sheets, multiple-choice tests, using optical mark recognition (OMR).
+# CorrectAE - Capture and evaluation of multiple-choice test-type assessment tests, using optical mark recognition (OMR)..
 <table>
   <tr>
     <th>English</th>
